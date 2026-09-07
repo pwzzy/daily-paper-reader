@@ -1,0 +1,259 @@
+Title: Integrating Agentic Artificial Intelligence with High-Performance Computing for Grid Planning
+
+URL Source: https://arxiv.org/pdf/2609.04544v1
+
+Published Time: Mon, 07 Sep 2026 00:17:47 GMT
+
+Number of Pages: 6
+
+Markdown Content:
+# Integrating Agentic Artificial Intelligence with High-Performance Computing for Grid Planning 
+
+Samim Konjicija 
+
+Faculty of Electrical Engineering University of Sarajevo 
+
+Sarajevo, Bosnia and Herzegovina skonjicija@etf.unsa.ba 
+
+Slaven Peleˇ s
+
+Computational Science and Engineering Division Oak Ridge National Laboratory 
+
+Oak Ridge, TN, USA peless@ornl.gov 
+
+Abstract —We present AgentiGrid, an agentic artificial intel-ligence (AI) framework that integrates large language model (LLM) intelligence and high-performance computing (HPC) to streamline and accelerate the multi-scenario power flow studies. AgentiGrid is an autonomous decision-making agent that proposes parameter modifications, invokes analyses through HPC analysis toolkit ExaGO, interprets results, and determines subsequent actions. ExaGO provides multiple power flow appli-cations that can perform deterministic, stochastic and security constrained optimal power flow analyses. AgentiGrid provides backends to multiple LLMs (OpenAI, Anthropic, Ollama, and Ollama cloud) augmented with context specific and task specific prompts. Key features include interactive mid-search steering, goal-type-aware post-search analysis, and concurrent variant exploration for power flow optimization. A Streamlit-based graphical launcher provides real-time visualization of iteration progress and generates reports in natural language. AgentiGrid is capable of autonomously converging transmission constrained alternating current optimal power flow (ACOPF) in under 20 iterations, with near-perfect reliability. 
+
+Index Terms —Agentic AI, generative AI, power systems, opti-mal power flow, high-performance computing 
+
+I. I NTRODUCTION 
+
+Power system engineers regularly face analysis tasks that are hard to formulate as mathematical optimization problems but can be easily expressed in naturally language: “find the load level at which the network becomes infeasible,” “identify the weakest transmission corridor under stress,” or “find a generation dispatch that balances cost and voltage quality” [1]. A human expert approaches these tasks through iterative exploration – running a simulation, examining results, forming hypotheses, adjusting parameters, and repeating. This expert workflow is often time-consuming. The emergence of parallel computing for power systems has accelerated numerical anal-yses [2] thus leaving human decision making processes as the main bottleneck. 
+
+This manuscript has been authored in part by UT-Battelle, LLC, under contract DE-AC05-00OR22725 with the US Department of Energy (DOE). The US government retains and the publisher, by accepting the work for publication, acknowledges that the US government retains a non-exclusive, paid-up, irrevocable, world-wide license to publish or reproduce the sub-mitted manuscript version of this work, or allow others to do so, for US government purposes. DOE will provide public access to these results of federally sponsored research in accordance with the DOE Public Access Plan (https://energy.gov/doe-public-access-plan). 
+
+Recent advances in LLMs have demonstrated strong capa-bilities in structured reasoning, code generation, and multi-step problem solving. The broader potential of LLMs for power system planning — spanning fault diagnosis, load forecasting, and optimization — has recently been surveyed, revealing both promising capabilities and open challenges related to domain-specific reliability [1]. As of now, there exist at least 5 different agentic AI solutions specifically targeting power systems operations and planning. Some of them [3] function only as an advisor, analyzing the model grids and providing suggestions to the human operator. Some, like [4] and [5], are capable of running simulations in the background and, for instance, identifying which N-1 contingencies or which load increment volumes are harmful. More advanced agentic systems, such as [6], can resolve a harmful contingency and contain continuous improvement loops. The agents that are ca-pable of autonomously running power flow simulations usually follow the legacy sequential process. The agent orchestrator receives a scenario and sends to an existing power flow package, e.g. PandaPower or PowerWorld. Recent surveys confirm that existing LLM-based power system agents predominantly follow a sequential, single-simulation-per-step paradigm, leaving parallel execution largely unexplored [7]. This sequential design incurs high token and time costs to resolve a contingency or process a scenario. Since agentic AI is meant to relieve humans of iterative, slow tasks, embedding parallelism into the workflow is a logical next step [8]. AgentiGrid extends this line of work by incorporating ExaGO [9], a high-performance power grid optimization library developed at Oak Ridge National Laboratory for parallel execution on clusters and cloud sys-tems, wrapping its simulation applications in an LLM-driven search loop that analyzes multiple scenarios or contingencies in parallel and postprocesses the resulting outputs. The main contributions of this paper are:  
+
+> •
+
+A three-layer architecture separating the LLM agent loop, simulation orchestration, and ExaGO, supporting six power flow and optimal power flow applications through a unified interface.  
+
+> •
+
+An application-aware command system with deter-ministic validation, runtime feedback to the LLM, and application-specific command vocabularies covering arXiv:2609.04544v1 [eess.SY] 3 Sep 2026 transformer tap ratios, bus shunt susceptances, and phase shift angles.  
+
+> •
+
+A prompt architecture encoding search history, network metadata, goal context, and operator directives, with per-application guidance sections.  
+
+> •
+
+Interactive steering allowing operators to inject direc-tives into a running search and pause/resume at iteration boundaries without restarting.  
+
+> •
+
+Concurrent variant exploration for power flow-based op-timization, amortizing LLM round-trip latency across multiple parallel simulations.  
+
+> •
+
+A Streamlit-based graphical launcher with real-time mon-itoring, multi-objective visualization, and natural lan-guage report generation. An overview of the three-layer architecture is given in section II. We discuss use of an LLM as an optimization engine in section III. In section IV we present results of our experiments, and we summarize our findings and outline next steps in section V. II. S YSTEM ARCHITECTURE OVERVIEW 
+
+AgentiGrid architecture is organized into three layers:  
+
+> •
+
+Agent Loop Controller manages the iterative cycle, assembles LLM prompts from the search goal, journal history, latest results and active steering directives, parses LLM responses into structured actions, and records re-sults in the search journal.  
+
+> •
+
+Analysis Orchestrator validates and applies modifi-cation commands to working copies of the base case network file, invokes ExaGO binaries as subprocesses, passes output to application-specific parsers, and main-tains the search journal.  
+
+> •
+
+ExaGO Applications are HPC simulation engines for power flow, optimal power flow, security constrained optimal power flow, and stochastic optimal power flow analyses. They are invoked as external executables. The three layers communicate through well-defined protocols and do not depend on each other implementations. This architecture and its workflow is schematically described in fig. 1. One complete search iteration proceeds as follows: The Agent Loop Controller receives the power system case in-formation in Matpower format and a request for specific action in natural language through the application interface. The controller then assembles the prompt and passes it to LLM. Next, the LLM generates a command in JSON format and passes it to the Analysis Orchestrator. The orchestrator validates the proposed instruction against the power system case data, creates a working copy of that data in a separate timestamped directory, and applies validated commands to that copy. The orchestrator then invokes the appropriate ExaGO application to perform numerical analysis. Upon analysis completion, the orchestrator extracts the structured data from ExaGO’s output, checks constraint violations against the actual limits encoded in the modified case file, updates a search Natural-language goal    
+
+> e.g. " fi nd max load factor"
+> propose action interpret results decide next step apply · run · parse
+> OPFLOW · DCOPFLOW · SCOPFLOW · TCOPFLOW · SOPFLOW · PFLOW
+> Report
+> best iteration on completion command results invoke output
+> iterate Agent Loop Controller Analysis Orchestrator ExaGO Applications (HPC solvers)
+> Fig. 1. AgentiGrid system architecture and its data flow per iteration.
+
+journal, and sends a compact summary for the Agent Loop Controller to incorporate in the next prompt. The controller assembles the next prompt and starts another iteration. This loop repeats until the LLM declares successful completion, a critical error occurs, or the maximum iteration count is reached. After the search loop is exited, the final LLM call classifies the search goal type and identifies the best iteration, providing a goal-aware framing for the results report. 
+
+A. Agent Loop Controller 
+
+The AI agent governs the grid planning analyses through the Agent Loop Controller, which is a standalone Python module. This module generates prompts for the LLM agent based on user input and prior iterations, sends commands to the Analysis Orchestrator, and manages the post-search analysis. The main components of this module are user fronted, LLM backend, prompt generator, interactive steering, and report generator. 
+
+1) User Frontend: AgentiGrid provides command line and a web-based graphical user interface (GUI). Both interfaces allow user to select power grid case file, analysis type, LLM, ExaGO application and additional configuration options. User enters requests in plain text format. Several predefined (modifiable) prompts are available as the starting point. 
+
+2) LLM Backend: All LLM providers are accessed through a common abstract interface exposing complete() ,
+
+name() , and supports_json_mode() methods. Con-crete implementations exist for OpenAI, Anthropic, Ollama, and Ollama cloud. LLM’s temperature is kept low (0.2–0.4) to encourage consistent structured output. 
+
+3) Prompt Architecture: At each iteration the Agent Loop Controller assembles an LLM prompt from up to seven sec-tions. Some of the sections are set at the beginning and stay the same during the analysis (static), some are appended as new data is generated (grow), some are periodically replaced when new data is generated (refreshed), and some are created upon certain events (conditional). These are: • System Prompt (static): Role definition, full command schema with parameter types and validation rules, power grid model, and response format.  
+
+> •
+
+Network Metadata (static) includes power system con-figuration options such as slack bus designations, must-run generators, and offline generators. This section is created once at session start.  
+
+> •
+
+Goal Statement (static) is user’s natural language goal, preserved verbatim throughout the search.  
+
+> •
+
+Search Journal (grows) is a compact table with one row per iteration with following columns: iteration number, modification description, objective value, feasibility, volt-age range, and maximum line loading.  
+
+> •
+
+Latest Results (refreshed) are a compact summary from the most recent simulation (15-30 lines of plain text).  
+
+> •
+
+Operator Directives (conditional) could be injected by user via augment or replace mode (see section II-A4).  
+
+> •
+
+Error/Warning Feedback (conditional) is generated by the Analysis Orchestartor and sent to Agent Loop Controller. The feedback may include command valida-tion errors, JSON parse failures, and application-specific warnings from the prior iteration. The prompt composed in this way is passed at each agent iteration. 
+
+4) Interactive Steering: Users can inject directives into a running search without stopping it. The mechanism uses a thread-safe queue to inject command to modify the case study. User can add a steering command through command-line or GUI. Two directive modes are supported – augment and replace. In augment mode, the directive is added alongside the current goal. In replace mode, the new directive clears all prior directives and becomes the sole active goal. Active directives are injected as a dedicated Operator Directives section of the LLM prompt (see section II-A3). 
+
+5) Report Generator: Reports are generated in portable document format (PDF) using ReportLab Python module with full Unicode support. Report sections include: title page, exec-utive summary with goal-type-aware framing, convergence and voltage range charts (exported from Plotly via kaleido), base-case versus best-solution comparison table, per-iteration log, and steering history. Charts are rendered identically in the GUI and the PDF report by sharing the same Plotly figure-builder functions. 
+
+B. Analysis Orchestrator 
+
+The Analysis Orchestrator is an intermediary between the LLM agent and the HPC application. It consists of the follow-ing components: 
+
+1) Modification Engine: The Modification Engine is adeterministic Python module that receives JSON commands from the Agent Loop Controller and applies them to power flow case files in Matpower format, drawing on the supported command vocabulary listed in Table I. Before applying a command, the engine validates it against the actual network topology; invalid commands are rejected, and the resulting error message is fed back to the LLM in the next prompt.                        
+
+> TABLE I SUPPORTED MODIFICATION COMMANDS
+> Command Description
+> set_load Set active/reactive load at a bus
+> scale_load Scale loads in an area, zone, or bus
+> scale_all_loads Scale all system loads uniformly
+> set_gen_status Enable or disable a generator
+> set_gen_dispatch Set generator active power output
+> set_gen_voltage Set generator voltage setpoint
+> set_branch_status Enable or disable a branch
+> set_branch_rate Modify thermal rating
+> set_cost_coeffs Modify generator cost curve
+> set_bus_vlimits Set voltage bounds on a single bus
+> set_all_bus_vlimits Set voltage bounds on all buses
+> set_tap_ratio Set transformer tap ratio
+> set_shunt_susceptance Set bus shunt susceptance
+> set_phase_shift_angle Set phase-shifting transformer angle
+> scale_load_profile Scale per-period CSV load profiles (TCOPFLOW)
+> scale_wind_scenario Scale wind scenario CSV (SOPFLOW)
+
+2) Simulation Executor: ExaGO applications are invoked through their command line interfaces. A configurable timeout guard prevents hanging simulations. The executor also provides a parallel execution method using Python’s 
+
+ThreadPoolExecutor for concurrent variant execution in power flow explore mode (see section III). 
+
+3) Results Parser: For each ExaGO application, there is a dedicated parser extracting the objective value, convergence status, bus voltages, generator dispatch, branch flows, and constraint violations. Violation checking uses the actual Vmin ,
+
+Vmax limits from the modified network rather than the base-line case, ensuring violations are reported accurately in case that the LLM changes limits dynamically. The parser layer produces two outputs per simulation: a full structured Python data structure for visualization queries, and a compact 15–30 line text summary for LLM prompt inclusion. 
+
+4) Search Journal: The search journal is an in-memory data structure with one entry per iteration, recording: iteration number, modification description, commands applied, objec-tive value, feasibility, violation count, voltage range, maxi-mum line loading, total generation and load, LLM reasoning, modification mode, and any active steering directive. Multi-objective tracking adds a tracked_metrics dictionary of per-iteration values for each registered objective. 
+
+5) Goal Classification and Post-Search Analysis: After the search loop, a final LLM call classifies the search goal type and identifies the best iteration. Four goal types are recognized:  
+
+> •
+
+cost minimization : best iteration has lowest feasible cost.  
+
+> •
+
+feasibility boundary : best iteration is the feasible con-figuration closest to the infeasibility boundary.  
+
+> •
+
+constraint satisfaction : best iteration best satisfies spec-ified constraints.  
+
+> •
+
+parameter exploration : best iteration is the most infor-mative feasible configuration. Goal-type-aware framing is essential for correct reporting. For example, in a feasibility boundary search, generation cost increases as load grows, so the na¨ ıve “best = lowest cost” heuristic would incorrectly identify the base case as best. If classification fails, the system falls back to cost minimization. 
+
+C. ExaGO Applications 
+
+All physics based analyses are performed using applications from ExaGO package. The list of ExaGO applications is given in table II.         
+
+> TABLE II EXA GO APPLICATIONS .
+> Application Description
+> PFLOW alternating current power flow simulation OPFLOW alternating current optimal power flow analysis DCOPFLOW direct current optimal power flow analysis TCOPFLOW multiperiod optimal power flow analysis SCOPFLOW security constrained optimal power flow analysis SOPFLOW stochastic optimal power flow analysis (optionally can include security constraints)
+
+III. U SING LLM AS THE OPTIMIZER 
+
+Power flow analysis implemented in PFLOW module is a forward steady-state simulation. The Newton-Raphson solver finds the power flow solution for a given network state. AgentiGrid can use PFLOW in a sampling-based optimization mode where the LLM serves as the optimizer, proposing dispatch changes, evaluating feasibility, and deciding next steps. 
+
+A. Explore/Select Actions 
+
+Traditional sequential PFLOW search evaluates a single configuration per iteration. Each iteration incurs one LLM inference call ( ∼20–30 s), while the corresponding simula-tion requires only ∼0.02 s. The LLM call therefore domi-nates total runtime. Concurrent PFLOW addresses this bot-tleneck by introducing two new actions, explore and select. In the explore action, the LLM generates between 2 and 8 independent variant command sets within a single itera-tion; these variants are simulated concurrently using Python 
+
+ThreadPoolExecutor , and the resulting outcomes are summarized via Pareto front analysis. In the select action, the LLM designates one variant as the new current network state, and this decision, along with the full variant comparison metadata, is recorded in the journal. Each explore-select cycle is counted as a single iteration toward the overall iteration bud-get, yet evaluates multiple configurations, thereby amortizing the LLM latency across those simulations. 
+
+B. Pareto Front Computation 
+
+The Pareto filtering procedure applies standard Pareto dom-inance: feasible candidates dominate infeasible ones; among feasible candidates, A dominates B if A is at least as good as 
+
+B on all objectives and strictly better on at least one. Objective directions (minimization or maximization) are configurable. By default, variants are ranked by generation cost, which is minimized. Prior to execution, variants consisting entirely of invalid commands (e.g., dispatching the slack bus) are identified and excluded from simulation. No subprocess is launched for such a variant, and it is instead marked as rejected in the results table. IV. E XPERIMENTAL RESULTS 
+
+We evaluate AgentiGrid on ACTIVSg200 [10], a synthetic 200-bus network representing a regional transmission system in Illinois. The network comprises 246 branches (including 197 transformers), 200 loads, and 49 generators (40 in ser-vice), with nominal voltages ranging from 13.8 kV to 230 kV. Its low node degree (1.23 edges per node) and frequent transmission-to-distribution voltage transitions make it a non-trivial testbed for agent reasoning. All the analyses were run on a workstation with Intel Core i7-13650HX with 14 cores, and with 32 GB of RAM. 
+
+A. Experimental Design 
+
+We designed three goal strings, each using different ExaGO executable to perform different optimal power flow analyses:  
+
+> •
+
+PFLOW (sampling-based optimization): “Reduce the to-tal generation cost by adjusting generator dispatch while maintaining feasibility.” The base case is already eco-nomically dispatched ($27,564), so this probes whether the LLM-as-optimizer can improve a near-optimal point.  
+
+> •
+
+SCOPFLOW (security-constrained analysis): “Systemat-ically test N-1 single-line outages to identify the most critical lines, ranked by cost increase, voltage violation, or infeasibility.”  
+
+> •
+
+SOPFLOW (stochastic analysis): “Using the wind sce-nario file, evaluate whether the grid can handle all wind generation scenarios simultaneously, and identify the buses most affected by wind variability.” The four backends—Anthropic Claude Sonnet 4.6, OpenAI GPT-5.4, Zhipu GLM-5.1, and DeepSeek-V4-Pro (the latter two via Ollama Cloud)—received an identical goal string per application, including a standing instruction to keep exploring modified problems rather than stop when the solver reports a converged but uninformative result. Holding the prompt constant across backends ensures that any observed differences in behavior are due to the models rather than to variation in prompting. All runs had a maximum iteration budget of 20 and LLM temperature was set to 0.3. SCOPFLOW and SOPFLOW apps used ExaGO’s parallel EMPAR backend. PFLOW used the Newton–Raphson solver to compute steady-state power flow solution. 
+
+B. Key Findings 
+
+Table III reports the twelve searches. All four backends completed all three tasks without fatal JSON parsing failures. The backends separate on (i) search strategy , i.e. how effi-ciently each converts its iteration budget into useful simula-tions, and (ii) on the depth of the conclusions reached. TABLE III CROSS -A PPLICATION RESULTS ON ACTIVS G200 (I DENTICAL GOAL PROMPTS PER APPLICATION )                                                     
+
+> Application Backend Iter. t (s) Tokens Principal result
+> PFLOW Claude Sonnet 4.6 8130 70,793 No gain on base ($27,564) GPT-5.4 18 159 164,730 No gain on base ($27,564) GLM-5.1 16 580 176,039 Performed unit commitment instead, 36.9% cost reduction ($17,398) DeepSeek-V4-Pro 15 342 197,354 Performed unit commitment instead, 34.9% cost reduction ($17,941) SCOPFLOW Claude Sonnet 4.6 7205 164,559 187 →189 critical (+21.6%); no infeasible case found GPT-5.4 18 112 150,962 187 →189 critical (+21.6%); 29 →30 infeasible GLM-5.1 7188 72,705 187 →189 critical (+21.6%); 29 →30 infeasible DeepSeek-V4-Pro 11 292 177,899 187 →189 critical (+21.6%); 29 →30 infeasible SOPFLOW Claude Sonnet 4.6 329 21,408 All solutions feasible; bus 152 most affected GPT-5.4 312 18,585 All solutions feasible; identified 15 most sensitive buses, bus 152 most affected GLM-5.1 319 19,545 All solutions feasible; identified 15 most sensitive buses, bus 152 most affected DeepSeek-V4-Pro 320 19,183 All solutions feasible; bus 152 most affected
+
+PFLOW: a near-null task (in)correctly recognized. We asked the agents a trick question: optimize a case that was already economically dispatched. Sonnet 4.6 and GPT 5.4 correctly recognized optimal solution and declared a failure because they did not reduce the cost. Sonnet reached that conclusion with fewer iterations, which projected to lower cost (fewer tokens) and slightly shorter time compared to GPT. GLM 5.1 and DeepSeek 4 ignored instruction to “adjust generator dispatch” and performed unit commitment instead. Since the test case had large spinning reserve, they obtained 36.9% and 34.9% cost reductions, respectively. DeepSeek got to the solution significantly faster but at slightly higher cost in terms of tokens. 
+
+SCOPFLOW: contingency ranking is robust; infeasibil-ity detection is not. Every backend correctly identified line 187 →189 connecting the nuclear power plant as the most economically critical N-1 outage, with all four agreeing on the +21.6% cost increase. Where the models diverged was in detecting the infeasible contingencies that could possibly lead to blackouts. Sonnet did not identify 29 →30 line outage as critical and all four LLMs failed to uncover a second infeasible outage (15 →16) probably because they did not screen deep enough into the line loading ranked list. 
+
+SOPFLOW: Parallel computing helps improve agent efficiency. By using parallel computing we can make eval-uation of all stochastic scenarios a single evaluation step by the LLM agent, thus reducing the number of overall iterations to solution and the number of tokens. All agents completed the stochastic analysis task in only 3 steps, finding feasible solution for each generation scenario. All agents identified bus 152 as the most sensitive to voltage violations. GPT 5.4 and GLM 5.1 have found 15 buses with similar sensitivities, which is what grid planners would expect, while Sonnet 4.6 and DeepSeek 4 only reported the most sensitive one. 
+
+C. Results Summary 
+
+Overall, the preliminary results were encouraging. All four LLM agents performed the three tasks well. The only signif-icant shortcoming was the failure of Sonnet 4.6 to identify any contingencies that lead to infeasible optimal power flow solutions. Other, less critical issues that we observed can be addressed with a more comprehensive retreival augmented generation (RAG) knowledge base. Adding a dictionary with more precise interpretations of economic dispatch and unit commitment would likely lead GLM-5.1 and DeepSeek-V4-Pro to reach correct answers when using sampling-based optimization with PFLOW. Similarly, every power system engineer would recognize that an infeasible optimal power flow case often corresponds to a situation leading to a potential blackout, which is a more serious situation than a cost increase due to redispatch. Such engineering experience needs to be incorporated into RAG so that an LLM agent can prioritize analyses regardless of the order in which requirements are listed in the goal statement. In the security-constrained anal-ysis with the SCOPFLOW app, agents prioritized cost over feasibility simply because cost was listed before feasibility in the prompt (see section IV-A). Also, LLMs struggled to determine how to search for the “most critical lines,” causing them to miss the line 15 →16 contingency, which leads to an infeasible solution. Including more specific criteria for line contingency rankings in RAG could address this issue. Another possible improvement is to leverage HPC more extensively when available. A broader contingency sweep in the security-constrained analysis with SCOPFLOW would uncover the infeasible optimal power flow solution associated with the line 15 →16 failure. Parallel computing proved effec-tive in the stochastic analysis with SOPFLOW, where all LLM agents reached the correct solution in only three iterations because all the data for the analysis was generated in a single LLM agent iteration. In the SOPFLOW case, additional criteria in RAG on how to identify “most affected buses” would be beneficial. In our trials, Sonnet 4.6 and DeepSeek 4 interpreted that instruction as asking them to find a single most affected bus. In engineering practice, however, all buses exhibiting similarly severe overvoltages would be considered equally important. Our preliminary results show that GPT-5.4 takes the largest number of steps to reach the solution across all three problems, but it also provides the most accurate solutions. In contrast, Claude Sonnet 4.6 takes the fewest iterations of all four agents but fails to identify a critical contingency. A summary of the number of iterations to solution for each LLM agent is given in fig. 2. Sonnet 4.6 GPT-5.4 GLM-5.1 DeepSeek -V4-Pro   
+
+> 0510 15 20
+> Iterations
+> PFLOW
+> Sonnet 4.6 GPT-5.4 GLM-5.1 DeepSeek -V4-Pro
+> SCOPFLOW
+> Sonnet 4.6 GPT-5.4 GLM-5.1 DeepSeek -V4-Pro
+> SOPFLOW
+> Simulation Explore Analysis (no sim)
+
+Fig. 2. Decomposition of each search’s iteration budget into productive simulation, concurrent explorations, and analysis-only steps. Analysis and exploration-heavy behavior, most pronounced for GPT-5.4, reflects repeated requests for network detail not present in the compact result summary. 
+
+We found that the cost of the analysis, measured in tokens, varies significantly from problem to problem, from agent to agent, and even from iteration to iteration. A summary of the number of tokens used by each agent over the three problems is given in fig. 3. 050000 100000 150000 200000 Sonnet 4.6 GPT 5.4 GLM 5.1 DeepSeek 4 PFLOW SCOPFLOW SOPFLOW 
+
+Fig. 3. Total token consumption per search, by backend and application. 
+
+V. C ONCLUSION 
+
+AgentiGrid provides a practical framework for LLM-driven iterative power grid simulation, bridging natural language problem specification and production-grade ExaGO solvers. The architecture supports six ExaGO applications through a unified interface with application-aware command validation, prompt construction, and results parsing. Currently, AgentiGrid is intended as a research platform to explore opportunities for using agentic AI in combination with parallel computing for power systems planning. Our current implementation supports two types of parallelism: launching concurrent LLM explorations, as in the PFLOW analysis (section III), and using HPC executables for physics-based analyses. Our preliminary experiments suggest this is a promising direction to explore. Furthermore, we find that the “LLM as optimizer” paradigm is practically viable for power system analysis tasks that are difficult to express as formal optimization problems. All of our preliminary experiments were done for a 200-bus optimal power flow case. The next step is to explore how these analyses scale with system size in terms of number of iterations to solution, time to solution, and tokens used. We anticipate that the simple file storage of analysis data in our current implementation will become a performance bottleneck. To address that, we plan to integrate the Analysis Orchestrator with a database to improve journal management and data retrieval. We also expect that further expansion of RAG will significantly improve the performance of LLM agents. Our results are indeed very preliminary, but we believe they justify further investigation in this area. ACKNOWLEDGMENTS 
+
+This research used resources of the Oak Ridge Leadership Computing Facility at the Oak Ridge National Laboratory, which is supported by the Advanced Scientific Computing Research programs in the Office of Science of the U.S. Depart-ment of Energy under Contract No. DE-AC05-00OR22725. Authors thank Eve Tsybina from Oak Ridge National Library for reading an earlier draft and providing feedback that helped us improve the paper. REFERENCES [1] L. Dong, S. Majumder, F. Doudi, Y. Cai, C. Tian, D. Kalathil, K. Ding, A. A. Thatte, N. Li, and L. Xie, “Exploring the capabilities and limitations of large language models in the electric energy sector,” Joule ,vol. 8, no. 6, pp. 1544–1549, 2024. [2] S. K. Khaitan and A. Gupta, Eds., High Performance Computing in Power and Energy Systems , ser. Power Systems. Berlin, Heidelberg: Springer, 2013. [3] Y. Cheng, H. Zhao, X. Zhou, J. Zhao, Y. Cao, C. Yang, and X. Cai, “A large language model for advanced power dispatch,” Scientific Reports ,vol. 15, no. 1, p. 8925, 2025. [4] Q. Zhang and L. Xie, “Poweragent: A road map toward agentic intel-ligence in power systems: Foundation model, model context protocol, and workflow,” IEEE Power and Energy Magazine , vol. 23, no. 5, pp. 93–101, 2025. [5] H. Jin, K. Kim, and J. Kwon, “GridMind: LLMs-powered agents for power system analysis and operations,” in Proceedings of the SC ’25 Workshops of the International Conference for High Performance Computing, Networking, Storage and Analysis , ser. SC Workshops ’25. Association for Computing Machinery, pp. 560–568. [6] Y. Zhang, A. M. Saber, A. Youssef, and D. Kundur, “Grid-agent: An llm-powered multi-agent system for power grid control,” 
+
+arXiv preprint arXiv:2508.05702v3 , 2025. [Online]. Available: https: //arxiv.org/html/2508.05702v3 [7] M. Sarwar et al. , “Large language models for power system applications: A comprehensive literature survey,” arXiv preprint arXiv:2512.13004 ,2025. [8] J. M. Gonz´ alez-Llorente et al. , “A review of parallel heterogeneous computing algorithms in power systems,” Algorithms , vol. 14, no. 10, p. 275, 2021. [9] S. Peles, N. Koukpaizan, M. Alam, J. Hambrick, and E. Tsybina, “Exago v2,” US Department of Energy (DOE) Software , p. 98, 2026. [10] A. Birchfield, T. Xu, K. Gegner, K. Shetye, and T. Overbye, “Grid structural characteristics as validation criteria for synthetic networks,” 
+
+IEEE Transactions on Power Systems , 2017.

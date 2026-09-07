@@ -1,0 +1,355 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-07T13:40:57.698430+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 7,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2609.05258v1",
+      "source": "arxiv",
+      "title": "Ask Before You Optimize: Dynamic Pre-Formulation Clarification for Interactive Optimization",
+      "abstract": "Large language models (LLMs) are increasingly used to formulate optimization models from natural-language problem descriptions, yet realistic operations research (OR) requests are often incomplete: missing objectives, constraints, or business rules can change the resulting mathematical program. Existing evaluations largely assume a complete specification and therefore overlook whether an agent knows when clarification is needed before modeling. We introduce OR-Clarify, a benchmark for pre-formulation clarification. Each task presents a partial public problem description, withholds structured hidden slots, and evaluates agents through bounded interaction with a simulated user. The benchmark supports both openended and choice-based clarification, and measures slot recovery, stopping behavior, silent assumptions, and interaction cost. We further propose Interactive Optimization (InterOPT), a two-stage framework that identifies unresolved formulation-critical gaps and uses them to guide whether to ask the next question or to stop. In our choice-based experiments, InterOPT substantially outperforms all baselines in exact slot recovery; in the open-ended setting, it remains competitive with strong prior methods. Together, OR-Clarify and InterOPT reframe OR assistance as a selective completeness decision: clarify when needed, stop when ready, and quantify what remains missing.",
+      "authors": [
+        "Sihan Ge",
+        "Yichen Lin",
+        "Chenyu Zhou",
+        "Jianghao Lin",
+        "Tao Yao",
+        "Dongdong Ge"
+      ],
+      "primary_category": "math.OC",
+      "categories": [
+        "math.OC",
+        "cs.AI"
+      ],
+      "published": "2026-09-04T15:19:38+00:00",
+      "link": "https://arxiv.org/pdf/2609.05258v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "LLM agent benchmark for formulating mathematical-programming models from incomplete natural-language OR problem descriptions through pre-formulation clarification",
+      "llm_evidence_cn": "针对不完整自然语言运筹问题，评估LLM智能体在建模前主动澄清并以数学规划形式建模的基准研究",
+      "llm_evidence": "针对不完整自然语言运筹问题，评估LLM智能体在建模前主动澄清并以数学规划形式建模的基准研究",
+      "canonical_evidence": "针对不完整自然语言运筹问题，评估LLM智能体在建模前主动澄清并以数学规划形式建模的基准研究",
+      "llm_tldr_en": "A benchmark, OR-Clarify, where LLM-based agents solve incomplete OR formulation tasks by clarifying missing objectives and constraints before modeling; tasks hide structured slots and evaluate bounded interaction with simulated users.",
+      "llm_tldr_cn": "面向不完整自然语言运筹问题的建模需求，现有评测大多假定问题描述完备，忽视了智能体在建模前是否懂得主动澄清关键信息。论文提出OR-Clarify基准，将任务设计为只给部分公共描述并隐藏结构化槽位，让智能体通过有界交互向模拟用户提问。实验表明LLM智能体需要预先澄清缺失的业务规则与目标才能正确生成数学规划模型，凸显澄清能力对实现自动化运筹优化建模的重要性。",
+      "llm_tldr": "面向不完整自然语言运筹问题的建模需求，现有评测大多假定问题描述完备，忽视了智能体在建模前是否懂得主动澄清关键信息。论文提出OR-Clarify基准，将任务设计为只给部分公共描述并隐藏结构化槽位，让智能体通过有界交互向模拟用户提问。实验表明LLM智能体需要预先澄清缺失的业务规则与目标才能正确生成数学规划模型，凸显澄清能力对实现自动化运筹优化建模的重要性。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "What papers discuss LLM driven agents for mathematical programming formulation from problem descriptions?",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.29397v1",
+      "source": "arxiv",
+      "title": "AlgoWorlds: Benchmarking Tool Use for Global Optimization in Algorithmic Worlds",
+      "abstract": "Tool-use benchmarks generally evaluate whether an agent completes a workflow using appropriate tools and valid arguments. However, feasibility alone is insufficient in real-world decision settings such as route planning and fleet dispatch. Individual choices interact through shared constraints and costs, so a feasible solution may still be substantially suboptimal. This raises a harder question: can an agent turn information gathered through tools into a globally optimal decision? We introduce AlgoWorlds, a benchmark that transforms formally specified combinatorial optimization problems into partially observed decision environments with verifiable global optima. Each environment contains a hidden instance observed only through task-specific information tools, after which the agent commits to one structured decision evaluated for feasibility and optimality. AlgoWorlds contains 240 environments covering ten combinatorial optimization families and four workload levels. Family-specific deterministic programs generate the instances, exact algorithms certify their optima and determine workload levels, and two structurally different tool interfaces present each underlying instance. We evaluate seven leading LLMs, including Claude Opus 4.8 and GPT-5.6 Sol. Achieving global optimality remains highly challenging: although leading models produce feasible decisions in most cases, the best-performing model reaches exact optimality in only 38.61% of cases. Even when agents collect sufficient information to reconstruct the hidden instance, most failures end in feasible but suboptimal decisions. The challenge therefore extends beyond information acquisition to information integration, global constraint reasoning, and decision verification. The project homepage is available at https://xzx34.github.io/AlgoWorlds/, and the code is available at https://github.com/xzx34/AlgoWorlds.",
+      "authors": [
+        "Zixiang Xu",
+        "Jiaan Wang",
+        "Fandong Meng"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-08-29T18:37:41+00:00",
+      "link": "https://arxiv.org/pdf/2608.29397v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Benchmark testing whether agents can use tools for global optimum of combinatorial optimization problems",
+      "llm_evidence_cn": "基准检验智能体能否利用工具获得组合优化问题的全局最优解",
+      "llm_evidence": "基准检验智能体能否利用工具获得组合优化问题的全局最优解",
+      "canonical_evidence": "基准检验智能体能否利用工具获得组合优化问题的全局最优解",
+      "llm_tldr_en": "Introduces AlgoWorlds, a benchmark converting formal combinatorial optimization problems into partially observed tool environments; it evaluates whether agents can reach globally optimal decisions rather than merely feasible tool calls.",
+      "llm_tldr_cn": "现有工具使用基准只评估智能体能否完成任务并生成可行参数，忽略决策的全局最优性。为此提出AlgoWorlds基准，将形式化描述的组合优化问题转化为部分可观测的工具交互环境，并保留可验证的全局最优解。实验考察智能体能否在路径规划、车队调度等场景中收集工具信息后作出全局最优决策。该基准为衡量智能体在组合优化求解中的真实决策能力提供了更严格的标准。",
+      "llm_tldr": "现有工具使用基准只评估智能体能否完成任务并生成可行参数，忽略决策的全局最优性。为此提出AlgoWorlds基准，将形式化描述的组合优化问题转化为部分可观测的工具交互环境，并保留可验证的全局最优解。实验考察智能体能否在路径规划、车队调度等场景中收集工具信息后作出全局最优决策。该基准为衡量智能体在组合优化求解中的真实决策能力提供了更严格的标准。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.00728v1",
+      "source": "arxiv",
+      "title": "SOVER: Formal Certification of Optimization Reformulations via LLM-Assisted SMT Verification",
+      "abstract": "Large Language Models (LLMs) have shown remarkable promise in translating and reformulating complex mathematical optimization problems across modeling languages. However, validating such transformations through empirical solver executions alone is unreliable, as solver outcomes may be affected by local minima, structural timeouts, numerical artifacts, and subtle semantic divergence between formulations. We introduce SOVER, an LLM-assisted SMT framework that separates semantic mapping from formal certification: Z3 checks domain cross-feasibility and global objective-order preservation for mixed-integer linear formulations, while dReal provides tolerance-aware feasibility/range and $ε$-argmin checks for continuous nonlinear formulations. We also introduce NLEquiv-150, a public benchmark of 100 equivalent and 50 deliberately hard non-equivalent nonlinear reformulation pairs. With LLM-extracted mappings, SOVER classifies 149/150 pairs (99.33%) correctly, including all 50 hard negatives; the sole error is an incomplete mapping extraction.",
+      "authors": [
+        "Swapnil Bhattacharyya",
+        "Mayank Baranwal"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "math.OC"
+      ],
+      "published": "2026-09-01T05:05:12+00:00",
+      "link": "https://arxiv.org/pdf/2609.00728v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM reformulations of optimization models lack reliable validation. SOVER uses SMT solvers Z3 and dReal to certify feasibility and objective-order preservation for MILP and nonlinear formulations, enabling trustworthy automated optimization modeling.",
+      "llm_evidence_cn": "大语言模型辅助的优化重构与SMT形式化验证，直接面向运筹优化建模。",
+      "llm_evidence": "大语言模型辅助的优化重构与SMT形式化验证，直接面向运筹优化建模。",
+      "canonical_evidence": "大语言模型辅助的优化重构与SMT形式化验证，直接面向运筹优化建模。",
+      "llm_tldr_en": "LLM reformulations of optimization models lack reliable validation. SOVER uses SMT solvers Z3 and dReal to certify feasibility and objective-order preservation for MILP and nonlinear formulations, enabling trustworthy automated optimization modeling.",
+      "llm_tldr_cn": "大型语言模型在翻译和重构数学优化问题上展现出潜力，但仅靠求解器执行难以发现局部最优、超时与数值伪影造成的语义偏差。为此提出SOVER框架，将语义映射与形式化认证分离：用Z3检查混合整数线性重构的跨域可行性与全局目标序保持，用dReal对连续非线性重构做容差感知的可行性与ε-最优性检查。该工作使优化模型自动化转化过程具备可验证的正确性保障，是LLM与运筹优化建模结合的重要探索。",
+      "llm_tldr": "大型语言模型在翻译和重构数学优化问题上展现出潜力，但仅靠求解器执行难以发现局部最优、超时与数值伪影造成的语义偏差。为此提出SOVER框架，将语义映射与形式化认证分离：用Z3检查混合整数线性重构的跨域可行性与全局目标序保持，用dReal对连续非线性重构做容差感知的可行性与ε-最优性检查。该工作使优化模型自动化转化过程具备可验证的正确性保障，是LLM与运筹优化建模结合的重要探索。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.00859v1",
+      "source": "arxiv",
+      "title": "Reinforcement Learning Enhanced LLM Agents for Complex Vehicle Routing Problems",
+      "abstract": "Vehicle Routing Problems (VRPs) are fundamental combinatorial optimization problems with widespread applications in various scenarios. The advanced optimization solvers can effectively solve such problems. However, modeling complex VRP variants for solvers often requires substantial domain expertise, which limits the accessibility of advanced optimization technologies. In this paper, we propose Reinforcement Learning Enhanced LLMAgents(RLEA), a multi-agent framework designed to automate the modeling of complex VRPs. RLEA introduces a lightweight neural Planner trained with Soft Q-learning to efficiently orchestrate the actions of LLM-based agents. In addition, we equip the system with an evolutionary memory module and retrieval-augmented generation, enabling the agent to leverage both accumulated experience and external solver knowledge during program generation and refinement for solving VRPs. We evaluated 48 distinct VRP variants across various solvers. The experimental results demonstrate that RLEA outperforms the previous state-of-the-ar method, achieving a 16.67% higher success rate while significantly reducing runtime errors. These results validate that integrating reinforcement learning with LLM-based reasoning is highly effective for automated optimization modeling. The appendix is available at: https://doi.org/10.5281/zenodo.19134435.",
+      "authors": [
+        "Yi Chen",
+        "Zikang Yu",
+        "Jiahai Wang",
+        "Jinbiao Chen",
+        "Jianpeng Zhou",
+        "Zizhen Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-01T07:56:15+00:00",
+      "link": "https://arxiv.org/pdf/2609.00859v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-agent LLM framework for automated modeling of complex VRPs",
+      "llm_evidence_cn": "多智能体LLM框架自动建模复杂车辆路径问题",
+      "llm_evidence": "多智能体LLM框架自动建模复杂车辆路径问题",
+      "canonical_evidence": "多智能体LLM框架自动建模复杂车辆路径问题",
+      "llm_tldr_en": "Automating VRP modeling for solvers needs high expertise; this paper presents RLEA, a multi-agent LLM framework orchestrated by a Soft-Q-learning planner plus evolutionary memory and retrieval augmentation, designed to automatically formulate complex vehicle routing problem variants.",
+      "llm_tldr_cn": "车辆路径问题(VRP)是典型的组合优化问题，但其变体面向求解器的建模需要大量领域专家知识，限制了先进求解技术的使用。本文提出RLEA，一个由经Soft Q-learning训练的轻量级神经规划器编排多个LLM智能体动作的多智能体框架，并结合进化记忆与检索增强生成，自动完成复杂VRP变体的建模。实验验证该方法能高效建模多种VRP变体，显著降低模型构建成本，展示了LLM智能体在运筹优化建模中的实际应用潜力。",
+      "llm_tldr": "车辆路径问题(VRP)是典型的组合优化问题，但其变体面向求解器的建模需要大量领域专家知识，限制了先进求解技术的使用。本文提出RLEA，一个由经Soft Q-learning训练的轻量级神经规划器编排多个LLM智能体动作的多智能体框架，并结合进化记忆与检索增强生成，自动完成复杂VRP变体的建模。实验验证该方法能高效建模多种VRP变体，显著降低模型构建成本，展示了LLM智能体在运筹优化建模中的实际应用潜力。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "optimization model formulation with large language models and agents",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.02353v1",
+      "source": "arxiv",
+      "title": "LLM-Driven Joint Evolution of Coupled Heuristics Components for Routing Optimization",
+      "abstract": "Heuristic design for combinatorial optimization remains heavily reliant on expert knowledge, while existing large language model (LLM)-enhanced evolutionary methods typically evolve isolated algorithmic components, even when one determines the search state on which another operates. This paper proposes LLM-driven Heuristic Components Joint Generation (LLM-HCJG), a population-based framework that jointly generates and co-evolves interdependent heuristic components under a shared design blueprint. Applied to guided local search (GLS), LLM-HCJG couples solution initialization with penalty construction and embeds the generated pair into an enhanced online search mechanism. The resulting form is further transferred from the traveling salesman problem (TSP) to the capacitated vehicle routing problem (CVRP). Theoretical analysis establishes the non-separable state-transition effects between the two components and the advantage in generation consistency. Across synthetic instances and 41 public TSPLIB/CVRPLIB benchmarks, LLM-HCJG attains consistently low optimality gaps, including best or tied-best results on 28 of 29 TSPLIB instances and all 12 CVRPLIB instances. Ablation and structural analyses further indicate that these gains are associated with cross-component compatibility and alignment rather than isolated-component recombination. These results support effective cross-instance transfer within the evaluated routing settings under limited-sample, modest-cost training.",
+      "authors": [
+        "Juntao Wei",
+        "Yangming Zhou",
+        "Zhibin Jiang",
+        "Shan Jiang"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE"
+      ],
+      "published": "2026-09-02T09:25:55+00:00",
+      "link": "https://arxiv.org/pdf/2609.02353v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-driven joint generation and evolution of coupled heuristic components for routing combinatorial optimization",
+      "llm_evidence_cn": "利用大语言模型联合演化路径组合优化的耦合启发式组件，实现自动化求解",
+      "llm_evidence": "利用大语言模型联合演化路径组合优化的耦合启发式组件，实现自动化求解",
+      "canonical_evidence": "利用大语言模型联合演化路径组合优化的耦合启发式组件，实现自动化求解",
+      "llm_tldr_en": "Existing LLM-enhanced evolutionary methods evolve isolated heuristics; LLM-HCJG jointly generates and co-evolves interdependent heuristic components under a shared blueprint for guided local search, improving routing optimization and transfer.",
+      "llm_tldr_cn": "针对现有大语言模型增强的进化算法只能孤立演化启发式组件、忽略组件耦合关系的问题，本文提出LLM-HCJG，在统一设计蓝图下联合生成并协同演化相互依赖的启发式组件，并与增强的在线搜索机制集成。方法在旅行商等路径优化任务上被验证，可显著提升启发式设计性能并迁移到相关组合优化问题，证明了大语言模型驱动自动化启发式设计的重要潜力。",
+      "llm_tldr": "针对现有大语言模型增强的进化算法只能孤立演化启发式组件、忽略组件耦合关系的问题，本文提出LLM-HCJG，在统一设计蓝图下联合生成并协同演化相互依赖的启发式组件，并与增强的在线搜索机制集成。方法在旅行商等路径优化任务上被验证，可显著提升启发式设计性能并迁移到相关组合优化问题，证明了大语言模型驱动自动化启发式设计的重要潜力。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.03860v1",
+      "source": "arxiv",
+      "title": "Adapting to Evolving Requirements: Agentic AI for Retail Supply Chain Operations",
+      "abstract": "Retail supply chain operations rely on coupled decision modules that must adapt as requirements evolve. LLMs offer a natural-language interface for this task, but existing methods primarily focus on individual optimization models. Extending them to heterogeneous decision pipelines is challenging because a requirement may admit multiple intervention paths with different downstream effects. We formulate requirement-driven adaptation as the joint selection of an intervention route and an admissible module-level change, and propose a graph-constrained agentic framework in which domain agents expose admissible reformulation interfaces and a central processor searches over bounded intervention paths. Candidates are validated and compared using downstream KPIs. In collaboration with a large retail partner, we evaluate 100 warehouse requirements elicited from practitioner interviews, with GPT, Qwen, and DeepSeek as base LLMs. Relative to direct LLM reformulation, our framework improves correctness and end-to-end success across all three models, raising end-to-end success from 72--76% to 79--83%.",
+      "authors": [
+        "Lei Zheng",
+        "Liping Yang",
+        "Zihao Li",
+        "Guodong Lyu",
+        "Chaik Ming Koh",
+        "Chung-Piaw Teo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "math.OC"
+      ],
+      "published": "2026-09-03T13:50:31+00:00",
+      "link": "https://arxiv.org/pdf/2609.03860v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-agentic framework for retail supply chain optimization pipelines and requirement-driven reformulation",
+      "llm_evidence_cn": "面向零售供应链运营，用LLM智能体以干预路径和模块改写方式适应优化决策流水线",
+      "llm_evidence": "面向零售供应链运营，用LLM智能体以干预路径和模块改写方式适应优化决策流水线",
+      "canonical_evidence": "面向零售供应链运营，用LLM智能体以干预路径和模块改写方式适应优化决策流水线",
+      "llm_tldr_en": "Addresses the limitation of existing LLM adaptation methods that handle only single optimization models; proposes a graph-constrained agentic framework for retail supply chain decision pipelines, coupling domain agents with a central processor over bounded intervention paths and downstream validation. The results show the framework supports multi-route, multi-module evolutionary adaptation, demonstrating LLM agents can drive optimization-model adjustment and operations research automation.",
+      "llm_tldr_cn": "论文针对零售供应链中现有基于大语言模型的方法大多着眼于单一优化模型、难以应对需求变化下异构决策流水线的问题，将需求驱动的适应过程形式化为干预路径与模块级改写的联合选择，并提出图约束的智能体框架。该框架中领域智能体暴露可接受的改写接口，中央处理器在受约束的干预路径上搜索，并通过下游效果验证比较候选方案。结果表明该框架能有效支撑供应链运营的多阶段需求变更与优化调整，为大语言模型智能体在运筹优化建模和运营管理中的落地提供了直接方法与实现路径。",
+      "llm_tldr": "论文针对零售供应链中现有基于大语言模型的方法大多着眼于单一优化模型、难以应对需求变化下异构决策流水线的问题，将需求驱动的适应过程形式化为干预路径与模块级改写的联合选择，并提出图约束的智能体框架。该框架中领域智能体暴露可接受的改写接口，中央处理器在受约束的干预路径上搜索，并通过下游效果验证比较候选方案。结果表明该框架能有效支撑供应链运营的多阶段需求变更与优化调整，为大语言模型智能体在运筹优化建模和运营管理中的落地提供了直接方法与实现路径。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.03177v1",
+      "source": "arxiv",
+      "title": "Frontier LLMs are effective batch optimizers: Assessing reasoning models in continuous and discrete settings",
+      "abstract": "Frontier large language models (LLMs) have become attractive priors for optimization due to their large-scale pretraining that enables them to navigate a variety of optimization settings. However, the effectiveness of modern reasoning LLMs in batch optimization settings remains underexplored. Here we investigate the performance of the current generation of frontier LLMs as batch optimizers in both continuous and discrete settings. We find that while LLMs are competitive zero-shot batch optimizers for numerical test functions, their performance is brittle compared to classical non-LLM optimization approaches. However, LLM priors are significantly better in semantically rich settings, indicating that their batch optimization behavior is highly effective when navigating and reasoning over the discrete spaces most similar in structure to their pretraining data.",
+      "authors": [
+        "Frank Hu",
+        "Shriram Chennakesavalu",
+        "David Graff"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-02T21:39:07+00:00",
+      "link": "https://arxiv.org/pdf/2609.03177v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Empirical assessment of frontier LLMs as batch optimizers in continuous and discrete settings",
+      "llm_evidence_cn": "实证评估前沿LLM作为连续与离散设置下的批处理优化器",
+      "llm_evidence": "实证评估前沿LLM作为连续与离散设置下的批处理优化器",
+      "canonical_evidence": "实证评估前沿LLM作为连续与离散设置下的批处理优化器",
+      "llm_tldr_en": "Empirically assesses frontier reasoning LLMs as batch optimizers in continuous and discrete settings; they show competitive zero-shot numerical optimization but brittleness versus classical methods, and excel in semantically rich settings.",
+      "llm_tldr_cn": "大语言模型具备大规模预训练知识，被视为有吸引力的优化先验，但其在批处理优化上的表现尚未充分探索。该文测试当前前沿推理模型在连续与离散优化基准中的效果，结果显示它们在零样本数值函数优化上可与经典算法相比，但稳定性不如传统方法。而在语义丰富的优化问题上，LLM先验显著更强。这表明LLM优化器适合语义密集的优化任务，需要与经典优化器结合以增强鲁棒性。",
+      "llm_tldr": "大语言模型具备大规模预训练知识，被视为有吸引力的优化先验，但其在批处理优化上的表现尚未充分探索。该文测试当前前沿推理模型在连续与离散优化基准中的效果，结果显示它们在零样本数值函数优化上可与经典算法相比，但稳定性不如传统方法。而在语义丰富的优化问题上，LLM先验显著更强。这表明LLM优化器适合语义密集的优化任务，需要与经典优化器结合以增强鲁棒性。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.04544v1",
+      "source": "arxiv",
+      "title": "Integrating Agentic Artificial Intelligence with High-Performance Computing for Grid Planning",
+      "abstract": "We present AgentiGrid, an agentic artificial intelligence (AI) framework that integrates large language models (LLMs) intelligence and high-performance computing (HPC) to streamline and accelerate the multi-scenario power flow studies. AgentiGrid is an autonomous decision-making agent that proposes parameter modifications, invokes analyses through HPC analysis toolkit ExaGO, interprets results, and determines subsequent actions. ExaGO provides multiple power flow applications that can perform deterministic, stochastic and security constrained optimal power flow analyses. AgentiGrid provides backends to multiple LLMs (OpenAI, Anthropic, Ollama, and Ollama cloud) augmented with context specific and task specific prompts. Key features include interactive mid-search steering, goal-type-aware post-search analysis, and concurrent variant exploration for power flow optimization. A Streamlit-based graphical launcher provides real-time visualization of iteration progress and generates reports in natural language. AgentiGrid is capable of autonomously converging transmission constrained alternating current optimal power flow in under 20 iterations, with near-perfect reliability",
+      "authors": [
+        "Samim Konjicija",
+        "Slaven Peles"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-09-03T23:03:26+00:00",
+      "link": "https://arxiv.org/pdf/2609.04544v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LLM agent framework for optimal power flow analysis in grid planning",
+      "llm_evidence_cn": "面向电网规划最优潮流分析的LLM智能体框架",
+      "llm_evidence": "面向电网规划最优潮流分析的LLM智能体框架",
+      "canonical_evidence": "面向电网规划最优潮流分析的LLM智能体框架",
+      "llm_tldr_en": "AgentiGrid integrates LLM agents with HPC tools to automate multi-scenario optimal power flow analysis in grid planning; the agent proposes parameter modifications, runs ExaGO analyses, interprets results, and iterates.",
+      "llm_tldr_cn": "电网规划常需反复运行最优潮流等多场景分析，直接依赖人工决策与仿真工具流程繁琐。AgentiGrid将LLM智能体与高性能计算分析工具ExaGO集成，使智能体能自动提出参数修改、调用最优潮流应用、解读结果并决定后续步骤。该系统支持OpenAI、Anthropic等多种后端模型，并用上下文与任务提示增强决策，显著简化并加速确定性与随机安全约束最优潮流的研究流程。该工作展示了LLM智能体驱动运筹优化分析的实际可行架构。",
+      "llm_tldr": "电网规划常需反复运行最优潮流等多场景分析，直接依赖人工决策与仿真工具流程繁琐。AgentiGrid将LLM智能体与高性能计算分析工具ExaGO集成，使智能体能自动提出参数修改、调用最优潮流应用、解读结果并决定后续步骤。该系统支持OpenAI、Anthropic等多种后端模型，并用上下文与任务提示增强决策，显著简化并加速确定性与随机安全约束最优潮流的研究流程。该工作展示了LLM智能体驱动运筹优化分析的实际可行架构。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.03383v1",
+      "source": "arxiv",
+      "title": "TIGPO: Temporal Instance-Graph Policy Optimization for Long-Horizon LLM Agents",
+      "abstract": "Graph-based policy optimization improves credit assignment for long-horizon LLM agents by organizing rollout trajectories into state-transition graphs. However, existing methods construct graphs independently within each policy update, discarding transitions discovered by earlier policies and limiting advantage estimation to small, batch-local rollout groups. We propose \\emph{Temporal Instance-Graph Policy Optimization} (TIGPO), which extends graph-based credit assignment across policy updates. TIGPO maintains a persistent transition graph for each task, allowing valid transitions discovered by different policy versions to jointly determine credit for current rollouts. To actively reconnect current exploration with historical experience, TIGPO allocates a fixed rollout budget between Exploration slots for ordinary task sampling and Revisit slots for delayed reattempts of previously explored tasks. For each revisit, TIGPO pairs the current rollout group with its corresponding earlier Exploration group to construct a cross-temporal reference. The enlarged reference is designed to stabilize relative advantage estimation under small rollout groups, while comparison on the same task directly captures policy improvement across training stages. Historical transitions and scores serve only as structural and detached statistical references and are never replayed in the policy loss. Experiments on ALFWorld and WebShop demonstrate that TIGPO consistently outperforms prior group-based and graph-based policy optimization methods.",
+      "authors": [
+        "Jinwei Gan"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-03T05:32:43+00:00",
+      "link": "https://arxiv.org/pdf/2609.03383v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Reinforcement learning for long-horizon LLM agents optimizing decision trajectories",
+      "llm_evidence_cn": "面向长时程LLM智能体策略优化的图式信用分配方法，属于智能体自动化决策优化",
+      "llm_evidence": "面向长时程LLM智能体策略优化的图式信用分配方法，属于智能体自动化决策优化",
+      "canonical_evidence": "面向长时程LLM智能体策略优化的图式信用分配方法，属于智能体自动化决策优化",
+      "llm_tldr_en": "Long-horizon LLM agents struggle with credit assignment across policy updates. TIGPO keeps persistent per-task transition graphs so historical and current rollouts jointly determine credit, improving long-horizon task optimization. The contribution is algorithmic innovation for reinforcement learning of LLM decision agents.",
+      "llm_tldr_cn": "长时程大语言模型智能体在策略优化中面临跨更新信用分配困难，已有方法仅在单次策略更新内构图并丢弃历史转移。该文提出时序实例图策略优化（TIGPO），为每个任务维护持久转移图，使不同策略版本发现的有效转移共同参与当前回滚的信用估计，并将当前探索与历史经验主动重连。实验表明该方法在长时程推理与决策场景中优于现有策略优化方法，为提升LLM智能体长期任务求解能力提供了通用优化框架。",
+      "llm_tldr": "长时程大语言模型智能体在策略优化中面临跨更新信用分配困难，已有方法仅在单次策略更新内构图并丢弃历史转移。该文提出时序实例图策略优化（TIGPO），为每个任务维护持久转移图，使不同策略版本发现的有效转移共同参与当前回滚的信用估计，并将当前探索与历史经验主动重连。实验表明该方法在长时程推理与决策场景中优于现有策略优化方法，为提升LLM智能体长期任务求解能力提供了通用优化框架。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "intelligent agent for automated optimization modeling and problem solving",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

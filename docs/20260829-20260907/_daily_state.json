@@ -1,0 +1,153 @@
+{
+  "date": "20260829-20260907",
+  "date_label": "2026-08-29 ~ 2026-09-07",
+  "generated_at": "2026-09-07 13:49:24 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.05258v1",
+      "route": "20260829-20260907/2609.05258v1-ask-before-you-optimize-dynamic-pre-formulation-clarification-for-interactive-optimization",
+      "title": "Ask Before You Optimize: Dynamic Pre-Formulation Clarification for Interactive Optimization",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "针对不完整自然语言运筹问题，评估LLM智能体在建模前主动澄清并以数学规划形式建模的基准研究",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    },
+    {
+      "paper_id": "2608.29397v1",
+      "route": "20260829-20260907/2608.29397v1-algoworlds-benchmarking-tool-use-for-global-optimization-in-algorithmic-worlds",
+      "title": "AlgoWorlds: Benchmarking Tool Use for Global Optimization in Algorithmic Worlds",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基准检验智能体能否利用工具获得组合优化问题的全局最优解",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    },
+    {
+      "paper_id": "2609.00728v1",
+      "route": "20260829-20260907/2609.00728v1-sover-formal-certification-of-optimization-reformulations-via-llm-assisted-smt-verification",
+      "title": "SOVER: Formal Certification of Optimization Reformulations via LLM-Assisted SMT Verification",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "大语言模型辅助的优化重构与SMT形式化验证，直接面向运筹优化建模。",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    },
+    {
+      "paper_id": "2609.00859v1",
+      "route": "20260829-20260907/2609.00859v1-reinforcement-learning-enhanced-llm-agents-for-complex-vehicle-routing-problems",
+      "title": "Reinforcement Learning Enhanced LLM Agents for Complex Vehicle Routing Problems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "多智能体LLM框架自动建模复杂车辆路径问题",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    },
+    {
+      "paper_id": "2609.02353v1",
+      "route": "20260829-20260907/2609.02353v1-llm-driven-joint-evolution-of-coupled-heuristics-components-for-routing-optimization",
+      "title": "LLM-Driven Joint Evolution of Coupled Heuristics Components for Routing Optimization",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "利用大语言模型联合演化路径组合优化的耦合启发式组件，实现自动化求解",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    },
+    {
+      "paper_id": "2609.03860v1",
+      "route": "20260829-20260907/2609.03860v1-adapting-to-evolving-requirements-agentic-ai-for-retail-supply-chain-operations",
+      "title": "Adapting to Evolving Requirements: Agentic AI for Retail Supply Chain Operations",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向零售供应链运营，用LLM智能体以干预路径和模块改写方式适应优化决策流水线",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    },
+    {
+      "paper_id": "2609.03177v1",
+      "route": "20260829-20260907/2609.03177v1-frontier-llms-are-effective-batch-optimizers-assessing-reasoning-models-in-continuous-and-discrete-settings",
+      "title": "Frontier LLMs are effective batch optimizers: Assessing reasoning models in continuous and discrete settings",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "实证评估前沿LLM作为连续与离散设置下的批处理优化器",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    },
+    {
+      "paper_id": "2609.04544v1",
+      "route": "20260829-20260907/2609.04544v1-integrating-agentic-artificial-intelligence-with-high-performance-computing-for-grid-planning",
+      "title": "Integrating Agentic Artificial Intelligence with High-Performance Computing for Grid Planning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向电网规划最优潮流分析的LLM智能体框架",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    },
+    {
+      "paper_id": "2609.03383v1",
+      "route": "20260829-20260907/2609.03383v1-tigpo-temporal-instance-graph-policy-optimization-for-long-horizon-llm-agents",
+      "title": "TIGPO: Temporal Instance-Graph Policy Optimization for Long-Horizon LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向长时程LLM智能体策略优化的图式信用分配方法，属于智能体自动化决策优化",
+      "first_seen_at": "2026-09-07 13:49:24 UTC",
+      "updated_at": "2026-09-07 13:49:24 UTC"
+    }
+  ]
+}
