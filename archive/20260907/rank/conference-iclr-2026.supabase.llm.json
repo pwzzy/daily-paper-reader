@@ -1,0 +1,1572 @@
+{
+  "top_k": 200,
+  "generated_at": "2026-09-07T14:53:07.414570+00:00",
+  "papers": [
+    {
+      "id": "openreview-iclr-2026-tfeazydz92",
+      "source": "ICLR-2026-Accepted",
+      "title": "OR-PRM: A Process Reward Model for Algorithmic Problem in Operations Research",
+      "abstract": "Large language models (LLMs) with Process Reward Models (PRMs) have shown strong reasoning ability, yet their potential in Operations Research (OR) remains unexplored. We present the first PRM tailored for OR, but find that directly training on mainstream datasets yields surprisingly weak performance.\nTo understand this gap, we conduct a systematic analysis and identify the primary bottleneck: the datasets themselves, where over 30\\% of annotations are severely flawed.\nTo overcome these limitations, we first collect all existing synthetic datasets and apply a carefully designed filtering pipeline to construct a high-quality seed dataset. \nBuilding upon this seed, we then build OR-ProcessQA, the first large-scale dataset for OR with step-by-step supervision, where diverse solution pathways are generated via Monte Carlo Tree Search (MCTS) and each step is validated for logical consistency by GPT-4o.\nBuilding on this foundation, we train OR-PRM, the first Process Reward Model in the OR domain, designed to evaluate and guide reasoning at every step rather than only the final outcome.\nTogether, these advances enable OR-PRM to substantially improve LLMs’ reasoning capability, achieving a maximum absolute improvement of 12.5\\% over the base model in Best-of-N settings, and highlighting the power of process-oriented supervision for reliable problem solving in operations research.",
+      "authors": [
+        "Yilin Wang",
+        "Heng Zhou",
+        "Dongxing Mao",
+        "Linjie Li",
+        "Jingru Tan",
+        "Haochen Han",
+        "Zhengyuan Yang",
+        "Alex Jinpeng Wang",
+        "Min Li"
+      ],
+      "primary_category": "Operations Research",
+      "categories": [
+        "Operations Research",
+        "Process Reward Model",
+        "Large Lanugage Model"
+      ],
+      "published": "2026-01-26T14:10:31.526+00:00",
+      "link": "https://openreview.net/forum?id=tFEAzYdz92",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-zrgxu8wmmg",
+      "source": "ICLR-2026-Accepted",
+      "title": "StepORLM: A Self-Evolving Framework With Generative Process Supervision For Operations Research Language Models",
+      "abstract": "Large Language Models (LLMs) have shown promising capabilities for solving Operations Research (OR) problems. \nWhile reinforcement learning serves as a powerful paradigm for LLM training on OR problems, existing works generally face two key limitations. First, outcome reward suffers from the $\\textit{credit assignment problem}$, where correct final answers can reinforce flawed reasoning.\nSecond, conventional discriminative process supervision is $\\textit{myopic}$, failing to evaluate the interdependent steps of OR modeling holistically. \nTo this end, we introduce $\\textbf{\\texttt{StepORLM}}$, a novel self-evolving framework with generative process supervision. \nAt its core, $\\texttt{StepORLM}$ features a co-evolutionary loop where a policy model and a generative process reward model (GenPRM) iteratively improve on each other. \nThis loop is driven by a dual-feedback mechanism: definitive, outcome-based verification from an external solver, and nuanced, holistic process evaluation from the GenPRM. \nThe combined signal is used to align the policy via Weighted Direct Preference Optimization (W-DPO) and simultaneously refine the GenPRM. \nOur resulting 8B-parameter $\\texttt{StepORLM}$ establishes a new state-of-the-art across six benchmarks, significantly outperforming vastly larger generalist models, agentic methods, and specialized baselines. \nMoreover, the co-evolved GenPRM is able to act as a powerful and universally applicable process verifier, substantially boosting the inference scaling performance of both our own model and other existing LLMs. \nWe release our models and code to facilitate future research (https://github.com/0xzhouchenyu/StepORLM).",
+      "authors": [
+        "Chenyu Zhou",
+        "Tianyi Xu",
+        "Jianghao Lin",
+        "Dongdong Ge"
+      ],
+      "primary_category": "Large Language Models",
+      "categories": [
+        "Large Language Models",
+        "Operations Research",
+        "Self-Evolving Framework",
+        "Generative Process Supervision"
+      ],
+      "published": "2026-01-26T13:59:26.209+00:00",
+      "link": "https://openreview.net/forum?id=ZrgxU8WMmG",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-g2yrrfdemk",
+      "source": "ICLR-2026-Rejected-Public",
+      "title": "OR-LLM-Agent: Automating Modeling and Solving of Operations Research Optimization Problems with Reasoning LLM",
+      "abstract": "With the rise of artificial intelligence (AI), applying large language models (LLMs) to mathematical problem-solving has attracted increasing attention. Most existing approaches attempt to improve Operations Research (OR) optimization problem-solving through prompt engineering or fine-tuning strategies for LLMs. However, these methods are fundamentally constrained by the limited capabilities of non-reasoning LLMs. To overcome these limitations, we propose OR-LLM-Agent, an AI agent framework built on reasoning LLMs for automated OR problem solving. The framework decomposes the task into three sequential stages: mathematical modeling, code generation, and debugging. Each task is handled by a dedicated sub-agent, which enables more targeted reasoning. We also construct BWOR, an OR dataset for evaluating LLM performance on OR tasks. Our analysis shows that in the benchmarks NL4OPT, MAMO, and IndustryOR, reasoning LLMs sometimes underperform their non-reasoning counterparts within the same model family. In contrast, BWOR provides a more consistent and discriminative assessment of model capabilities. Experimental results demonstrate that OR-LLM-Agent utilizing DeepSeek-R1 in its framework outperforms advanced methods, including GPT-o3, Gemini 2.5 Pro, DeepSeek-R1, and ORLM, by at least 7% in accuracy. These results demonstrate the effectiveness of task decomposition for OR problem solving.",
+      "authors": [
+        "Bowen Zhang",
+        "Pengcheng Luo",
+        "Genke Yang",
+        "SOONG BOON HEE",
+        "Chau Yuen"
+      ],
+      "primary_category": "Large Language Models",
+      "categories": [
+        "Large Language Models",
+        "Linear Programming",
+        "Integer Programming",
+        "AI Agent"
+      ],
+      "published": "2025-09-18T07:21:10.351+00:00",
+      "link": "https://openreview.net/forum?id=G2yRrFdEmK",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-skctex59f2",
+      "source": "ICLR-2026-Public",
+      "title": "NLMOptimizer: A neurosymbolic framework and benchmark for operations research optimization problems from natural language",
+      "abstract": "Large Language Models (LLMs) are increasingly applied to structured reasoning tasks, but remain prone to generating outputs that are both syntactically coherent and semantically invalid, posing a serious challenge for the domain of mathematical optimization. \nIn particular, applications to operations research (OR) problems, where problem descriptions are often ambiguous, context-rich, and semantically dense, are compromised by these issues and a dearth of publicly available datasets appropriately designed for both training and benchmarking model performance. In this paper, we address these issues by first introducing \\textbf{NLMOptimizer}, a neurosymbolic framework built on two classes: (i) the \\textbf{Problem} class, which systematically generates optimization problems; and (ii) the \\textbf{SymInterchange} class, an exploratory suite of neurosymbolic methods intended to map word problems into structured, solver-executable forms. We then address the dearth of plausibly complex OR problems with the associated NLMOptimizer dataset, generated using \\textbf{Problem}, which pairs structured natural-language descriptions with solver-checked mathematical programs across 1000 different linear (LP) and quadratic programs (QP) across integer, mixed-integer, and continuous types. We evaluate four instruction-tuned LLMs (LLaMa-3.3, LLaMa-4-Scout, Gemini-1.5-Pro, GPT-OSS-120B) under zero-shot prompting and observe substantial degradation on our set, with the strongest model dropping from 66.6\\% end-to-end accuracy on the NL4OPT benchmark dataset to 14.6\\% on NLMOptimizer. Our results indicate that (i) widely used benchmarks understate the difficulty of mapping natural language to formal optimization structure, (ii) current LLMs struggle to represent even modestly more complex problems than LPs with 3 variables, and (iii) progress will require methods that directly target representational fidelity without training models to fit fixed examples.",
+      "authors": [
+        "Alexander Michael Berenbeim",
+        "Ryan McNeil",
+        "Timeo Williams",
+        "Nathaniel D. Bastian"
+      ],
+      "primary_category": "Optimization",
+      "categories": [
+        "Optimization",
+        "Symbolic Representation",
+        "NLP",
+        "Operations Research",
+        "Modeling"
+      ],
+      "published": "2025-09-16T16:42:27.959+00:00",
+      "link": "https://openreview.net/forum?id=skctEx59f2",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-cvwltwlraw",
+      "source": "ICLR-2026-Rejected-Public",
+      "title": "OptiMind: Teaching LLMs to Think Like Optimization Experts",
+      "abstract": "Mathematical programming -- the task of expressing operations and decision-making problems in precise mathematical language -- is fundamental across domains, yet remains a skill-intensive process requiring operations research expertise. Recent advances in large language models for complex reasoning have spurred interest in automating this task, translating natural language into executable optimization models. Current approaches, however, achieve limited accuracy, hindered by scarce and noisy training data without leveraging domain knowledge. In this work, we systematically integrate optimization expertise to improve formulation accuracy for mixed-integer linear programming, a key family of mathematical programs. Our OptiMind framework leverages semi-automated, class-based error analysis to guide both training and inference, explicitly preventing common mistakes within each optimization class. Our resulting fine-tuned LLM significantly improves formulation accuracy by 21.4\\% across multiple optimization benchmarks, with consistent gains under test-time scaling methods such as self-consistency and multi-turn feedback, enabling further progress toward robust LLM-assisted optimization formulation.",
+      "authors": [
+        "Zeyi Chen",
+        "Xinzhi Zhang",
+        "Humishka Zope",
+        "Hugo De Oliveira Barbalho",
+        "Konstantina Mellou",
+        "Marco Molinaro",
+        "Janardhan Kulkarni",
+        "Ishai Menache",
+        "Sirui Li"
+      ],
+      "primary_category": "Optimization Modeling",
+      "categories": [
+        "Optimization Modeling",
+        "Large Language Models",
+        "Mixed Integer Programming"
+      ],
+      "published": "2025-09-19T23:18:25.495+00:00",
+      "link": "https://openreview.net/forum?id=CvwLtwlraW",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-w696vhv5b2",
+      "source": "ICLR-2026-Rejected-Public",
+      "title": "OptiVer: Unleashing the Power of LLMs for Optimization Modeling via Dual-Side Verification",
+      "abstract": "Building mathematical optimization models is critical in operations research (OR), while it requires substantial human expertise. Recent advancements have utilized large language models (LLMs) to automate this modeling process. However, existing works often struggle to verify the correctness of the generated optimization models, without checking the rationality of the constraints and variables or the validity of solutions to the generated models. This hampers the subsequent verification and correction steps, and thus it severely hurts the modeling accuracy. To address this challenge, we propose a novel LLM-based framework with Dual-side Verification (OptiVer) from both structure and solution perspectives, thereby improving the modeling accuracy. The structure-side verification ensures that the modeling structure of the generated optimization models aligns with the original problem description, accurately capturing the problem's constraints and requirements. Meanwhile, the solution-side verification interprets and evaluates the validity of the solutions, confirming that the optimization models are logically and mathematically sound. Extensive experiments on several popular benchmarks demonstrate that our approach significantly outperforms the state-of-the-art, achieving over 20% improvement in accuracy.",
+      "authors": [
+        "Haoyang Liu",
+        "Jie Wang",
+        "Boxuan Niu",
+        "Xiongwei Han",
+        "Mingxuan Ye",
+        "Zijie Geng",
+        "Fangzhou Zhu",
+        "Jianye HAO"
+      ],
+      "primary_category": "Optimization Modeling",
+      "categories": [
+        "Optimization Modeling",
+        "Operations research",
+        "Large language models"
+      ],
+      "published": "2025-09-20T01:28:33.14+00:00",
+      "link": "https://openreview.net/forum?id=w696Vhv5B2",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-tw1iwcvktt",
+      "source": "ICLR-2026-Rejected-Public",
+      "title": "Automated Optimization Modeling via a Localizable Error-Driven Perspective",
+      "abstract": "Automated optimization modeling via Large Language Models (LLMs) has emerged as a promising approach to assist complex human decision-making. While post-training has become a pivotal technique to enhance LLMs' capabilities in this domain, its effectiveness is severely constrained by the scarcity and underutilization of high-quality training data. However, through a detailed profiling of error patterns across various problem-response pairs drawn from post-training, we identify two fundamental limitations of existing automated optimization modeling approaches: (L1) the \\textit{sparsity} of error-specific problems and (L2) the \\textit{sparse rewards} associated with difficult problems. We demonstrate that these limitations can result in suboptimal performance in domain-specific post-training for LLMs. To tackle the above two limitations, we propose a novel error-driven learning framework---namely, auto\\textbf{m}ated opt\\textbf{i}mization modeli\\textbf{n}g via a localizable error-\\textbf{d}riven perspective (MIND)---that customizes the whole model training framework from data synthesis to post-training. MIND is based on our key observation of the unique \\textbf{\\textit{localizable}} patterns in error propagation of optimization modelings, that is, modeling errors may remain localized to specific semantic segments and do not propagate throughout the entire solution. Thus, in contrast to holistic reasoning tasks such as mathematical proofs, MIND leverages the construction of a focused, high-density training corpus and proposes \\textbf{D}ynamic Supervised \\textbf{F}ine-Tuning \\textbf{P}olicy \\textbf{O}ptimization (DFPO) to tackle difficult problems through localized refinement. Its appealing features include that (1) it generates targeted, error-aware training problems that achieve superior sample efficiency, and (2) it ensures a coherent and structured learning progression for stable and effective reinforcement learning on difficult problems. Experiments on six benchmarks demonstrate that MIND \\textit{consistently} outperforms all the state-of-the-art automated optimization modeling approaches. Furthermore, we open-source a new training dataset, MIND-Train, and a new benchmark, MIND-Bench, for the automated optimization modeling research community.",
+      "authors": [
+        "Weiting Liu",
+        "Han Wu",
+        "Yufei Kuang",
+        "Xiongwei Han",
+        "Tao Zhong",
+        "Jianfeng Feng",
+        "Wenlian Lu"
+      ],
+      "primary_category": "LLM post-training",
+      "categories": [
+        "LLM post-training",
+        "automated optimization modeling"
+      ],
+      "published": "2025-09-01T12:05:52.908+00:00",
+      "link": "https://openreview.net/forum?id=tw1IWcVKTT",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-dilqqcqij3",
+      "source": "ICLR-2026-Rejected-Public",
+      "title": "CALM Before the STORM: Unlocking Native Reasoning for Optimization Modeling",
+      "abstract": "Large Reasoning Models (LRMs) have demonstrated strong capabilities in complex multi-step reasoning, opening new opportunities for automating optimization modeling. However, existing domain adaptation methods, originally designed for earlier instruction-tuned models, often fail to exploit the advanced reasoning patterns of modern LRMs --- In particular, we show that direct fine-tuning on traditional non-reflective datasets leads to limited gains. To fully leverage LRMs’ inherent reasoning abilities, we propose **CALM** (Corrective Adaptation with Lightweight Modification), a framework that progressively refines LRMs within their native reasoning modes for optimization modeling tasks. In CALM, an expert intervener identifies reasoning flaws and provides concise corrective hints, which the LRM incorporates to produce improved reasoning trajectories. These interventions modify fewer than 2.6% of generated tokens, but generate high-quality data for soft adaptation through supervised fine-tuning. The adapted model is then further improved through reinforcement learning. Building on CALM, we develop **STORM** (Smart Thinking Optimization Reasoning Model), a 4B-parameter LRM that achieves a new state-of-the-art average accuracy of 68.9% across five popular optimization modeling benchmarks, matching the performance of a 671B LRM. These results demonstrate that dynamic, hint-based data synthesis both preserves and amplifies the native reasoning patterns of modern LRMs, offering a more effective and scalable path towards expert-level performance on challenging optimization modeling tasks.",
+      "authors": [
+        "Zhengyang Tang",
+        "Zihan Ye",
+        "Chenyu Huang",
+        "Xuhan Huang",
+        "Chengpeng Li",
+        "Sihang Li",
+        "Guanhua Chen",
+        "Ming Yan",
+        "Zizhuo Wang",
+        "Hongyuan Zha",
+        "Dayiheng Liu",
+        "Benyou Wang"
+      ],
+      "primary_category": "Large Reasoning Models",
+      "categories": [
+        "Large Reasoning Models",
+        "Tool Use",
+        "Domain Adaptation",
+        "Reasoning Alignment",
+        "Optimization Modeling"
+      ],
+      "published": "2025-09-20T10:24:58.436+00:00",
+      "link": "https://openreview.net/forum?id=DILQqCQIJ3",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-ynirvsi0hp",
+      "source": "ICLR-2026-Public",
+      "title": "ORGEval: Graph-Theoretic Evaluation of LLMs in Optimization Modeling",
+      "abstract": "Formulating optimization problems for industrial applications demands significant manual effort and domain expertise. While Large Language Models (LLMs) show promise in automating this process, evaluating their performance remains difficult due to the absence of robust metrics. Existing solver-based approaches often face inconsistency, infeasibility issues, and high computational costs. To address these issues, we propose ORGEval, a graph-theoretic evaluation framework for assessing LLMs’ capabilities in formulating linear and mixed-integer linear programs. ORGEval represents optimization models as graphs, reducing equivalence detection to graph isomorphism testing. We identify and prove a sufficient condition, when the tested graphs are symmetric decomposable (SD), under which the Weisfeiler–Lehman (WL) test is guaranteed to correctly detect isomorphism. Building on this, ORGEval integrates a tailored variant of the WL-test with an SD detection algorithm to evaluate model equivalence. By focusing on structural equivalence rather than instance-level configurations, ORGEval is robust to numerical variations.  Experimental results show that our method can successfully detect model equivalence and produce 100\\% consistent results across random parameter configurations, while significantly outperforming solver-based methods in runtime, especially on difficult problems. Leveraging ORGEval, we construct the Bench4Opt dataset and benchmark state-of-the-art LLMs on optimization modeling. Our results reveal that although optimization modeling remains challenging for all LLMs, DeepSeek-V3 and Claude-Opus-4 achieve the highest accuracies under direct prompting, outperforming even leading reasoning models.",
+      "authors": [
+        "Zhuohan Wang",
+        "Ziwei Zhu",
+        "Ziniu Li",
+        "Yizhou Han",
+        "Yufeng Lin",
+        "Zhihang Lin",
+        "Angyang Gu",
+        "Xinglin Hu",
+        "Ruoyu Sun",
+        "Tian Ding"
+      ],
+      "primary_category": "AI for OR",
+      "categories": [
+        "AI for OR",
+        "evaluation",
+        "optimization modeling",
+        "autonomous mathematical formulation",
+        "LLM",
+        "benchmark"
+      ],
+      "published": "2025-09-20T09:14:36.604+00:00",
+      "link": "https://openreview.net/forum?id=YNIrVSI0hp",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-f0tbadcj8m",
+      "source": "ICLR-2026-Public",
+      "title": "ACCORD: Autoregressive Constraint-satisfying Generation for COmbinatorial Optimization with Routing and Dynamic attention",
+      "abstract": "Large Language Models (LLMs) have demonstrated impressive reasoning capabilities, yet their direct application to NP-hard combinatorial problems (CPs) remains underexplored. In this work, we systematically investigate the reasoning abilities of LLMs on a variety of NP-hard combinatorial optimization tasks and introduce \\textbf{ACCORD}: \\textbf{A}utoregressive \\textbf{C}onstraint-satisfying generation for \\textbf{CO}mbinatorial optimization with \\textbf{R}outing and \\textbf{D}ynamic attention. ACCORD features a novel dataset representation and model architecture that leverage the autoregressive nature of LLMs to dynamically enforce feasibility constraints, coupled with attention-based routing to activate problem-specific LoRA modules. We also present the ACCORD-90k supervised dataset, covering six NP-hard combinatorial problems: TSP, VRP, Knapsack, FlowShop, JSSP, and BinPacking. Extensive experiments demonstrate that our ACCORD model, built on an 8B-parameter Llama backbone, consistently outperforms standard prompting and input-output methods, even when compared to much larger LLMs, such as gpt-4. Ablation studies further show that our output structure enhances solution feasibility. To the best of our knowledge, this is the first large-scale, end-to-end framework for exploring the applications of LLMs to a broad spectrum of combinatorial optimization problems.",
+      "authors": [
+        "Henrik Abgaryan",
+        "Tristan Cazenave",
+        "Ararat Harutyunyan"
+      ],
+      "primary_category": "Large Language Models",
+      "categories": [
+        "Large Language Models",
+        "Combinatorial Optimization",
+        "Autoregressive Generation",
+        "Constraint Satisfaction",
+        "NP-hard problems",
+        "Fine-tuning",
+        "LoRA",
+        "Attention-based Routing",
+        "TSP",
+        "VRP",
+        "Knapsack",
+        "FlowShop",
+        "JSSP",
+        "BinPacking"
+      ],
+      "published": "2025-09-19T20:59:33.53+00:00",
+      "link": "https://openreview.net/forum?id=f0TBAdcJ8m",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-t0fu6t3skw",
+      "source": "ICLR-2026-Rejected-Public",
+      "title": "Starjob: Dataset for LLM-Driven Job Shop Scheduling",
+      "abstract": "Large Language Models (LLMs) have shown remarkable capabilities across various domains, but their potential for solving combinatorial optimization problems remains largely unexplored. In this paper, we investigate the applicability of LLMs to the Job Shop Scheduling Problem (JSSP), a classic challenge in combinatorial optimization that requires efficient job allocation to machines to minimize makespan. To this end, we introduce Starjob, the first supervised dataset for JSSP, comprising 120k instances specifically designed for training LLMs. Leveraging this dataset, we fine-tune the LLaMA 8B model with the LoRA method to develop an end-to-end scheduling approach. Our evaluation on standard benchmarks demonstrates that the proposed LLM-based method not only surpasses traditional Priority Dispatching Rules (PDRs) but also achieves notable improvements over state-of-the-art neural approaches like L2D, with an average improvement of 11.28% on DMU and 3.29% on Taillard benchmarks. These results highlight the untapped potential of LLMs in tackling combinatorial optimization problems, paving the way for future advancements in this area.",
+      "authors": [
+        "Henrik Abgaryan",
+        "Tristan Cazenave",
+        "Ararat Harutyunyan"
+      ],
+      "primary_category": "Job Shop Scheduling Problem",
+      "categories": [
+        "Job Shop Scheduling Problem",
+        "JSSP",
+        "Large Language Models",
+        "LLM",
+        "Starjob",
+        "Combinatorial Optimization",
+        "Llama 3.1",
+        "RsLORA",
+        "Supervised Learning",
+        "Natural Language Processing"
+      ],
+      "published": "2025-09-19T16:32:46.484+00:00",
+      "link": "https://openreview.net/forum?id=t0fU6t3Skw",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-ksfldk3jxi",
+      "source": "ICLR-2026-Rejected-Public",
+      "title": "ALIGNING LLMS WITH GRAPH NEURAL SOLVERS FOR COMBINATORIAL OPTIMIZATION",
+      "abstract": "Recent research has demonstrated the effectiveness of large language models (LLMs) in solving combinatorial optimization problems (COPs) by representing tasks and instances in natural language. However, purely language-based approaches struggle to accurately capture complex relational structures inherent in many COPs, rendering them less effective at addressing medium-sized or larger instances (e.g., problem sizes greater than 30). To address these limitations, we propose AlignOPT, a novel approach that aligns LLMs with graph neural solvers for learning a more generalizable neural COP heuristic. Specifically, AlignOPT leverages the semantic understanding capabilities of LLMs to encode textual descriptions of COPs and their instances while concurrently exploiting graph neural solvers to explicitly model the underlying graph structures of COP instances. Our approach facilitates a robust integration and alignment between linguistic semantics and structural representations, enabling more accurate and scalable COP solutions. Experimental results demonstrate that AlignOPT achieves state-of-the-art results across diverse COPs, underscoring its effectiveness in aligning semantic and structural representations. Additionally, AlignOPT exhibits strong generalization capabilities, successfully extending to previously unseen COP instances.",
+      "authors": [
+        "SHAODI FENG",
+        "Zhuoyi Lin",
+        "Yaoxin Wu",
+        "Haiyan Yin",
+        "Yan Jin",
+        "Kuan-Wen Chen",
+        "Senthilnath Jayavelu"
+      ],
+      "primary_category": "Combinatorial Optimization",
+      "categories": [
+        "Combinatorial Optimization",
+        "Large language models"
+      ],
+      "published": "2025-09-19T07:35:21.407+00:00",
+      "link": "https://openreview.net/forum?id=KSfLDk3jxI",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-hwxhuo15yy",
+      "source": "ICLR-2026-Accepted",
+      "title": "HeuriGym: An Agentic Benchmark for LLM-Crafted Heuristics in Combinatorial Optimization",
+      "abstract": "While Large Language Models (LLMs) have demonstrated significant advancements in reasoning and agent-based problem-solving, current evaluation methodologies fail to adequately assess their capabilities: existing benchmarks either rely on closed-ended questions prone to saturation and memorization, or subjective comparisons that lack consistency and rigor. In this work, we introduce HeuriGym, an agentic framework designed for evaluating heuristic algorithms generated by LLMs for combinatorial optimization problems, characterized by clearly defined objectives and expansive solution spaces. HeuriGym empowers LLMs to propose heuristics, receive evaluative feedback via code execution, and iteratively refine their solutions. We evaluate nine state-of-the-art models on various problems across domains such as computer systems, logistics, and biology, exposing persistent limitations in tool use, planning, and adaptive reasoning. To quantify performance, we propose the Quality-Yield Index (QYI), a metric that captures both solution pass rate and quality. Even top models like GPT-o4-mini-high and Gemini-2.5-Pro attain QYI scores of only 0.6, well below the expert baseline of 1. Our open-source benchmark aims to guide the development of LLMs toward more effective and realistic problem-solving in scientific and engineering domains.",
+      "authors": [
+        "Hongzheng Chen",
+        "Yingheng Wang",
+        "Yaohui Cai",
+        "Hins Hu",
+        "Jiajie Li",
+        "Shirley Huang",
+        "Chenhui Deng",
+        "Rongjian Liang",
+        "Shufeng Kong",
+        "Haoxing Ren",
+        "Samitha Samaranayake",
+        "Carla P Gomes",
+        "Zhiru Zhang"
+      ],
+      "primary_category": "Benchmark",
+      "categories": [
+        "Benchmark",
+        "Large Language Models",
+        "Combinatorial Optimization",
+        "Code Generation",
+        "Agent",
+        "Automatic Heuristic Generation"
+      ],
+      "published": "2026-01-26T14:02:30.087+00:00",
+      "link": "https://openreview.net/forum?id=HWxHUO15Yy",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-fyke66uuu1",
+      "source": "ICLR-2026-Public",
+      "title": "OPT-BENCH: Evaluating LLM Agent on Large-Scale Search Spaces Optimization Problems",
+      "abstract": "Large Language Models (LLMs) have demonstrated impressive capabilities in solving a wide range of tasks. However, their ability to iteratively optimize complex solutions by learning from previous feedback remains underexplored. To address this gap, we introduce \\textbf{OPT-BENCH}, a comprehensive benchmark designed to evaluate LLM agents on large-scale search space optimization problems. OPT-BENCH includes 20 real-world machine learning tasks sourced from Kaggle and 10 classical NP problems, providing a diverse and challenging environment for assessing LLMs on iterative reasoning and solution refinement.\nTo facilitate rigorous evaluation, we present \\textbf{OPT-Agent}, an end-to-end optimization framework that emulates human reasoning by generating, validating, and iteratively improving solutions through the use of historical feedback. Through extensive experiments involving 17 state-of-the-art LLMs from 7 model families, including reasoning models, general models, and open-source models ranging from 3B to 72B parameters, we demonstrate that incorporating historical context significantly enhances optimization performance across both ML and NP tasks. However, this benefit remains limited, as even with the latest models, a gap still persists compared to human expert performance.\nAll datasets, code, and evaluation tools will be open-sourced to foster further research in advancing LLM-driven optimization and iterative reasoning.",
+      "authors": [
+        "Xiaozhe Li",
+        "Jixuan Chen",
+        "Xinyu Fang",
+        "Shengyuan Ding",
+        "Haodong Duan",
+        "Qingwen Liu",
+        "Kai Chen"
+      ],
+      "primary_category": "LLM evaluation",
+      "categories": [
+        "LLM evaluation",
+        "LLM Agent",
+        "Large-Scale Search Spaces Optimization"
+      ],
+      "published": "2025-09-17T13:34:39.23+00:00",
+      "link": "https://openreview.net/forum?id=FYke66uUU1",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-to7je5sff1",
+      "source": "ICLR-2026-Public",
+      "title": "LinearizeLLM: An Agent-Based Framework for LLM-Driven Exact Linear Reformulation of Nonlinear Optimization Problems",
+      "abstract": "Reformulating nonlinear optimization problems is largely manual and expertise-intensive, yet it remains essential for solving such problems with linear optimization solvers or applying special-purpose algorithms. We introduce \\textit{LinearizeLLM}, an agent-based framework that solves this task by leveraging Large Language Models (LLMs). The framework assigns each nonlinear pattern to a \\textit{reformulation agent} that is explicitly instructed to derive an exact linear reformulation for its nonlinearity pattern, for instance, absolute-value terms or bilinear products of decision variables. The agents then coordinate to assemble a solver-ready linear model equivalent to the original problem. To benchmark the approach, we create a dataset of 20 real-world nonlinear optimization problems derived from the established ComplexOR dataset of linear optimization problems. We evaluate our approach with several LLMs. Our results indicate that specialized LLM agents can automate linearization tasks, opening a path toward fully conversational modeling pipelines for nonlinear optimization.",
+      "authors": [
+        "Paul-Niklas Ken Kandora",
+        "Simon Caspar Zeller",
+        "Aaron Jeremias Elsing",
+        "Elena Kuss",
+        "Steffen Rebennack"
+      ],
+      "primary_category": "large language models",
+      "categories": [
+        "large language models",
+        "prompt engineering",
+        "mixed-integer linear programming",
+        "mixed-integer nonlinear programming",
+        "LLM-guided optimization"
+      ],
+      "published": "2025-09-19T19:12:39.66+00:00",
+      "link": "https://openreview.net/forum?id=tO7Je5SFF1",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-jtgzkvdaip",
+      "source": "ICLR-2026-Rejected-Public",
+      "title": "OptimAI: Optimization from Natural Language Using LLM-Powered AI Agents",
+      "abstract": "Optimization plays a vital role in scientific research and practical applications. However, formulating a concrete optimization problem described in natural language into a mathematical form and selecting a suitable solver to solve the problem requires substantial domain expertise.\nWe introduce OptimAI, a framework for solving Optimization problems described in natural language by leveraging LLM-powered AI agents, and achieve superior performance over current state-of-the-art methods.\nOur framework is built upon the following key roles:\n(1) a formulator that translates natural language problem descriptions into precise mathematical formulations;\n(2) a planner that constructs a high-level solution strategy prior to execution; and \n(3) a coder and a code critic capable of interacting with the environment and reflecting on outcomes to refine future actions.\nAblation studies confirm that all roles are essential; removing the planner or code critic results in $5.8\\times$ and $3.1\\times$ drops in productivity, respectively.\nFurthermore, we introduce UCB-based debug scheduling to dynamically switch between alternative plans, yielding an additional $3.3\\times$ productivity gain.\nOur design emphasizes multi-agent collaboration, and our experiments confirm that combining diverse models leads to performance gains.\nOur approach attains 88.1\\% accuracy on the NLP4LP dataset and 82.3\\% on the Optibench dataset, reducing error rates by 58\\% and 52\\%, respectively, over prior best results.",
+      "authors": [
+        "Raghav Thind",
+        "Youran Sun",
+        "Ling Liang",
+        "Haizhao Yang"
+      ],
+      "primary_category": "Optimization",
+      "categories": [
+        "Optimization",
+        "Large Language Models",
+        "AI Agents"
+      ],
+      "published": "2025-09-19T03:57:51.412+00:00",
+      "link": "https://openreview.net/forum?id=JtgZkVdAIP",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-ojuhmgis7o",
+      "source": "ICLR-2026-Public",
+      "title": "Efficient and Interpretable Multi-Agent LLM Routing via Ant Colony Optimization",
+      "abstract": "The instruction-following and semantic understanding capabilities of large language models (LLMs) serve as the core competence of Multi-Agent Systems (MAS), enabling collective strategy coordination. However, task routing in MAS remains a critical performance bottleneck, especially in dynamic and resource-constrained environments. Existing LLM-based routing approaches often suffer from limited transparency, static allocation strategies, and insufficient system state awareness. To address these challenges, we propose AMRO: Ant colony inspired Multi-agent Routing Optimization. AMRO models agent interactions as a function-based directed graph, utilizing a pheromone-driven node update mechanism and an adaptive pheromone decay strategy to achieve real-time perception and response to environmental changes, thereby continuously optimizing routing assignments. This approach significantly enhances routing efficiency and overall system performance, while the pheromone-guided path selection offers strong interpretability for the routing process. We conduct extensive experiments on five public benchmark datasets. The results show that AMRO achieves an average improvement of 1.97\\% in pass@1 accuracy over the baseline and demonstrates superior efficiency and robustness under high concurrency. These findings indicate that AMRO provides an efficient and interpretable solution to the routing problem in LLM-based MAS.",
+      "authors": [
+        "Jiaquan Zhang",
+        "Xudong Wang",
+        "Chaoning Zhang",
+        "Chenghao Li",
+        "Qigan Sun",
+        "Sung-Ho Bae",
+        "Peng Wang",
+        "Ning Xie",
+        "Jie Zou",
+        "Yang Yang",
+        "Heng Tao Shen"
+      ],
+      "primary_category": "Large Language Models，Multi-Agent",
+      "categories": [
+        "Large Language Models，Multi-Agent"
+      ],
+      "published": "2025-09-18T08:04:14.093+00:00",
+      "link": "https://openreview.net/forum?id=ojUhmgIS7o",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or"
+      ]
+    },
+    {
+      "id": "openreview-iclr-2026-bmogyw4ehq",
+      "source": "ICLR-2026-Accepted",
+      "title": "An Agentic Framework with LLMs for Solving Complex Vehicle Routing Problems",
+      "abstract": "Complex vehicle routing problems (VRPs) remain a fundamental challenge, demanding substantial expert effort for intent interpretation and algorithm design. While large language models (LLMs) offer a promising path toward automation, current approaches still rely on external intervention, which restrict autonomy and often lead to execution errors and low solution feasibility. To address these challenges, we propose an Agentic Framework with LLMs (AFL) for solving complex vehicle routing problems, achieving full automation from problem instance to solution. AFL directly extracts knowledge from raw inputs and enables self-contained code generation without handcrafted modules or external solvers. To improve trustworthiness, AFL decomposes the overall pipeline into three manageable subtasks and employs four specialized agents whose coordinated interactions enforce cross-functional consistency and logical soundness. Extensive experiments on 60 complex VRPs, ranging from standard benchmarks to practical variants, validate the effectiveness and generality of our framework, showing comparable performance against meticulously designed algorithms. Notably, it substantially outperforms existing LLM-based baselines in both code reliability and solution feasibility, achieving rates close to 100% on the evaluated benchmarks.",
+      "authors": [
+        "Ni Zhang",
+        "Zhiguang Cao",
+        "Jianan Zhou",
+        "Cong Zhang",
+        "Yew-Soon Ong"
+      ],
+      "primary_category": "Vehicle Routing Problems",
+      "categories": [
+        "Vehicle Routing Problems",
+        "Agent",
+        "LLM"
+      ],
+      "published": "2026-01-26T14:04:52.046+00:00",
+      "link": "https://openreview.net/forum?id=BMOgYw4EhQ",
+      "pdf_url": null,
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "type": "intent_query",
+      "tag": "llm-agent-or",
+      "paper_tag": "query:llm-agent-or",
+      "query_text": "How are large language models and agents used to automate operations research optimization modeling?",
+      "sim_scores": {
+        "openreview-iclr-2026-g2yrrfdemk": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-iclr-2026-fyke66uuu1": {
+          "score": 0.015384615384615385,
+          "rank": 5
+        },
+        "openreview-iclr-2026-to7je5sff1": {
+          "score": 0.012658227848101266,
+          "rank": 19
+        },
+        "openreview-iclr-2026-jtgzkvdaip": {
+          "score": 0.011111111111111112,
+          "rank": 30
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-iclr-2026-g2yrrfdemk",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-w696vhv5b2",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-cvwltwlraw",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-fyke66uuu1",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-to7je5sff1",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-jtgzkvdaip",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-tw1iwcvktt",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ynirvsi0hp",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-skctex59f2",
+          "score": 0.7703788748564866,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-dilqqcqij3",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-tfeazydz92",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-hwxhuo15yy",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-bmogyw4ehq",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-zrgxu8wmmg",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ojuhmgis7o",
+          "score": 0.46719946719946726,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ksfldk3jxi",
+          "score": 0.41577409931840303,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-t0fu6t3skw",
+          "score": 0.32035835650293487,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-f0tbadcj8m",
+          "score": 0.1933160472486314,
+          "star_rating": 3
+        }
+      ]
+    },
+    {
+      "type": "intent_query",
+      "tag": "llm-agent-or",
+      "paper_tag": "query:llm-agent-or",
+      "query_text": "What papers discuss LLM driven agents for mathematical programming formulation from problem descriptions?",
+      "sim_scores": {
+        "openreview-iclr-2026-g2yrrfdemk": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-iclr-2026-to7je5sff1": {
+          "score": 0.015384615384615385,
+          "rank": 5
+        },
+        "openreview-iclr-2026-cvwltwlraw": {
+          "score": 0.014084507042253521,
+          "rank": 11
+        },
+        "openreview-iclr-2026-bmogyw4ehq": {
+          "score": 0.011235955056179775,
+          "rank": 29
+        },
+        "openreview-iclr-2026-hwxhuo15yy": {
+          "score": 0.009708737864077669,
+          "rank": 43
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-iclr-2026-fyke66uuu1",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-jtgzkvdaip",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ynirvsi0hp",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-to7je5sff1",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-g2yrrfdemk",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-cvwltwlraw",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-hwxhuo15yy",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-skctex59f2",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-bmogyw4ehq",
+          "score": 0.4411571334648256,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-t0fu6t3skw",
+          "score": 0.41577409931840303,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-w696vhv5b2",
+          "score": 0.3433395872420263,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ojuhmgis7o",
+          "score": 0.15469146238377016,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-tfeazydz92",
+          "score": 0.1360089186176142,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-tw1iwcvktt",
+          "score": 0.06517094017094004,
+          "star_rating": 2
+        },
+        {
+          "paper_id": "openreview-iclr-2026-zrgxu8wmmg",
+          "score": 0.0319204604918889,
+          "star_rating": 2
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ksfldk3jxi",
+          "score": 0.015799015799015898,
+          "star_rating": 2
+        }
+      ]
+    },
+    {
+      "type": "intent_query",
+      "tag": "llm-agent-or",
+      "paper_tag": "query:llm-agent-or",
+      "query_text": "Which studies combine intelligent agents with large language models for combinatorial optimization modeling?",
+      "sim_scores": {
+        "openreview-iclr-2026-f0tbadcj8m": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-iclr-2026-ksfldk3jxi": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-iclr-2026-fyke66uuu1": {
+          "score": 0.014084507042253521,
+          "rank": 11
+        },
+        "openreview-iclr-2026-to7je5sff1": {
+          "score": 0.009433962264150943,
+          "rank": 46
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-iclr-2026-hwxhuo15yy",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-g2yrrfdemk",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-fyke66uuu1",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ksfldk3jxi",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-iclr-2026-f0tbadcj8m",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-to7je5sff1",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-jtgzkvdaip",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-t0fu6t3skw",
+          "score": 0.7703788748564866,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ojuhmgis7o",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-cvwltwlraw",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-w696vhv5b2",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-bmogyw4ehq",
+          "score": 0.608262108262108,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-ynirvsi0hp",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-iclr-2026-skctex59f2",
+          "score": 0.21328671328671328,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-tw1iwcvktt",
+          "score": 0.1933160472486314,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-iclr-2026-dilqqcqij3",
+          "score": 0.11772814998621459,
+          "star_rating": 3
+        }
+      ]
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "agent",
+      "sim_scores": {}
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "combinatorial optimization",
+      "sim_scores": {
+        "openreview-iclr-2026-f0tbadcj8m": {
+          "score": 0.014084507042253521,
+          "rank": 11
+        },
+        "openreview-iclr-2026-t0fu6t3skw": {
+          "score": 0.0136986301369863,
+          "rank": 13
+        },
+        "openreview-iclr-2026-ksfldk3jxi": {
+          "score": 0.010869565217391304,
+          "rank": 32
+        },
+        "openreview-iclr-2026-hwxhuo15yy": {
+          "score": 0.01,
+          "rank": 40
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "sim_scores": {
+        "openreview-iclr-2026-f0tbadcj8m": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-iclr-2026-ksfldk3jxi": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-iclr-2026-fyke66uuu1": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-iclr-2026-to7je5sff1": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "intelligent agent for automated optimization modeling and problem solving",
+      "sim_scores": {
+        "openreview-iclr-2026-to7je5sff1": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-iclr-2026-g2yrrfdemk": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-iclr-2026-jtgzkvdaip": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        },
+        "openreview-iclr-2026-fyke66uuu1": {
+          "score": 0.011235955056179775,
+          "rank": 29
+        },
+        "openreview-iclr-2026-dilqqcqij3": {
+          "score": 0.011111111111111112,
+          "rank": 30
+        },
+        "openreview-iclr-2026-f0tbadcj8m": {
+          "score": 0.01,
+          "rank": 40
+        },
+        "openreview-iclr-2026-hwxhuo15yy": {
+          "score": 0.009174311926605505,
+          "rank": 49
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "large language model",
+      "sim_scores": {}
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "large language model applications in operations research and optimization",
+      "sim_scores": {
+        "openreview-iclr-2026-f0tbadcj8m": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-iclr-2026-fyke66uuu1": {
+          "score": 0.010526315789473684,
+          "rank": 35
+        },
+        "openreview-iclr-2026-t0fu6t3skw": {
+          "score": 0.010309278350515464,
+          "rank": 37
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "mixed integer programming",
+      "sim_scores": {
+        "openreview-iclr-2026-cvwltwlraw": {
+          "score": 0.013513513513513514,
+          "rank": 14
+        },
+        "openreview-iclr-2026-ynirvsi0hp": {
+          "score": 0.012658227848101266,
+          "rank": 19
+        },
+        "openreview-iclr-2026-skctex59f2": {
+          "score": 0.010416666666666666,
+          "rank": 36
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "mixed integer programming formulation using LLM based intelligent agents",
+      "sim_scores": {
+        "openreview-iclr-2026-g2yrrfdemk": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-iclr-2026-f0tbadcj8m": {
+          "score": 0.014492753623188406,
+          "rank": 9
+        },
+        "openreview-iclr-2026-to7je5sff1": {
+          "score": 0.012987012987012988,
+          "rank": 17
+        },
+        "openreview-iclr-2026-bmogyw4ehq": {
+          "score": 0.012048192771084338,
+          "rank": 23
+        },
+        "openreview-iclr-2026-ojuhmgis7o": {
+          "score": 0.011235955056179775,
+          "rank": 29
+        },
+        "openreview-iclr-2026-hwxhuo15yy": {
+          "score": 0.00980392156862745,
+          "rank": 42
+        },
+        "openreview-iclr-2026-cvwltwlraw": {
+          "score": 0.009708737864077669,
+          "rank": 43
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "operations research",
+      "sim_scores": {
+        "openreview-iclr-2026-tfeazydz92": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-iclr-2026-zrgxu8wmmg": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-iclr-2026-g2yrrfdemk": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-iclr-2026-skctex59f2": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-iclr-2026-cvwltwlraw": {
+          "score": 0.0136986301369863,
+          "rank": 13
+        },
+        "openreview-iclr-2026-w696vhv5b2": {
+          "score": 0.013513513513513514,
+          "rank": 14
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "operations research approach using LLM driven agents",
+      "sim_scores": {
+        "openreview-iclr-2026-g2yrrfdemk": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-iclr-2026-ojuhmgis7o": {
+          "score": 0.0136986301369863,
+          "rank": 13
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "optimization model formulation with large language models and agents",
+      "sim_scores": {
+        "openreview-iclr-2026-fyke66uuu1": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-iclr-2026-to7je5sff1": {
+          "score": 0.013157894736842105,
+          "rank": 16
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "llm-agent-or",
+      "paper_tag": "keyword:llm-agent-or",
+      "query_text": "optimization modeling",
+      "sim_scores": {
+        "openreview-iclr-2026-tw1iwcvktt": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-iclr-2026-dilqqcqij3": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-iclr-2026-w696vhv5b2": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-iclr-2026-ynirvsi0hp": {
+          "score": 0.015625,
+          "rank": 4
+        }
+      }
+    }
+  ],
+  "global_candidate_ids": [
+    "openreview-iclr-2026-g2yrrfdemk",
+    "openreview-iclr-2026-gmmhn5nfvk",
+    "openreview-iclr-2026-e7jzqo0a50",
+    "openreview-iclr-2026-rs3jb9aaej",
+    "openreview-iclr-2026-f0tbadcj8m",
+    "openreview-iclr-2026-vct9kjeb89",
+    "openreview-iclr-2026-nwxcmnz35w",
+    "openreview-iclr-2026-xthfaafnvd",
+    "openreview-iclr-2026-gfdbfr3zfj",
+    "openreview-iclr-2026-to7je5sff1",
+    "openreview-iclr-2026-ic2a2gcsec",
+    "openreview-iclr-2026-azgxj7zgcx",
+    "openreview-iclr-2026-z9humon2br",
+    "openreview-iclr-2026-onzv3cx1lq",
+    "openreview-iclr-2026-kyvw6s0u3z",
+    "openreview-iclr-2026-ttfqirjoca",
+    "openreview-iclr-2026-tfeazydz92",
+    "openreview-iclr-2026-zrgxu8wmmg",
+    "openreview-iclr-2026-i95lcr2gn5",
+    "openreview-iclr-2026-tw1iwcvktt",
+    "openreview-iclr-2026-dilqqcqij3",
+    "openreview-iclr-2026-vvsrgjidvn",
+    "openreview-iclr-2026-avcaumb1ak",
+    "openreview-iclr-2026-bqgatan2eg",
+    "openreview-iclr-2026-ef5o9gnnle",
+    "openreview-iclr-2026-fyke66uuu1",
+    "openreview-iclr-2026-viyslqixea",
+    "openreview-iclr-2026-hlfd8pl4qd",
+    "openreview-iclr-2026-nddpp0285m",
+    "openreview-iclr-2026-xromaieae3",
+    "openreview-iclr-2026-i05h9ruzhb",
+    "openreview-iclr-2026-9g8rhlp1ad",
+    "openreview-iclr-2026-yqtan0weyl",
+    "openreview-iclr-2026-ptuxbqogrc",
+    "openreview-iclr-2026-dkbqwup9gw",
+    "openreview-iclr-2026-7qq50lrrn5",
+    "openreview-iclr-2026-tx9hkhgeqw",
+    "openreview-iclr-2026-snjos7jjxb",
+    "openreview-iclr-2026-3ndc8lggk6",
+    "openreview-iclr-2026-cvwltwlraw",
+    "openreview-iclr-2026-ycdfea1355",
+    "openreview-iclr-2026-7oekdzsmwp",
+    "openreview-iclr-2026-pjik38mwkm",
+    "openreview-iclr-2026-omxsbcv8tf",
+    "openreview-iclr-2026-zs4fa5fgtd",
+    "openreview-iclr-2026-apyfj7sl6f",
+    "openreview-iclr-2026-1g34s0m9sd",
+    "openreview-iclr-2026-lmqyfiz09h",
+    "openreview-iclr-2026-ihqiacmkka",
+    "openreview-iclr-2026-0znezvslnr",
+    "openreview-iclr-2026-6vs1lnjpta",
+    "openreview-iclr-2026-lvcgqdq8n7",
+    "openreview-iclr-2026-p479bon8bd",
+    "openreview-iclr-2026-ksfldk3jxi",
+    "openreview-iclr-2026-rbl8fhjluf",
+    "openreview-iclr-2026-vxroyzt0ea",
+    "openreview-iclr-2026-hwxhuo15yy",
+    "openreview-iclr-2026-m3vwnscpl2",
+    "openreview-iclr-2026-jxzggxtjik",
+    "openreview-iclr-2026-34candshkv",
+    "openreview-iclr-2026-e2s7yhevzw",
+    "openreview-iclr-2026-7jbswx6bnl",
+    "openreview-iclr-2026-5j6u03obrz",
+    "openreview-iclr-2026-1xmue2dgrr",
+    "openreview-iclr-2026-lifeogrkrb",
+    "openreview-iclr-2026-loqtk59rxd",
+    "openreview-iclr-2026-qclxvomkl4",
+    "openreview-iclr-2026-satokohpij",
+    "openreview-iclr-2026-3kvv1nfwvq",
+    "openreview-iclr-2026-qr4d8s1qpt",
+    "openreview-iclr-2026-vnmctveqhd",
+    "openreview-iclr-2026-i3gxb8blis",
+    "openreview-iclr-2026-o6ste173bd",
+    "openreview-iclr-2026-od9rwlfqee",
+    "openreview-iclr-2026-w696vhv5b2",
+    "openreview-iclr-2026-2pna8p0ku1",
+    "openreview-iclr-2026-i308eyimsa",
+    "openreview-iclr-2026-ynirvsi0hp",
+    "openreview-iclr-2026-euvoubykyr",
+    "openreview-iclr-2026-g6nndzxhu4",
+    "openreview-iclr-2026-lgltxzfw4g",
+    "openreview-iclr-2026-p5nislwx0e",
+    "openreview-iclr-2026-xrjorcj08o",
+    "openreview-iclr-2026-tx3ycbna5w",
+    "openreview-iclr-2026-pwcv9jcrab",
+    "openreview-iclr-2026-skctex59f2",
+    "openreview-iclr-2026-kjxdig4z84",
+    "openreview-iclr-2026-tezrgza7mk",
+    "openreview-iclr-2026-lyupzldobv",
+    "openreview-iclr-2026-ztcvzrbnvq",
+    "openreview-iclr-2026-8hx1orwbit",
+    "openreview-iclr-2026-jtgzkvdaip",
+    "openreview-iclr-2026-yagoayedlq",
+    "openreview-iclr-2026-ojuhmgis7o",
+    "openreview-iclr-2026-xklgqbpw1x",
+    "openreview-iclr-2026-ebskbzqf9g",
+    "openreview-iclr-2026-zuvjjzbwxj",
+    "openreview-iclr-2026-qrsefzfu8e",
+    "openreview-iclr-2026-zlxkjvdsw4",
+    "openreview-iclr-2026-pfr4e8583w",
+    "openreview-iclr-2026-hrcjxrdolj",
+    "openreview-iclr-2026-btwbi17evi",
+    "openreview-iclr-2026-t0fu6t3skw",
+    "openreview-iclr-2026-mk3lwscw0q",
+    "openreview-iclr-2026-wbandkd4sr",
+    "openreview-iclr-2026-euuxwaqa5f",
+    "openreview-iclr-2026-riacwdgvgk",
+    "openreview-iclr-2026-hodprxygkw",
+    "openreview-iclr-2026-mskqyifgvm",
+    "openreview-iclr-2026-bmogyw4ehq",
+    "openreview-iclr-2026-ycnkdei9pp",
+    "openreview-iclr-2026-6kretiaoyd",
+    "openreview-iclr-2026-z6uponc8h1",
+    "openreview-iclr-2026-jinw28iilm",
+    "openreview-iclr-2026-bhpaxhwvkg",
+    "openreview-iclr-2026-52c4trabmd",
+    "openreview-iclr-2026-kq3bpavbww",
+    "openreview-iclr-2026-vuay1t64zz",
+    "openreview-iclr-2026-wtlyksjidl",
+    "openreview-iclr-2026-7xx2traid6",
+    "openreview-iclr-2026-n1avxiu2lu",
+    "openreview-iclr-2026-evighapfyj",
+    "openreview-iclr-2026-yh1wtz2pbo",
+    "openreview-iclr-2026-rjcmv7q1jh",
+    "openreview-iclr-2026-2lcxmmkurb",
+    "openreview-iclr-2026-xpke5qmay4",
+    "openreview-iclr-2026-tbjif2m23q",
+    "openreview-iclr-2026-jalxqna2wi",
+    "openreview-iclr-2026-ydbjhqlrbf"
+  ],
+  "global_pool_lane_top_k": 30,
+  "global_pool_limit": 120,
+  "global_pool_guaranteed_per_lane": 2,
+  "global_pool_effective_size": 129,
+  "reranked_at": "2026-09-07T14:54:23.457442+00:00",
+  "llm_ranked": [
+    {
+      "paper_id": "openreview-iclr-2026-jtgzkvdaip",
+      "score": 10.0,
+      "evidence_en": "LLM-powered agents translate natural language optimization descriptions into mathematical formulations and solver code",
+      "evidence_cn": "基于LLM的智能体将自然语言优化问题转化为数学形式并选择求解器",
+      "canonical_evidence": "基于LLM的智能体将自然语言优化问题转化为数学形式并选择求解器",
+      "tldr_en": "OptimAI uses LLM-powered agents with formulator, planner and coder roles to translate natural-language optimization problems into mathematical formulations and solver code, outperforming state-of-the-art on optimization benchmarks.",
+      "tldr_cn": "自然语言优化问题建模常依赖专家手工完成，门槛高且难以自动化。OptimAI提出由大模型智能体担任建模员、规划员和编码员的分工框架，将文字描述自动转化为数学规划并生成可执行求解代码。在多个基准问题上的实验显示，该方法显著优于现有最先进系统。该工作验证了LLM智能体端到端完成运筹优化建模与求解的可行性。",
+      "title_zh": "OptimAI：基于大语言模型智能体的自然语言优化求解",
+      "motivation_cn": "自然语言描述的优化问题需要专家手工建模和选出求解器，人工门槛高且难自动化。",
+      "method_cn": "提出OptimAI，以formulator将自然语言转成数学规划，以planner规划高层求解策略，并由coder等智能体生成代码执行求解。",
+      "result_cn": "在自然语言优化问题基准上获得优于当前最先进方法的表现。",
+      "conclusion_cn": "验证了LLM驱动的多角色智能体能够端到端自动完成优化建模与求解。",
+      "matched_requirement_id": "req-8",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "What papers discuss LLM driven agents for mathematical programming formulation from problem descriptions?"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-g2yrrfdemk",
+      "score": 10.0,
+      "evidence_en": "OR-LLM-Agent explicitly builds LLM-driven dedicated sub-agents for mathematical modeling, code generation, and debugging of operations research optimization problems.",
+      "evidence_cn": "提出基于推理大语言模型的智能体框架，自动完成运筹问题的数学建模、代码生成与调试，直接命中LLM智能体用于OR建模与求解的需求。",
+      "canonical_evidence": "提出基于推理大语言模型的智能体框架，自动完成运筹问题的数学建模、代码生成与调试，直接命中LLM智能体用于OR建模与求解的需求。",
+      "tldr_en": "OR-LLM-Agent introduces a reasoning-LLM based agent framework that decomposes OR optimization into modeling, code generation, and debugging stages handled by dedicated sub-agents, automating end-to-end solution of OR problems.",
+      "tldr_cn": "现有方法大多依靠提示工程或微调非推理大模型来求解运筹优化问题，能力受限且难以稳定。OR-LLM-Agent转而以推理大模型为底座，将任务拆解为数学建模、代码生成和调试三个阶段，每个阶段由专门的子智能体负责。整体框架面向运筹问题实现端到端自动化建模与求解，旨在突破非推理模型在复杂数学推理与程序生成上的瓶颈。",
+      "title_zh": "OR-LLM-Agent：利用推理大语言模型自动建模与求解运筹优化问题",
+      "motivation_cn": "当前基于提示工程或微调非推理LLM的运筹优化求解方式能力有限，无法胜任复杂建模与求解。",
+      "method_cn": "提出以推理LLM为核心的OR-LLM-Agent，将运筹任务分解为数学建模、代码生成与调试三个阶段，由专用子智能体分工处理。",
+      "result_cn": "该框架旨在显著提升运筹问题自动化建模、代码生成及调试的成功率，优于依赖非推理LLM的已有方案。",
+      "conclusion_cn": "说明推理式LLM多智能体框架可更可靠地实现运筹优化问题的端到端自动化求解。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "operations research approach using LLM driven agents"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-dilqqcqij3",
+      "score": 10.0,
+      "evidence_en": "CALM progressively adapts large reasoning models in their native reasoning modes for optimization-modeling tasks, with corrective expert intervention for mathematical programming formulation.",
+      "evidence_cn": "面向数学规划/优化建模任务提出CALM，在大型推理模型原生推理模式中引入专家干预修正，直接对应LLM驱动的数学建模需求。",
+      "canonical_evidence": "面向数学规划/优化建模任务提出CALM，在大型推理模型原生推理模式中引入专家干预修正，直接对应LLM驱动的数学建模需求。",
+      "tldr_en": "CALM progressively adapts large reasoning models for optimization modeling by intervening in their native reasoning modes; an expert detects and corrects reasoning flaws with lightweight modification instead of conventional non-reflective fine-tuning.",
+      "tldr_cn": "传统域适应方法不能发挥现代大型推理模型的优势，在非反思数据集上直接微调收益有限。CALM提出在模型原生推理模式中，由专家干预者识别推理缺陷并进行轻量修正，渐进式把大推理模型适配到优化建模任务。这种纠正式适配能有效解锁其原生推理潜力，比传统微调更符合现代推理模型的特性，为自动化优化建模提供了新思路。",
+      "title_zh": "CALM Before the STORM：释放优化建模的原生推理能力",
+      "motivation_cn": "传统优化建模域适应方法不能利用大型推理模型的多步推理能力，直接微调非反思数据增益有限。",
+      "method_cn": "提出CALM，在大型推理模型原生推理模式下由专家干预者发现缺陷并进行轻量修正，渐进适配优化建模任务。",
+      "result_cn": "该方法能有效提升现代LRM在优化建模上的表现，优于对传统非反思数据进行直接微调。",
+      "conclusion_cn": "说明面向推理模式的纠正式适配比传统微调更适合自动化优化建模。",
+      "matched_requirement_id": "req-8",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "What papers discuss LLM driven agents for mathematical programming formulation from problem descriptions?"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-zrgxu8wmmg",
+      "score": 9.0,
+      "evidence_en": "directly studies LLM self-evolving training for solving Operations Research and optimization problems",
+      "evidence_cn": "直接面向运筹学问题求解的LLM训练与建模监督",
+      "canonical_evidence": "直接面向运筹学问题求解的LLM训练与建模监督",
+      "tldr_en": "Existing outcome-only RL for OR LLMs suffers credit assignment, while static process supervision is myopic. StepORLM is a self-evolving framework with generative process supervision that gives holistic feedback on interdependent OR modeling steps. It reduces reinforcement of flawed reasoning and improves trustworthy OR solving.",
+      "tldr_cn": "只按最终答案奖励强化学习训练的运筹学LLM会强化错误推理，固定过程监督又难以评估建模步骤间的整体依赖。为此提出StepORLM自演化框架，核心是以生成式过程监督协同评判OR建模的中间步骤，让监督者与求解模型共同进化。该方案缓解了信用分配问题，减少对错误推理的奖励放大，从而提升LLM求解复杂运筹优化问题的可靠性与建模质量。",
+      "title_zh": "StepORLM：面向运筹学语言模型的生成式过程监督自演化框架",
+      "motivation_cn": "强化学习训练LLM求解运筹问题时，结果奖励存在信用分配难题，判别式过程监督又无法整体评估相互依赖的建模步骤。",
+      "method_cn": "提出带生成式过程监督的StepORLM框架，通过协同演化的监督机制为OR建模步骤提供整体性中间反馈。",
+      "result_cn": "该方法能减少错误推理被奖励的情况，并为OR问题的强化学习训练提供更可信的过程监督。",
+      "conclusion_cn": "为运筹学领域的LLM训练提供可演化的过程监督范式，有助于提高优化建模和求解质量。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-w696vhv5b2",
+      "score": 9.0,
+      "evidence_en": "LLM-based framework for automatic optimization model formulation in operations research with dual structural and solution verification",
+      "evidence_cn": "提出LLM优化建模框架并引入结构与解的双侧验证，直接对应优化模型公式化需求",
+      "canonical_evidence": "提出LLM优化建模框架并引入结构与解的双侧验证，直接对应优化模型公式化需求",
+      "tldr_en": "Optimization model generation by LLMs often lacks verification of constraint rationality and solution validity. OptiVer introduces dual-sided validation: structure-side checking of model form and solution-side checking of feasibility, then feeds verification signals back to refine the model. This improves correctness and reliability of LLM-based OR modeling.",
+      "tldr_cn": "现有LLM自动生成优化模型时常常缺少可靠验证，不检查变量和约束是否合理，也不验证生成模型解的有效性，导致建模准确率受限。OptiVer提出双侧重验证框架，分别从结构视角核验模型规范性、从解视角检验模型可行性。验证信息被反馈给LLM以迭代修正和再生成，从而提升建模正确性与可信度。该工作为自动化运筹优化建模提供了更强的质量保障机制。",
+      "title_zh": "OptiVer：通过双侧重验证释放LLM在优化建模中的潜力",
+      "motivation_cn": "数学优化模型构建需要丰富运筹学经验，LLM自动建模过程缺少对结构与解的验证，严重影响建模精度。",
+      "method_cn": "提出OptiVer框架，从结构侧和求解侧双重验证LLM生成的优化模型，并将验证结果反馈用于模型修正。",
+      "result_cn": "双侧重验证能提升LLM生成优化模型的规范性和合理性，改善自动建模准确度。",
+      "conclusion_cn": "验证驱动的自动纠错有助于让LLM更可靠地完成运筹优化建模并减少人工专家依赖。",
+      "matched_requirement_id": "req-4",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "optimization model formulation with large language models and agents"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-bmogyw4ehq",
+      "score": 9.0,
+      "evidence_en": "agentic LLM framework for end-to-end solving complex vehicle routing, a combinatorial optimization problem",
+      "evidence_cn": "LLM智能体端到端求解车辆路径组合优化问题，直接匹配组合优化+智能体辅助需求",
+      "canonical_evidence": "LLM智能体端到端求解车辆路径组合优化问题，直接匹配组合优化+智能体辅助需求",
+      "tldr_en": "Complex vehicle routing still demands expert effort and existing LLM automation relies on external intervention, causing execution errors and low feasibility. AFL is an agentic LLM framework that interprets raw instances, generates self-contained code, and decomposes tasks to achieve fully automatic end-to-end VRP solving without handcrafted modules or external solvers, improving autonomy and solution trustworthiness.",
+      "tldr_cn": "复杂车辆路径问题求解门槛高，已有LLM自动化方法仍需外部干预，且易出现执行错误与可行解率低。文中提出LLM智能体框架AFL，直接从原始问题输入中提取知识并自主生成可执行代码，不依赖手工模块或外部求解器。通过任务分解等机制增强可信度，AFL实现了从问题实例到最终解的完全自动化。该框架提升了复杂VRP求解的自主性和可行性，展示了LLM智能体在组合优化中的潜力。",
+      "title_zh": "一种用LLM求解复杂车辆路径问题的智能体框架",
+      "motivation_cn": "复杂VRP求解依赖专家做意图解释和算法设计，现有LLM方法仍需要外部干预，导致自动化受限和可行解率低。",
+      "method_cn": "提出AFL智能体框架，直接从原始输入提取知识并自包含生成代码，结合任务分解实现无需手工模块和外部求解器的端到端VRP求解。",
+      "result_cn": "AFL实现了从问题实例到解的完全自动化，在减少人为干预的同时改善了执行可靠性和可行性。",
+      "conclusion_cn": "证明LLM智能体能自主处理复杂车辆路径问题，为组合优化问题的全流程自动化提供新路径。",
+      "matched_requirement_id": "req-6",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-cvwltwlraw",
+      "score": 9.0,
+      "evidence_en": "improves LLM formulation accuracy for mixed-integer linear programming from natural language descriptions",
+      "evidence_cn": "聚焦利用LLM将自然语言转化为MILP优化模型，直接匹配混合整数规划建模需求",
+      "canonical_evidence": "聚焦利用LLM将自然语言转化为MILP优化模型，直接匹配混合整数规划建模需求",
+      "tldr_en": "Translating natural language into mathematical programming models is expertise-heavy, and existing LLM approaches suffer from scarce noisy data. OptiMind systematically integrates optimization domain knowledge into LLM training, using semi-automated data creation and cleaner supervision to improve mixed-integer linear programming formulation. The framework lifts the accuracy of translating natural-language problems into executable optimization models.",
+      "tldr_cn": "从自然语言生成数学规划模型是依赖专家技能的困难任务，现有LLM方法因训练数据稀少且含噪、缺少领域知识而准确率有限。OptiMind系统性地融入优化专家知识，利用半自动化数据生成与靶向训练来提升混合整数线性规划建模能力。实验结果显示该框架能更准确地把自然语言问题转换为可执行的MILP模型。该工作为知识增强的LLM自动化运筹建模提供了实用范式。",
+      "title_zh": "OptiMind：教LLM像优化专家一样思考",
+      "motivation_cn": "数学规划表达需要运筹学专业知识，现有LLM建模方法受限于数据稀缺、噪声高且未利用领域知识，准确率不足。",
+      "method_cn": "提出OptiMind框架，将优化专家知识系统性融入LLM，利用半自动数据组织方式改善MILP模型生成能力。",
+      "result_cn": "相比现有自动建模方法，OptiMind显著提升混合整数线性规划公式化的准确率。",
+      "conclusion_cn": "领域知识增强的训练策略能有效提高LLM生成可执行优化模型的能力，降低建模门槛。",
+      "matched_requirement_id": "req-5",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "mixed integer programming formulation using LLM based intelligent agents"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-t0fu6t3skw",
+      "score": 9.0,
+      "evidence_en": "Direct LLM application to Job Shop Scheduling, a classic operations research combinatorial optimization problem",
+      "evidence_cn": "将大语言模型直接应用于作业车间调度这一经典运筹组合优化问题",
+      "canonical_evidence": "将大语言模型直接应用于作业车间调度这一经典运筹组合优化问题",
+      "tldr_en": "Introduces Starjob, the first supervised dataset of 120k JSSP instances; fine-tunes LLaMA-8B with LoRA for end-to-end scheduling and outperforms traditional baselines, showing LLM strength on combinatorial optimization.",
+      "tldr_cn": "作业车间调度是组合优化经典问题但LLM潜力未被充分探索；论文构建首个120k实例JSSP监督数据集Starjob，并使用LoRA微调LLaMA-8B做端到端调度；在标准benchmark上LLM方法超越多种传统方法；该工作为LLM求解运筹调度和组合优化建立了数据与模型基线。",
+      "title_zh": "Starjob：用于LLM驱动的作业车间调度的数据集",
+      "motivation_cn": "LLM在通用编程上表现强，但其求解组合优化问题（如车间作业调度）的潜力尚未被充分验证，且缺少高质量监督数据集。",
+      "method_cn": "构建首个包含120k实例的JSSP监督数据集Starjob，并利用LoRA方法微调LLaMA-8B模型进行端到端的作业车间调度求解。",
+      "result_cn": "在标准基准上，该LLM方法不仅超越传统调度方法，还验证了LLM建模复杂排产策略的有效性。",
+      "conclusion_cn": "研究表明经过针对性微调的LLM可直接求解经典组合优化问题，为LLM在运筹优化中的应用提供了重要基准与数据资源。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-tfeazydz92",
+      "score": 9.0,
+      "evidence_en": "First process reward model tailored for OR algorithmic problems, directly targeting LLM reasoning in operations research",
+      "evidence_cn": "首个面向运筹算法问题的过程奖励模型，直接针对大语言模型在运筹领域的推理能力",
+      "canonical_evidence": "首个面向运筹算法问题的过程奖励模型，直接针对大语言模型在运筹领域的推理能力",
+      "tldr_en": "OR-PRM presents a first process reward model for operations research, finds over 30% flawed annotations in existing datasets, builds filtered high-quality seed data and OR-ProcessQA, enabling reliable step-by-step LLM reasoning in OR.",
+      "tldr_cn": "现有PRM在运筹学中尚未被探索，直接使用主流数据集训练效果差且超过30%标注存在严重缺陷；作者通过收集合成数据并精细过滤得到高质量种子集，进一步构建OR-ProcessQA大规模过程监督数据集；在此基础上提出首个面向OR的PRM；该工作弥补了过程奖励模型在运筹问题上的空白，为LLM逐步推理求解运筹算法题提供了高质量数据与验证模型。",
+      "title_zh": "OR-PRM：面向运筹算法问题的过程奖励模型",
+      "motivation_cn": "大语言模型结合过程奖励模型虽推理能力很强，但在运筹学领域的潜力尚未被探索，且现有训练数据标注质量差导致直接训练效果弱。",
+      "method_cn": "系统分析发现主流数据集中大量标注严重错误，构建过滤流水线得到高质量种子集，并构建大规模逐步标注数据集OR-ProcessQA来训练首个面向OR的过程奖励模型。",
+      "result_cn": "在运筹算法问题相关评测中，该OR专用PRM能够更准确鉴别推理步骤质量，明显优于直接使用主流数据集训练的PRM。",
+      "conclusion_cn": "高质量的OR过程监督数据和专用PRM能有效提升LLM在运筹推理中的能力，为LLM求解运筹优化算法问题奠定基础。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-tw1iwcvktt",
+      "score": 9.0,
+      "evidence_en": "Automated optimization modeling via LLMs directly targets LLM applications in operations research optimization",
+      "evidence_cn": "基于LLM的自动化优化建模，直接对应大语言模型在运筹优化中的应用需求",
+      "canonical_evidence": "基于LLM的自动化优化建模，直接对应大语言模型在运筹优化中的应用需求",
+      "tldr_en": "The paper targets post-training data scarcity and underutilization for LLM automated optimization modeling, identifies sparse error-specific problems and sparse rewards, and introduces a localizable error-driven perspective to improve optimization modeling post-training.",
+      "tldr_cn": "论文指出大语言模型自动化优化建模面临高质量后训练数据稀缺且未被充分利用的瓶颈。通过剖析大量问题-响应对的误差模式，归纳出错误特定问题稀疏和困难问题奖励稀疏两大局限，并提出可定位的误差驱动改进视角，以更有效地组织和使用训练数据。实验证明该方法能显著提升LLM在自动化优化建模任务上的效果，推动了LLM在运筹优化建模自动化中的实用化。",
+      "title_zh": "基于可定位错误驱动视角的自动化优化建模",
+      "motivation_cn": "自动化优化建模依赖高质量后训练数据，但高质量数据稀缺且未被充分利用，限制了LLM在该领域的潜力。",
+      "method_cn": "分析多种问题-响应对上的误差模式，识别错误稀疏与奖励稀疏两种局限，提出可定位的误差驱动后训练改进方法。",
+      "result_cn": "实验结果表明该方法能改善LLM的自动化优化建模能力，验证了误差驱动视角的有效性。",
+      "conclusion_cn": "该工作为LLM自动化优化建模的高质量数据利用提供了新思路，具有明确的运筹优化应用价值。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-to7je5sff1",
+      "score": 9.0,
+      "evidence_en": "Agent-based LLM framework for exact linear reformulation of nonlinear optimization problems is an optimization modeling task in operations research",
+      "evidence_cn": "基于智能体与LLM将非线性优化问题精确线性重构，属于优化建模主题的运筹研究",
+      "canonical_evidence": "基于智能体与LLM将非线性优化问题精确线性重构，属于优化建模主题的运筹研究",
+      "tldr_en": "The paper addresses the manual and expertise-intensive reformulation of nonlinear optimization problems by introducing LinearizeLLM, an agent-based LLM framework. Each reformulation agent handles a nonlinearity pattern and coordinates to build an exact solver-ready linear model, reducing human effort in preparing models for linear solvers.",
+      "tldr_cn": "论文针对非线性优化问题的重构高度依赖人工专家经验的问题，提出LinearizeLLM这一基于大语言模型的智能体框架。框架为绝对值项、双线性乘积等不同非线性模式安排专门的重构智能体，由各智能体推导精确线性等价形式并协作组装成求解器可直接使用的线性模型。实验表明该方法能自动化完成精确线性重构流程，并显著降低非线性优化模型预处理的人工成本。该工作为LLM与多智能体在运筹优化建模与问题求解中的落地提供了有力范例。",
+      "title_zh": "LinearizeLLM：基于智能体框架的LLM驱动非线性优化问题精确线性重构",
+      "motivation_cn": "非线性优化问题的线性重构高度依赖人工专家知识，限制了求解器与专用算法的快速应用，亟需自动化手段。",
+      "method_cn": "构建多智能体LLM框架LinearizeLLM，每个智能体负责一种非线性模式的精确线性重构，再协作组装为等价线性优化模型。",
+      "result_cn": "实验验证了该框架能自动生成精确的线性重构模型，降低手工建模成本并支持后续求解。",
+      "conclusion_cn": "该工作展示了LLM智能体在优化模型转换中的实用价值，为自动化运筹求解链路提供了可行方案。",
+      "matched_requirement_id": "req-4",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "optimization model formulation with large language models and agents"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-ynirvsi0hp",
+      "score": 9.0,
+      "evidence_en": "Graph-theoretic evaluation framework for LLM-formulated linear and mixed-integer linear programs",
+      "evidence_cn": "针对LLM生成的线性与混合整数线性规划模型，提出图论评测框架",
+      "canonical_evidence": "针对LLM生成的线性与混合整数线性规划模型，提出图论评测框架",
+      "tldr_en": "ORGEval evaluates LLMs in formulating linear and mixed-integer linear programming models by representing models as graphs and reducing equivalence detection to graph isomorphism testing, providing robust and consistent metrics beyond solver-based evaluation.",
+      "tldr_cn": "大语言模型有望自动化优化建模，但现有求解器评测存在不一致、不可行与高成本问题。本文提出ORGEval，用图结构表示线性与混合整数线性规划模型，将等价检测归约为图同构测试，并证明对称分解条件下可高效判别。该框架为评估LLM建模能力提供了更一致且可扩展的评测基准。",
+      "title_zh": "ORGEval：基于图论的大语言模型优化建模评测",
+      "motivation_cn": "优化建模需大量人力且缺稳健评测指标，现有基于求解器的评测存在不一致、不可行和高成本缺陷",
+      "method_cn": "将优化模型表示为图，利用图同构测试判别模型等价性，并利用对称分解充分条件提高效率",
+      "result_cn": "提出的ORGEval能对LLM生成线性与混合整数规划的建模能力给出稳健一致的评价",
+      "conclusion_cn": "图论评测框架可替代基于求解器的评测，为评估LLM建模能力提供基准",
+      "matched_requirement_id": "req-5",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "mixed integer programming formulation using LLM based intelligent agents"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-hwxhuo15yy",
+      "score": 9.0,
+      "evidence_en": "Agentic benchmark for LLM-crafted heuristics in combinatorial optimization",
+      "evidence_cn": "面向LLM生成组合优化启发式算法的智能体评测框架",
+      "canonical_evidence": "面向LLM生成组合优化启发式算法的智能体评测框架",
+      "tldr_en": "HeuriGym is an agentic framework where LLMs propose heuristics for combinatorial optimization, receive evaluative feedback via code execution, and iteratively refine solutions; it evaluates nine LLMs to reliably assess LLM-generated heuristics.",
+      "tldr_cn": "当前评测方法难以充分评估LLM在解空间巨大的组合优化问题上设计算法的能力，多依赖封闭式问题或主观对比，缺乏一致性与严谨性。HeuriGym构建智能体式框架：LLM提出启发式算法，通过代码执行获得反馈并迭代改进，并基于九个模型进行评测。结果显示该框架能够严谨、可重复地评估智能体生成的组合优化启发式，为后续研究提供可靠基准。",
+      "title_zh": "HeuriGym：面向LLM构造组合优化启发式算法的智能体基准",
+      "motivation_cn": "现有LLM评测多为封闭式或主观对比，不能有效评估其在组合优化问题中生成启发式算法的能力",
+      "method_cn": "提出HeuriGym智能体框架，使LLM提出启发式并通过代码运行反馈迭代精化，以评测其性能",
+      "result_cn": "利用该框架评测了九个LLM，能可靠且严格地区分各模型生成启发式算法的能力",
+      "conclusion_cn": "为LLM驱动的组合优化启发式设计提供开放、智能化的评测基准",
+      "matched_requirement_id": "req-6",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-skctex59f2",
+      "score": 9.0,
+      "evidence_en": "Neurosymbolic framework and benchmark for operations research optimization problems from natural language",
+      "evidence_cn": "面向自然语言运筹优化问题的神经符号框架和基准",
+      "canonical_evidence": "面向自然语言运筹优化问题的神经符号框架和基准",
+      "tldr_en": "NLMOptimizer introduces a neurosymbolic framework and benchmark for operations research optimization problems in natural language, addressing LLM outputs that are syntactically coherent yet semantically invalid. It constrains and validates generated models, improving semantic validity and dataset availability for optimization modeling.",
+      "tldr_cn": "LLM在自然语言运筹优化任务上常生成语法正确但语义不合法的问题描述，且缺少合适的公共数据集。NLMOptimizer提出神经符号框架，通过约束生成与符号验证将自然语言问题描述转化为可靠的优化模型，并配套基准数据和训练流程。实验表明该框架显著改善模型语义有效性和可用性，为自动运筹建模提供重要支撑。",
+      "title_zh": "NLMOptimizer：自然语言运筹优化问题的神经符号框架与基准",
+      "motivation_cn": "自然语言运筹问题语义丰富而模糊，LLM输出常语法可行但语义非法，且缺乏公共数据集",
+      "method_cn": "提出NLMOptimizer神经符号框架，以结构化两类组件约束并验证生成模型，同时构建训练与评测基准",
+      "result_cn": "实验验证框架能明显提升LLM在运筹优化问题上的建模语义有效性与性能",
+      "conclusion_cn": "为自然语言描述到数学优化模型的自动化提供了可行的神经符号方案与数据资源",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-f0tbadcj8m",
+      "score": 9.0,
+      "evidence_en": "Systematically applies LLMs to NP-hard combinatorial optimization tasks with constraint-satisfying autoregressive generation",
+      "evidence_cn": "系统性将LLM用于NP-hard组合优化问题，通过自回归约束满足生成可行解",
+      "canonical_evidence": "系统性将LLM用于NP-hard组合优化问题，通过自回归约束满足生成可行解",
+      "tldr_en": "ACCORD enables autoregressive LLMs to solve NP-hard combinatorial optimization by encoding problems into datasets and dynamically enforcing constraints during generation with attention-based routing.",
+      "tldr_cn": "大语言模型虽然表现出强推理能力，但直接用于NP-hard组合优化仍未被充分探索。ACCORD提出新的数据集表示和模型结构，利用自回归生成的天然过程动态检查并强制满足可行性约束，并通过注意力路由激活相关求解路径。作者在多种NP-hard组合优化任务上系统验证了该方法，显示其能生成可行解并提高LLM求解性能。该工作为LLM处理约束满足与组合优化提供了一条可行路径。",
+      "title_zh": "ACCORD：具有路由和动态注意力的自回归约束满足式组合优化生成",
+      "motivation_cn": "NP-hard组合优化问题的直接求解仍是大模型未充分探索的难点，尤其是可行约束的满足。",
+      "method_cn": "提出ACCORD，通过自回归约束满足生成范式，配合路由和动态注意力机制，在解码阶段动态维护可行性。",
+      "result_cn": "系统实验覆盖多类NP-hard组合优化问题，证明ACCORD能有效生成可行解并提升求解表现。",
+      "conclusion_cn": "自回归生成与动态注意力可显著扩展LLM在组合优化问题上的实用性。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-ksfldk3jxi",
+      "score": 9.0,
+      "evidence_en": "AlignOPT aligns LLMs with graph neural solvers to solve combinatorial optimization problems from textual instance descriptions, directly matching LLM-assisted combinatorial optimization solving.",
+      "evidence_cn": "提出AlignOPT将LLM语义理解与图神经网络求解器结合，提升组合优化求解与泛化能力，直接覆盖LLM辅助组合优化求解的需求。",
+      "canonical_evidence": "提出AlignOPT将LLM语义理解与图神经网络求解器结合，提升组合优化求解与泛化能力，直接覆盖LLM辅助组合优化求解的需求。",
+      "tldr_en": "AlignOPT aligns LLMs with graph neural solvers for combinatorial optimization; it uses LLM semantic understanding and graph encoding to learn generalizable neural heuristics that outperform pure language-based COP solvers on larger instances.",
+      "tldr_cn": "纯语言方法求解组合优化问题难以刻画实例中的复杂关系结构，在中大规模问题上效果有限。AlignOPT将大语言模型的语义理解与图神经网络求解器对齐，使模型同时理解文本描述与图结构，学习更具泛化性的神经启发式算法。实验表明该方法能弥补纯语言方案的不足，在较大规模组合优化实例上保持有效性和泛化性。",
+      "title_zh": "将大语言模型与图神经网络求解器对齐用于组合优化",
+      "motivation_cn": "纯语言LLM难以表达组合优化问题中的复杂关系结构，中大规模实例求解效果差。",
+      "method_cn": "AlignOPT将LLM与图神经网络求解器对齐，联合编码文本描述并学习可泛化的神经网络组合优化启发式。",
+      "result_cn": "在对齐图结构后，模型在组合优化实例上的精度与泛化能力超过纯语言方法，可处理更大规模问题。",
+      "conclusion_cn": "表明将LLM的语义能力与图求解器结合，是提升组合优化神经求解器泛化性的有效设计。",
+      "matched_requirement_id": "req-6",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-fyke66uuu1",
+      "score": 8.0,
+      "evidence_en": "Benchmark and end-to-end framework for evaluating LLM agents on large-scale search space and NP optimization problems",
+      "evidence_cn": "面向LLM智能体大规模搜索空间与NP优化问题评测的基准与端到端框架",
+      "canonical_evidence": "面向LLM智能体大规模搜索空间与NP优化问题评测的基准与端到端框架",
+      "tldr_en": "OPT-BENCH evaluates LLM agents on 20 Kaggle ML tasks and 10 classical NP problems, testing iterative solution refinement in large-scale search spaces. The accompanying OPT-Agent framework emulates human reasoning through generation and feedback-based improvement, yielding systematic insights into LLM agents' optimization abilities.",
+      "tldr_cn": "LLM智能体能否在超大搜索空间中通过迭代反馈优化复杂解仍待系统检验。OPT-BENCH汇集20个Kaggle机器学习任务与10个经典NP问题，并提出OPT-Agent端到端框架，模拟人类推理持续生成和改进解。该基准系统评测了LLM的迭代优化能力，揭示了其在复杂优化问题上的潜能与不足，为智能体优化研究提供标准测试环境。",
+      "title_zh": "OPT-BENCH：评估LLM智能体在大规模搜索空间优化问题上的能力",
+      "motivation_cn": "LLM智能体在超大搜索空间上的迭代优化能力缺少系统性基准，现有任务覆盖不足",
+      "method_cn": "集成ML与NP优化任务构建OPT-BENCH，并设计OPT-Agent框架以反馈驱动方式迭代生成与精化解",
+      "result_cn": "通过大规模评测展示了LLM智能体在多种优化问题上的表现与局限",
+      "conclusion_cn": "为评估LLM智能体的黑盒优化能力提供公开基准与可参照的端到端框架",
+      "matched_requirement_id": "req-6",
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance"
+    },
+    {
+      "paper_id": "openreview-iclr-2026-ojuhmgis7o",
+      "score": 4.0,
+      "evidence_en": "Uses ant colony optimization for task routing in LLM multi-agent systems, connecting OR metaheuristics with agent orchestration",
+      "evidence_cn": "用蚁群优化元启发式解决LLM多智能体系统的任务路由问题，连接运筹优化与智能体编排",
+      "canonical_evidence": "用蚁群优化元启发式解决LLM多智能体系统的任务路由问题，连接运筹优化与智能体编排",
+      "tldr_en": "AMRO applies ant-colony metaheuristics to task routing in LLM multi-agent systems, modeling agent interactions as a directed graph with pheromone-driven updates and adaptive decay.",
+      "tldr_cn": "多智能体大语言模型系统中的任务路由缺少透明度，且难以适应动态资源受限环境。AMRO将智能体交互建模为函数有向图，利用信息素驱动的节点更新和自适应信息素衰减机制，借鉴蚁群算法实现高效可解释的任务路由优化。该方法把运筹优化中的蚁群元启发式与LLM多智能体系统结合，用于提升系统状态感知和路由决策能力。",
+      "title_zh": "基于蚁群优化的高效可解释多智能体大语言模型路由",
+      "motivation_cn": "LLM多智能体系统在动态资源受限环境中任务路由缺乏透明性、自适应性以及对系统状态的感知。",
+      "method_cn": "提出AMRO，通过函数有向图建模智能体交互，利用信息素驱动的节点更新与自适应衰减机制完成路由优化。",
+      "result_cn": "蚁群启发式更新机制可提升多智能体任务路由的效率和可解释性，改善系统状态感知能力。",
+      "conclusion_cn": "表明蚁群等运筹优化方法能够改善LLM多智能体系统的任务分配与动态协作。",
+      "matched_requirement_id": "req-composite-llm-agent-or",
+      "matched_query_tag": "query:llm-agent-or:composite",
+      "matched_query_text": "Papers central to 大语言模型、智能体与运筹优化建模相结合的论文, especially work that connects or combines: large language model applications in operations research and optimization; intelligent agent for automated optimization modeling and problem solving; operations research approach using LLM driven agents; optimization model formulation with large language models and agents; mixed integer programming formulation using LLM based intelligent agents; combinatorial optimization solving with agent and large language model assistance; How are large language models and agents used to automate operations research optimization modeling?; What papers discuss LLM driven agents for mathematical programming formulation from problem descriptions?; Which studies combine intelligent agents with large language models for combinatorial optimization modeling?."
+    }
+  ],
+  "llm_ranked_at": "2026-09-07T14:59:45.953403+00:00",
+  "display_min_score": 4.0,
+  "pruned_at": "2026-09-07T14:59:46.003908+00:00"
+}
