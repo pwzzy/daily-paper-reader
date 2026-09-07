@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-08-29 ~ 2026-09-07</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-07</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 9 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 1 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>6</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>3</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>0</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>1</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-07 13:49:24 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-07 21:58:07 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,9 +69,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>本期日报聚焦交互优化与算法世界工具评估，精读两篇高分论文并速读批量优化、智能体电网规划等主题，共涉9篇文献。</p>
-<p>最值得关注的是《Ask Before You Optimize》以满分10强调优化前动态澄清的重要性，以及《AlgoWorlds》为全局优化提供基准化工具测试框架。</p>
-<p>建议优先精读上述两篇，同时可对照速读中的批量优化研究，理解不同场景下优化策略的适用边界与评估方法。</p>
+<p>今日仅速读1篇论文，聚焦LLM智能体的任务优先级排序。</p>
+<p>值得关注的方向：教智能体先满足“必须项”再处理“可选项”，以6.0/10分获得初步认可。</p>
+<p>建议普通读者可延伸了解智能体决策与目标拆解方法，后续再细读原文验证细节。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -80,12 +80,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">6 篇</strong>
+    <strong class="dpr-home-dashboard-count">0 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Ask Before You Optimize: Dynamic Pre-Formulation Clarification for Interactive Optimization">Ask Before You Optimize: Dynamic Pre-Formulation Clarification for Interactive Optimization</span></li><li><span class="dpr-home-dashboard-paper-title" title="AlgoWorlds: Benchmarking Tool Use for Global Optimization in Algorithmic Worlds">AlgoWorlds: Benchmarking Tool Use for Global Optimization in Algorithmic Worlds</span></li><li><span class="dpr-home-dashboard-paper-title" title="SOVER: Formal Certification of Optimization Reformulations via LLM-Assisted SMT Verification">SOVER: Formal Certification of Optimization Reformulations via LLM-Assisted SMT Verification</span></li></ul>
+<p class="dpr-home-dashboard-empty">今日暂无推荐。</p>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">llm-agent-or <strong>6</strong></span></div>
+
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -93,12 +93,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">3 篇</strong>
+    <strong class="dpr-home-dashboard-count">1 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Frontier LLMs are effective batch optimizers: Assessing reasoning models in continuous and discrete settings">Frontier LLMs are effective batch optimizers: Assessing reasoning models in continuous and discrete settings</span></li><li><span class="dpr-home-dashboard-paper-title" title="Integrating Agentic Artificial Intelligence with High-Performance Computing for Grid Planning">Integrating Agentic Artificial Intelligence with High-Performance Computing for Grid Planning</span></li><li><span class="dpr-home-dashboard-paper-title" title="TIGPO: Temporal Instance-Graph Policy Optimization for Long-Horizon LLM Agents">TIGPO: Temporal Instance-Graph Policy Optimization for Long-Horizon LLM Agents</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="First Things First: Teaching LLM-Based Agents to Prioritize Must-Haves before Nice-to-Haves">First Things First: Teaching LLM-Based Agents to Prioritize Must-Haves before Nice-to-Haves</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">llm-agent-or <strong>3</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">llm-agent-or <strong>1</strong></span></div>
 </section>
 </div>
 
