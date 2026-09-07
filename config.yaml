@@ -25,3 +25,60 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: llm-agent-or
+      description: 大语言模型、智能体与运筹优化建模相结合的论文
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: large language model
+          keyword_cn: 大语言模型
+          query: large language model applications in operations research and optimization
+        - keyword: agent
+          keyword_cn: 智能体
+          query: intelligent agent for automated optimization modeling and problem solving
+        - keyword: operations research
+          keyword_cn: 运筹学
+          query: operations research approach using LLM driven agents
+        - keyword: optimization modeling
+          keyword_cn: 优化建模
+          query: optimization model formulation with large language models and agents
+        - keyword: mixed integer programming
+          keyword_cn: 混合整数规划
+          query: mixed integer programming formulation using LLM based intelligent agents
+        - keyword: combinatorial optimization
+          keyword_cn: 组合优化
+          query: combinatorial optimization solving with agent and large language model assistance
+      intent_queries:
+        - query: How are large language models and agents used to automate operations research optimization modeling?
+          query_cn: 大语言模型和智能体如何用于自动化运筹优化建模？
+          enabled: true
+          source: manual
+          note: ''
+        - query: What papers discuss LLM driven agents for mathematical programming formulation from problem descriptions?
+          query_cn: 哪些论文讨论由LLM驱动的智能体从问题描述中构建数学规划模型？
+          enabled: true
+          source: manual
+          note: ''
+        - query: Which studies combine intelligent agents with large language models for combinatorial optimization modeling?
+          query_cn: 哪些研究将智能体与大语言模型结合用于组合优化建模？
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-09-07T13:34:28.117Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
