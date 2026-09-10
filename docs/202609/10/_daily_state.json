@@ -1,0 +1,25 @@
+{
+  "date": "20260910",
+  "date_label": "",
+  "generated_at": "2026-09-10 21:31:51 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.09957v1",
+      "route": "202609/10/2609.09957v1-beyond-verified-answers-solver-informed-self-distillation-for-bootstrapping-operations-research-language-models",
+      "title": "Beyond Verified Answers: Solver-Informed Self-Distillation for Bootstrapping Operations Research Language Models",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "大语言模型将自然语言描述转化为运筹学建模，求解器知情自蒸馏",
+      "first_seen_at": "2026-09-10 21:31:51 UTC",
+      "updated_at": "2026-09-10 21:31:51 UTC"
+    }
+  ]
+}
