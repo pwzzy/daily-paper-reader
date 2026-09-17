@@ -1,0 +1,159 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 814,
+      "height": 327,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 1321,
+      "height": 247,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 802,
+      "height": 377,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 1603,
+      "height": 888,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 798,
+      "height": 267,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 803,
+      "height": 525,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-007.webp",
+      "caption": "",
+      "page": 0,
+      "index": 7,
+      "width": 680,
+      "height": 217,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-008.webp",
+      "caption": "",
+      "page": 0,
+      "index": 8,
+      "width": 1578,
+      "height": 1461,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-009.webp",
+      "caption": "",
+      "page": 0,
+      "index": 9,
+      "width": 796,
+      "height": 184,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-010.webp",
+      "caption": "",
+      "page": 0,
+      "index": 10,
+      "width": 801,
+      "height": 184,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-011.webp",
+      "caption": "",
+      "page": 0,
+      "index": 11,
+      "width": 1346,
+      "height": 580,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-012.webp",
+      "caption": "",
+      "page": 0,
+      "index": 12,
+      "width": 1510,
+      "height": 1231,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-013.webp",
+      "caption": "",
+      "page": 0,
+      "index": 13,
+      "width": 609,
+      "height": 253,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-014.webp",
+      "caption": "",
+      "page": 0,
+      "index": 14,
+      "width": 798,
+      "height": 347,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-015.webp",
+      "caption": "",
+      "page": 0,
+      "index": 15,
+      "width": 808,
+      "height": 239,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-016.webp",
+      "caption": "",
+      "page": 0,
+      "index": 16,
+      "width": 811,
+      "height": 342,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-findings/anthology-2026findings-acl438/table-017.webp",
+      "caption": "",
+      "page": 0,
+      "index": 17,
+      "width": 652,
+      "height": 328,
+      "label": "Table"
+    }
+  ]
+}

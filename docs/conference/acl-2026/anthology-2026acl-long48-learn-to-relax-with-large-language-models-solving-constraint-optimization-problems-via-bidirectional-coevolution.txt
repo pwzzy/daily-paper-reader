@@ -1,0 +1,1558 @@
+Title: 2026.acl-long.48.pdf
+
+URL Source: https://aclanthology.org/2026.acl-long.48.pdf
+
+Published Time: Thu, 11 Jun 2026 01:09:28 GMT
+
+Number of Pages: 20
+
+Markdown Content:
+> Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 1075–1094 July 2-7, 2026 ©2026 Association for Computational Linguistics
+
+Learn to Relax with Large Language Models: Solving Constraint Optimization Problems via Bidirectional Coevolution 
+
+Beidan Liu 1,4 , Zhengqiu Zhu 1,4 *Chen Gao 2, Tianle Pu 4, Yong Zhao 1,4 , Wei Qi 3, Quanjun Yin 1,4   
+
+> 1National Key Laboratory of Digital Intelligent Modeling and Simulation, National University of Defense Technology, Changsha, China
+> 2BNRist, Tsinghua University, Beijing, China 3Department of Industrial Engineering, Tsinghua University, Beijing, China
+> 4College of Systems Engineering, National University of Defense Technology, Changsha, China
+> Email: {liubangdan, zhuzhengqiu12, zhaoyong15, putl22, yin_quanjun }@nudt.edu.cn, chgao96@mails.tsinghua.edu.cn, qiw@tsinghua.edu.cn
+
+Abstract 
+
+Large Language Model (LLM)-based opti-mization has recently shown promise for autonomous problem solving, yet most ap-proaches still cast LLMs as passive constraint checkers rather than proactive strategy design-ers, limiting their effectiveness on complex Constraint Optimization Problems (COPs). To address this, we present AutoCO, an end-to-end 
+
+Auto mated Constraint Optimization method that tightly couples operations-research prin-ciples of constraint relaxation with LLM rea-soning. A core innovation is a unified triple-representation that binds relaxation strategies, algorithmic principles, and executable codes. This design enables the LLM to synthesize, jus-tify, and instantiate relaxation strategies that are both principled and executable. To navigate fragmented solution spaces, AutoCO employs a bidirectional global–local coevolution mech-anism, synergistically coupling Monte Carlo Tree Search (MCTS) for global relaxation-trajectory exploration with Evolutionary Algo-rithms (EAs) for local solution intensification. This continuous exchange of priors and feed-back explicitly balances diversification and in-tensification, thus preventing premature conver-gence. Extensive experiments on three chal-lenging COP benchmarks validate AutoCO’s consistent effectiveness and superior perfor-mance, especially in hard regimes where cur-rent methods degrade. Results highlight Au-toCO as a principled and effective path toward proactive, verifiable LLM-driven optimization. 
+
+1 Introduction 
+
+Constraint optimization problems (COPs) are ex-tensively studied in logistics (Yao et al., 2024), fi-nance, and industrial planning (Mokhtarzadeh et al., 2021). Most real-world COPs are NP-hard, with complexity arising from hard constraints that create  
+
+> *Corresponding author.
+
+conflicting decisions and global dependencies (Pa-padimitriou and Steiglitz, 1982). These constraints fragment the feasible region, complicating the so-lution process and underscoring the necessity for efficient and high-quality solutions. Many methods have been proposed for solv-ing COPs, such as branch-and-bound, heuristics, etc. While these traditional approaches perform well in specific contexts, they often rely heav-ily on expert experience for effective adjustments to various problems. Recently, Large Language Model (LLM)-based methods have gained attention for their potential to provide end-to-end solutions (Liu et al., 2026). These methods leverage pre-trained knowledge and specific evolutionary frame-works to design algorithms tailored for COPs (e.g., Reevo(Ye et al., 2024), EoH(Liu et al., 2025)). However, existing LLM methods primarily rely on feedback from feasible solutions to guide al-gorithm design toward optimality(Romera-Paredes et al., 2024). As hard constraints increase, obtain-ing feasible solutions becomes more difficult, re-sulting in ineffective feedback. This can lead to unguided search processes that produce subopti-mal designs. Furthermore, these methods prioritize end-to-end generation but lack detailed problem analysis and strategy design, creating a disconnect from human experiences. To address COPs with hard constraints, re-searchers often utilize relaxation strategies, start-ing with a relaxed version of the original problem (Storn, 1999). After identifying partial feasible so-lutions, they gradually tighten the constraints to find a complete solution. This relaxation approach mitigates the fragmentation of the feasible region caused by hard constraints, facilitating rapid identi-fication of feasible solutions. The concept is widely used in operations research, such as in Large Neigh-borhood Search, where relaxing constraints enables the systematic exploration of diverse regions in the search space (Pisinger and Ropke, 2019). 
+
+1075 Code       
+
+> Designer
+> Thoughts Codes
+> Problem Analyst
+> Thoughts Codes
+> Code Designer Strategies
+> Evaluate
+> Evaluate
+> B) LLM-based Method (No constrain relaxation strategy)
+> C) AutoCO (Automated problem analysis and solving)
+> COPs
+> Problem Analyst Code
+> Manual refinement
+> Strategy Evaluate
+> Code
+> Designer
+> A) Expert-Designed Method
+> C1
+> C3 C2
+> C4
+> Constraint
+> Weak Coupling
+> Strong Coupling
+> Ⅰ.Fragmented Solution Space
+> Feasible area
+> Constraints
+> Global Optimum
+> Local Optima
+> Ⅱ.Coupling of Constraints
+> Solution Space
+> Auto refinement for strategy and code
+> Auto refinement for code
+> Feasible area after relaxing
+> Solution Space1
+
+…Solution Space2 
+
+> Take long time
+> Solved
+> automatically
+> Challenges in COPs ：
+
+Figure 1: Comparisons of human/LLM-based solutions for COPs. A) Expert-designed method leverages human analysis to relax constraints for feasible solutions. B) Current LLM-based methods focus on code generation, lacking systematic problem analysis. C) Our AutoCO combines human-inspired relaxation strategies with automation to effectively discover feasible solutions. 
+
+Despite the advantages of this approach, existing relaxation strategies often depend on expert knowl-edge, making the formulation time-consuming. In-tegrating the world knowledge, reasoning, and strat-egy search capabilities of LLMs with these relax-ation principles presents a promising opportunity, but introduces significant challenges: 1) current LLM-based methods lack targeted mechanisms for exploring and relaxing constraints in constraint optimization landscapes, limiting their applicabil-ity to large-scale complex scenarios; 2) existing method focus on optimizing code and algorithmic concepts, neglecting the holistic representation of relaxation strategies, which hinders LLM’s ability to effectively optimize all three aspects together; and 3) the vast decision space makes it challenging to quickly identify the optimal relaxation strategy. 
+
+To address these challenges, we introduce Au-toCO ( Auto mated Constraint Optimization via LLM-driven bidirectional coevolution), an innova-tive solution that positions LLMs as proactive strat-egy designers for COPs (see Figure 1C). AutoCO enables LLMs to explicitly explore and optimize constraint relaxation strategies as integral compo-nents in the algorithm design process. The core innovation is a triple-representation scheme that maintains synchronized evolution across three cou-pled components: constraint relaxation strategies, algorithmic principles, and executable code. This unified representation ensures that each generated solver explicitly employs its corresponding con-straint relaxation strategy to solve the optimization problem. To efficiently coordinate this complex co-design process, we develop a bidirectional coevolu-tion mechanism that combines local refinement via Evolutionary Algorithms (EA) with global explo-ration through Monte Carlo Tree Search (MCTS), enabling effective discovery of performant strategy-concepts-code triples. The contributions of this work are concluded as follows: • We propose an end-to-end, three-phase solu-tion (i.e., problem analysis, strategy search, and code execution) for solving COPs that empowers LLMs to master the complex art of constraint relaxation. • We present a triple-representation scheme that maintains synchronized evolution of con-straint strategies, algorithmic concepts, and executable code across abstraction levels. This unified encoding bridges the structural modeling gap in conventional approaches. • We develop a bidirectional coevolution mech-anism to address the vast strategy decision space. It delegates the fine-grained optimiza-tion of strategy-concepts-code triples to the local EA layer, while the global MCTS layer 1076 iteration                  
+
+> Performance ↑ (improvement over base-solution)
+> 020 40 60 80
+> 0.00
+> 0.59 0.62
+> 0.51
+> 0.66
+> 0.65
+> 0.72
+> Performance Comparison on VRPTW-Fuel: AutoCO vs Current LLM Method
+> 16
+> AutoCO
+> # Differentiated base relaxation factors for different constraints
+> time_constraint = 1.2 # Relaxation for time windows
+> capacity_constraint = 1.1 # Relaxation for capacity
+> fuel_constraint = 1.5 # Relaxation for fuel
+> fleet_size_constraint = 1.1 # Relaxation for fleet size
+> # Dynamic adjustment based on violation feedback
+> factor = max(1.0, 1.5 - 0.1 * violation_count) # Adaptive tightening
+> # Apply differentiated and adaptive relaxation
+> if arrival_time > time_windows[candidate][1] * time_constraint * factor:
+> continue
+> if new_load > vehicle_capacity * capacity_constraint * factor:
+> continue ……
+> # Hard constraint validation - immediate rejection
+> if arrival_time > time_windows[to_node][1]:
+> return False # No flexibility
+> if current_load > vehicle_capacity:
+> return False # Strict limits
+> if current_fuel < 0:
+> return False # Hard boundaries
+> Current LLM methods use strict binary decisions (feasible/infeasible) without constraint relaxation, immediately terminating exploration when violations occur, which limits search capability in complex constraint spaces.
+> Our AutoCO introduces adaptive constraint relaxation with progressive optimization strategy. The algorithm temporarily accepts infeasible solutions to expand exploration space.
+> A typical LLM -based method (EoH )
+> 0.73
+> ......
+
+Figure 2: AutoCO (blue) vs. Current LLM method (green) performance on VRPTW-fuel problems over 100 iterations. The autonomous constraint relaxation temporarily expands feasible regions, enhancing opti-mization feedback. 
+
+explores the global strategy space to identify promising directions. • We validate AutoCO’s effectiveness on three challenging COP benchmarks, showcasing its ability to tackle complex constraints, espe-cially where Gurobi struggles, achieving a 24.7% average optimality gap reduction com-pared to the SOTA LLM-based methods. 
+
+2 Related Works 
+
+2.1 Traditional Methods for Constraint Relaxation 
+
+Various constraint relaxation methods have been developed to simplify complex operations research problems. Linear relaxation transforms integer pro-grams into linear problems by relaxing integrality constraints (Clautiaux and Ljubi´ c, 2025), while La-grangian relaxation dualizes hard constraints into the objective via multipliers (Fisher, 1981). Re-cent works embed relaxation concepts directly into algorithm design: Kiessling temporarily relax con-straint boundaries to boost performance (Kiessling et al., 2024), whereas Cao gradually relax con-straints to improve search efficiency (Cao et al., 2017). However, these methods rely on expert knowledge, limiting their adaptability in different scenarios (Tseng and Bertsekas, 1987). 
+
+2.2 LLMs for Optimization Problems 
+
+LLMs are applied to optimization in diverse roles (Liu et al., 2026), serving as predictors for solution quality (Hao et al., 2024; Egami et al., 2023) or as feature extractors for domain knowledge (Wu et al., 2024). While demonstrating potential, these passive roles restrict reasoning and optimization. Research thus explores LLMs as active optimiz-ers for solution generation (Yang et al., 2024) and even as algorithm designers (Romera-Paredes et al., 2024; Liu et al., 2024; Ye et al., 2024), often inte-grated with evolutionary computation. Neverthe-less, existing LLM methods lack effective problem analysis for COPs, hampering their performance under hard constraints. 
+
+2.3 Synergistic Mechanisms of Evolutionary Algorithms and Monte Carlo Tree Search 
+
+EA and MCTS are widely used for optimization: EA explores globally via population evolution (Eiben and Smith, 2015), while MCTS structures search through trees (Browne et al., 2012). Their combination is studied in multi-objective optimiza-tion (Hong et al., 2024), game action evolution (Baier and Cowling, 2018), and space decompo-sition (Xia et al., 2022). However, these hybrids remain largely domain-specific, focusing on nar-row classes like games or continuous spaces (Bai et al., 2022), limiting universal applicability. 
+
+3 Preliminaries 
+
+3.1 Problem Definition of COPs 
+
+COPs can be formally modeled as follows: 
+
+(P) : min 
+
+x f (x)
+
+s.t. gk(x) ≤ 0, k = 1 , . . . , m hj (x) = 0 , j = 1 , . . . , p 
+
+x ∈ X ,
+
+(1) where f (x) is the objective function, gk(x) are in-equality constraints, hj (x) are equality constraints, and x is the vector of decision variables. The set 
+
+X defines the feasible region for x, encompassing both continuous and discrete representations. 
+
+3.2 Constraint Relaxation Strategy 
+
+To enable explicit exploration and optimization of constraint relaxation strategies, we formalize them as a structured search space based on prior research (Grossmann, 2002; Floudas, 1995). A constraint relaxation strategy σ is defined as a set of pairs, each specifying a constraint and its corresponding relaxation factor: 
+
+σ = {(g1, δ 1), . . . , (gm, δ m)}, (2) where gk is the k-th constraint and δk ∈ [αk, β k]
+
+its relaxation factor, with αk, βk defining the lower and upper relaxation bounds. 1077 The strategy space T is defined as the set of all possible relaxation strategies: 
+
+T = {σ1, σ 2, . . . , σ N }. (3) Applying a relaxation strategy σ to the original problem yields a relaxed problem: 
+
+(P σ) : min  
+
+> x
+
+f (x)
+
+s.t. gk(x) ≤ δk, k = 1 , . . . , m hj (x) = 0 , j = 1 , . . . , p 
+
+x ∈ X .
+
+(4) This transformation broadens the feasible region (FPσ ⊇ F P) when δk ≥ 0, facilitating initial solu-tion discovery. Crucially, different relaxation strate-gies σ ∈ T produce distinct expanded regions and search trajectories, potentially influencing initial solution efficiency and final solution quality in FP.
+
+4 Methodology 
+
+4.1 Overview 
+
+AutoCO leverages constraint relaxation strategies designed and optimized by LLMs to exhibit human-like capabilities in addressing constraint optimiza-tion problems, thereby tackling the challenges posed by increasing hard constraints in constraint optimization. As illustrated in Figure 3, AutoCO comprises three stages: problem analysis and ini-tial strategy design, optimal strategy search, and code execution. 
+
+In the first stage , our approach parses problem descriptions to generate an initial set of constraint relaxation strategies. Each strategy modifies the constraints of the COPs to temporarily enhance the probability of searching feasible solutions, thereby fostering a more extensive exploration of potential solutions. The optimal strategy search stage em-ploys a dual-layer cooperative optimization mecha-nism: the local layer utilizes EA for fine-grained op-timization, while the global layer leverages MCTS to explore the strategy space thoroughly, ensuring comprehensive search coverage. The code exe-cution stage evaluates generated algorithms on problem instances to provide feedback for further optimization (Details about this stage are provided in Appendix A). 
+
+4.2 LLM-Driven Constraint Relaxation Strategy Generation 
+
+To address the limitations of expert reliance and to incorporate the insight of constraint relaxation, we propose a three-step relaxation method that trans-forms expert-dependent constraint handling into an LLM-driven automated approach, by combining domain expertise with LLM reasoning capabilities. 
+
+Constraint Importance Analysis: Constraint re-laxation strategies grow exponentially with the in-creasing number of problem constraints. We uti-lize LLMs to parse problem text to identify all constraints G = {g1, g 2, . . . , g m} and strategically assign importance weights wi ∈ [0 , 1] to each constraint gi (with wi = 1 for critical constraints and wi = 0 for negligible ones), enabling a shift from exhaustive enumeration to intelligent, context-aware constraint analysis. 
+
+Constraint Relaxation Range Suggestion: 
+
+Based on constraint analysis, we determine adap-tive relaxation factor ranges [αi, β i] (αi ≤ 1 ≤ βi)for each constraint gi using LLMs. This range defines permissible relaxation factors that can be applied to each constraint: 1 corresponds to the original constraint boundary, αi < 1 permits constraint tightening, and βi > 1 allows controlled constraint violation. 
+
+Constraint Relaxation Strategy Generation: 
+
+The final step synthesizes insights from the weights W = {w1, . . . , w m} and ranges R =
+
+{[α1, β 1], . . . , [αm, β m]}, the LLM generates a ini-tial strategy set Σ = {σ1, . . . , σ k}, where each strategy σj = ( δj1, . . . , δ jm ) is an m-dimensional vector representing relaxation coefficients. Cru-cially, this sampling process adheres to constraint criticality structures, ensuring that the generated strategies are derived from the systematic analysis of constraint importance and relaxation potential, rather than produced randomly. 
+
+4.3 Triple Representation Scheme 
+
+Existing LLM-based optimization methods (Liu et al., 2024) use single or dual representations (al-gorithm and code) but neglect to generate and op-timize constraint relaxation strategies. As hard constraints increase, these methods fail to provide timely feedback, resulting in high computational costs and inefficiencies. To address this limitation, we design a novel triple individual representation by incorporating constraint relaxation strategies. Our comprehensive triple representation scheme Ij = ⟨σj , A j , C j ⟩
+
+explicitly integrates constraint relaxation strategy 
+
+σj , algorithmic concept Aj , and executable code 1078 1. Problem Analysis & Relaxation Strategy  3.Code execution for individual evaluation     
+
+> Initial Population
+> Select parents
+> Select prompt strategy
+> "problem_type": Safety Layout Problem ,
+> "objective ”: min layout cost ,
+> "constraints": [area_constraint,
+> overlap_constraint ,... ]
+> Generate new individuals
+> Evaluate fitness
+
+v3
+
+v0
+
+v1 v2 Select best path 
+
+> …
+
+v4 v5  
+
+> Best Path
+> "Importance analysis" :[{"area_constraint":1.0},
+> {"overlap_constraint":0.9} ,… ]Population
+
+𝐼 𝑖             
+
+> σ𝑖 :Constraint Relaxation Strategy
+> 𝐴 𝑖 :Algorithmic Concept
+> C𝑖 :Executable Code
+> Prompt Strategies ：
+> Unrecorded Strategies
+> Constraint Importance
+> Analysis
+> Constraint Relaxation
+> Suggestions
+> Constraint Relaxation
+> Strategy
+> Generation
+> "Relaxation_ suggestion ":[{"area":[0.5,0.8,...]},
+> {“overlap “:[0.5,0.8, …},… ]
+> "Relaxation _strategies" :[{"overlap":1.5},
+> {"boundary":2.0}, {“area”:1.8 },…]
+> Code
+> Solution
+> run
+> Fitness
+> Problem data
+> Data
+> Exploration Modification
+> Strategy E1 M1
+> Concept E2 M2
+> Code E3 M3
+
+v0
+
+C1 C2
+
+> Selection
+
+F1
+
+v0
+
+C1 C2
+
+> Evaluation
+> …
+> Code execution
+
+F1
+
+v0
+
+C1 C2
+
+> Expansion
+> …
+
+F1
+
+v0
+
+C1 C2 
+
+> Backpropagation
+> …
+> R
+> R
+> R
+> Three-step relaxation method
+> ⅡInitial Population
+
+2. Optimal Strategy Search via Bidirectional Coevolution Mechanism            
+
+> Constraint Relaxation Strategy Generation
+> ⅠLocal Coevolutionary Optimization via EA
+> ⅡGlobal Strategy Exploration via MCTS
+> ⅢBidirectional Information Exchange
+> F1
+> v0
+> C1
+> Strategy Tree
+> …
+> Constraint node
+> F2
+> C2
+> Relaxation factor node
+> "strategies “:[{ "C1": F1},{ "C2": F2}, …] Strategy Exploration
+> Stagnation or Periodic Trigger
+> Novel Paths with fitness
+> mark
+> Best Global Strategy
+> inject
+> The area constraint is the most important with a value of
+> 1.0 , the overlap constraint is significant at 0.9 …
+> According to the importance analysis ，the relaxation suggestions are: area can be relaxed to values like 0.5, 0.8 ….
+> According to the importance analysis ，the relaxation strategy1 : overlap can be relaxed to 1.5 , boundary to
+> 2.0,. the strategy2 …
+> Code Repair
+> fail
+> Triple Representation Scheme ：
+
+Figure 3: Architecture of AutoCO. Initially, we use LLMs to parse user-input problems and generate initial constraint relaxation strategies. Next, the bidirectional coevolution mechanism combining local EA and global MCTS explores and optimizes strategies and codes. Finally, we evaluate the generated algorithms on problem instances and provide individual fitness feedback. 
+
+Cj . This novel representation provides a system-atic mechanism for strategy-code coevolution, tran-scending traditional boundaries between constraint handling, design, and implementation. By facilitat-ing synchronized evolution across different abstrac-tion levels, our approach enables rapid optimization and verification of relaxation strategies for COPs. An example scheme can be found in Appendix A. 
+
+4.4 Optimal Strategy Search via Bidirectional Coevolution Mechanism 
+
+To address complexities from hard constraints, par-ticularly the rapid identification of effective strate-gies amid fragmented solution spaces and the ex-tensive decision space of relaxation strategies, we devise a bidirectional coevolution mechanism com-bining a local EA with a global MCTS: 
+
+Mexchange = Bidirec_Update (TMCTS , PEA ), (5) where Mexchange represents the bidirectional ex-change mechanism, TMCTS is the MCTS search tree, and PEA is the EA population. The mechanism leverages MCTS’s global per-spective to help EA escape local optima, enabling effective navigation and optimization across di-verse solution regions. Furthermore, it enhances resource efficiency by integrating EA’s exploration results into MCTS. It comprises three key compo-nents: (1) local coevolutionary optimization, (2) global strategy exploration, and (3) bidirectional information exchange. 
+
+Local Coevolutionary Optimization via EA 
+
+The EA performs local evolutionary refinement to explore promising solutions. Parent selection uses tournament-based competition to balance selection pressure and diversity: 
+
+Pt+1 
+
+EA = Evolution (PtEA ), (6) where Pt+1 
+
+EA represents the next-generation popula-tion. A key innovation is LLM-guided coordinated evolution, modifying constraint relaxation strate-gies, algorithmic concepts, and executable code while preserving coherence. Specialized prompts generate offspring that maintain logical consistency across the three representation levels. Details of these prompts are in Appendix B. 
+
+Global Strategy Exploration via MCTS The MCTS component explores the constraint relax-ation strategy space T for global guidance. To improve the recording and searching of these strate-gies, we modify the structure to alternate between constraint nodes D and relaxation factor nodes R,where each complete path defines a strategy σ.We introduce corresponding UCT calculation formulas for these node types to balance explo-ration and exploitation during the selection phase: UCT (n)= 
+
+
+
+Q(n)
+
+N (n) + k
+
+√ ln N (F )
+
+N (n) , n = DiQ(n)
+
+N (n) + k
+
+√ ln N (Di)
+
+N (n) wi,n = Rij 
+
+(7) where Q is the cumulative rewards for nodes; N is visit counts; F is the parent node; k is the explo-ration constant balancing exploration and exploita-tion; Di is the i-th constraint node; and Rij is the 
+
+j-th relaxation factor of the i-th constraint. 1079 During the evaluation phase, we use LLM to gen-erate executable code Cstrategy for new strategies, with the fitness from code execution serving as the reward R for backpropagation to update node val-ues. Upon search completion, MCTS outputs the optimal strategy σ∗ to guide the local EA. 
+
+Bidirectional Information Exchange The bidi-rectional exchange mechanism integrates EA and MCTS through strategic information transfer, en-hancing computational efficiency and aiding in overcoming local optima. 
+
+Iexchange =
+
+{ SMCTS → P EA 
+
+IEA → T MCTS 
+
+, (8) where S MCTS represents promising strategies from MCTS, I EA denotes feasible solutions from EA. (1) EA →MCTS: Continuous feedback allows each feasible solution produced by EA to update MCTS tree statistics with evaluated constraint-relaxation strategies. This integration diminishes the computational burden on MCTS by utilizing pre-assessed strategies, thus avoiding redundant exploration of known areas. (2) MCTS →EA: The injection triggers under two conditions: upon detecting EA stagnation (via fitness-based monitoring) or periodically, to sus-tain global search momentum. The innovation lies in conveying MCTS-derived promising strategies, steering EA toward unexplored areas with high potential. MCTS offers a global perspective by pinpointing strategy combinations that EA’s local search may miss, fostering escape from local op-tima through informed population diversification. 
+
+5 Experiment 
+
+5.1 Experimental Settings Problems and datasets To validate AutoCO’s generalizability, we select three COPs that demon-strate different constraint characteristics: Vehicle Routing Problem with Time Windows (VRPTW), VRPTW with fuel (VRPTW-Fuel), and Safety Fa-cility Layout (SFL). Dataset: VRPTW and VRPTW-fuel (Solomon benchmark: S(25)/M(50)/L(100) customers (Solomon, 1987)), SFL (MINLPLib: 4/8/5(Dual) with safety regions (Bonami et al., 2008)). 
+
+Baseline Methods Baselines include exact solver (Gurobi), reinforcement learning (DeepACO (Ye et al., 2023; Berto et al., 2025)), metaheuristics (SA (Kirkpatrick et al., 1983), GA (Whitley, 1994), 
+
+Table 1: Key Challenging Constraints in COPs                                       
+
+> Problem Constraint Description SFL Non-overlap:
+> (xi+wi≤xj)∨
+> (xj+wj≤xi)∨ · · ·
+> Nonlinear geometric ex-clusion Safety inclusion:
+> (xi, y i, w i, h i)⊆
+> circle a
+> Coupling of continuous placement with discrete regions VRPTW Time windows: tj≥
+> ti+si+dij −M(1 −
+> yij )
+> Early decisions constrain later feasibility VRPTW-Fuel Fuel: Fr=∑dij (cd+cℓLi)≤
+> Fcap
+> Resource accumulation coupled with load and dis-tance
+
+PSO (Kennedy and Eberhart, 1995), MA (Moscato, 1989), DE (Mohamed et al., 2019)), and LLM methods (FunSearch (Romera-Paredes et al., 2024), EoH (Liu et al., 2024), ReEvo (Ye et al., 2024)) . 
+
+Evaluation Metrics Optimality gap γ = 
+
+> |fbest −fopt ||fopt |
+
+, runtime ( Te2e), feasible solution time (Ttf f ), and stagnation time ( Tstag ). 
+
+Implementation Settings DeepSeek-R1, pop-ulation 45, 2-hour limit, 100 runs on Intel i5-13400F/RTX 4060 Ti. Details of problem models, datasets, baseline methods, and implementation settings are provided in Appendix C. 
+
+5.2 Comprehensive Performance Comparison 
+
+To validate AutoCO’s generalizability and effec-tiveness in solving COPs, we adopt the optimality gap as the primary evaluation metric, comparing AutoCO and baseline methods against state-of-the-art (SOTA) solutions as shown in Table 2. • Comparison with Traditional Methods :Our method demonstrates competitive perfor-mance across various optimization domains. Specifically, in the VRPTW domain, AutoCO achieves optimality gaps of 0.53 (S), 0.45 (M), and 0.42 (L) on average. While slightly behind traditional methods in the first two instances, AutoCO shows improvement in larger problem scales, even surpassing meth-ods like MA (0.50) and SA (0.47). Regarding VRPTW-fuel problem, which introduces addi-tional constraints related to fuel consumption, AutoCO maintains optimality gaps of 0.31 (S), 0.00 (M), and 0.00 (L) while other methods such as DeepACO struggles, showing gaps of 1.12 (S) and 0.97 (M). Notably, Gurobi fails to find feasible solutions for larger instances 1080 Table 2: Performance comparisons with the SOTA baselines (reflected by optimality gap with SOTA, ↓).                                                                                                                   
+
+> Type Method VRPTW VRPTW-fuel SFL SMLSML485(Dual)
+> Exact Solver Gurobi 0.00 0.00 0.00 0.00 --0.00 0.00 0.00
+> Reinforcement Learning DeepACO 0.29(0 .04) 0.46(0 .01) 0.50(0 .09) 1.12(0 .08) 0.97(0 .09) 0.38(0 .14) 0.04(0 .02) 0.19(0 .03) 0.18(0 .02)
+> Metaheuristic MA 0.45(0 .11) 0.49(0 .10) 0.50(0 .50) 0.46(0 .08) 0.54(0 .10) -0.02(0 .03) 0.15(0 .03) 0.16(0 .02)
+> DE 0.37(0 .15) 0.40(0 .12) 0.57(0 .10) 0.46(0 .09) 0.89(0 .10) 0.60(0 .06) 0.03(0 .03) 0.14(0 .02) 0.14(0 .02)
+> SA 0.37(0 .14) 0.36(0 .13) 0.47(0 .14) 0.74(0 .09) 0.84(0 .07) 0.72(0 .60) 0.05(0 .03) 0.08(0 .03) 0.08(0 .03)
+> GA 0.43(0 .13) 0.44(0 .06) 0.55(0 .14) 0.91(0 .04) 0.81(0 .09) 0.33(0 .15) 0.05(0 .03) 0.16(0 .03) 0.16(0 .03)
+> PSO 0.42(0 .14) 0.44(0 .08) 0.47(0 .03) 0.48(0 .04) 0.82(0 .11) 0.31(0 .07) 0.09(0 .02) 0.11(0 .02) 0.11(0 .03)
+> LLM-based FunSearch 0.50(0 .22) 0.80(0 .36) 0.70(0 .26) 1.30(0 .85) 0.45(0 .09) -0.28(0 .06) 0.27(0 .03) 0.28(0 .05)
+> EoH 0.36(0 .16) 0.63(0 .34) 0.52(0 .30) 0.81(0 .46) 0.20(0 .22) -0.180 .05 0.24(0 .03) 0.24(0 .07)
+> ReEvo 0.36(0 .18) 0.33(0 .09) 0.50(0 .27) 0.36(0 .25) 0.20(0 .26) -0.13(0 .03) 0.25(0 .03) 0.26(0 .04)
+> Ours AutoCO 0.53(0 .17) 0.45(0 .12) 0.42(0 .15) 0.31(0 .07) 0.00 (0 .08) 0.00 (0 .02) 0.02(0 .04) 0.17(0 .03) 0.15(0 .02)
+
+Note: The performance on three problems is reported as mean(std). Bold values represent the optimal solution in each column, while underlined values indicate the second-best solution. ’-’ denotes no feasible solution found within the limited time. A lower optimality gap indicates superior performance, reflecting the method’s ability to generate high-quality solutions closer to the optimal benchmark. 
+
+within the designated time, highlighting Au-toCO’s robustness in handling increased com-plexity and its capability to generate solutions without extensive manual fine-tuning. • Comparison with LLM-based Methods :Compared to existing LLM-based meth-ods, AutoCO demonstrates substantial ad-vantages. In the VRPTW-fuel domain, Au-toCO achieves optimality gaps of 0.31 (S) and 0.00 (M), significantly outperforming ReEvo’s gaps of 0.36 (S) and 0.20 (M) respec-tively. Other LLM methods like FunSearch show a dramatic decline in performance under increased constraints, with a gap of 1.30 (S). Similar tendencies can be observed in other two constrained optimization problems. Our results indicate an average reduction in the optimality gap across problem sets, confirm-ing AutoCO’s consistent generation of high-quality solutions as problem complexity esca-lates, thereby validating the effectiveness of our approach in solving challenging COPs. Our comprehensive analysis reveals that AutoCO significantly advances LLM capabilities in solv-ing COPs. This performance demonstrates Au-toCO’s potential to autonomously design strate-gies, reducing manual engineering and advancing end-to-end automation in COPs. More importantly, AutoCO provides effective initial feasible solutions, assisting traditional methods or exact solvers to search more efficiently for optimal solutions, avoid-ing waste and stagnation in infeasible regions. 
+
+Figure 4: Time distribution of AutoCO components. 
+
+5.3 Time Efficiency Analysis 
+
+We assess AutoCO’s computational performance on VRPTW through three metrics: end-to-end run-time ( Te2e), time to first feasible solution ( Ttf f ), and performance stagnation time ( Tstag ). As shown in Table 3, our temporal analysis reveals nuances in the computational characteristics of our approach compared to three baseline methods. Figure 4 pro-vides a breakdown of AutoCO’s internal time dis-tribution across different stages. • Efficient Solution Generation and Stagna-tion Mitigation : AutoCO demonstrates im-pressive efficiency in generating initial feasi-ble solutions. As indicated in Table 3, Au-toCO achieves Ttf f values as low as 6.39 min-utes for small instances and 11.65 minutes for large instances. This indicates that it gen-erates feasible solutions significantly faster than baseline methods, with FunSearch rang-ing from 19.73 to 40.29 minutes, EoH rang-ing from 8.67 to 14.23 minutes, and ReEvo achieving 12.73 minutes for small instances and 12.54 minutes for large instances. Further-more, AutoCO reduces Tstag to a minimum of 1081 Table 3: Temporal performance characterization. (min-utes)                                       
+
+> Method Te2e↓Ttf f ↓TStag ↓
+> SMLSMLSML
+> FunSearch 53.03 49.54 137.93 40.29 31.73 19.73 8.71 10.27 28.49 EoH 35.35 32.11 94.64 14.21 8.67 14.23 14.79 21.33 19.53 ReEvo 30.21 29.93 86.97 12.73 7.02 12.54 9.27 19.98 24.46 AutoCO 65.07 104.11 108.87 6.39 9.31 11.65 25.53 5.99 11.77
+
+5.99 minutes, compared to 8.71 to 28.49 min-utes for FunSearch, 19.53 minutes for EoH, and 9.27 to 24.46 minutes for ReEvo, enhanc-ing overall runtime efficiency. • Computational Time Distribution : Figure 4 illustrates a comprehensive breakdown of Au-toCO’s time allocation. The pie chart demon-strates that our computational effort is dis-tributed efficiently among global exploration, solution generation, constraint verification, and evolutionary refinement, instead of be-ing concentrated in any single stage. This balanced distribution underscores AutoCO’s holistic optimization strategy. Although AutoCO’s end-to-end runtime appears longer (ranging from 65.07 to 108.87 minutes), it is crucial to note that the structured time alloca-tion allows for efficient feasible solution generation while managing low performance stagnation. This results in a more comprehensive exploration of the solution space. Compared to expert manual design, this runtime remains competitive and satisfactory. 
+
+5.4 Ablation Study 
+
+We quantify the contributions of each component through the optimality gap increment ( ∆gap) rel-ative to the complete AutoCO method. By se-lectively removing the constraint relaxation mod-ule (w/o σ), three-step generation strategy (w/o 3-steps), MCTS mechanism (w/o MCTS), and bidi-rectional information exchange(w/o Bidirectional), we systematically evaluate the individual contribu-tions of each module in the AutoCO method. As shown in Table 4, the ablation experiments reveal the critical roles of these components: the con-straint relaxation module causes an average perfor-mance degradation of +21.55%, indicating its cru-cial role in strategy formulation; the three-step gen-eration strategy leads to a +14.10% performance decline, demonstrating the importance of struc-tured generation; the MCTS mechanism shows a +17.46% performance drop, highlighting the signifi-cance of global search in avoiding local optima; the bidirectional coevolution mechanism results in a +23.73% performance degradation, showcasing its substantial contribution to overall optimization. The ablation experiments substantiate the meticulously designed modules and elucidate their synergistic optimization capabilities within AutoCO. 
+
+Table 4: Ablation results of different variants. (∆gap% ↓)                         
+
+> Variant VRPTW VRPTW-fuel SFL Avg. Full AutoCO 0.0 0.0 0.0 0.0
+> w/o σ+23.01 +24.98 +16.67 +21.55 w/o 3-steps +14.75 +15.81 +11.74 +14.10 w/o MCTS +15.42 +23.34 +13.62 +17.46 w/o Bidirectional +25.07 +25.97 +20.15 +23.73
+
+5.5 Relaxation Strategy Effectiveness Validation 
+
+To validate whether AutoCO’s autonomous relax-ation strategies outperform expert-designed alter-natives, we apply a base search method across dif-ferent feasible regions on SFL-8 and SFL-5(Dual), examining three relaxation strategies: (1) Origi-nal Constraints (Unrelaxed), (2) AutoCO-Designed Strategy σ∗, and (3) Expert-Designed Strategy (de-tails in Appendix C), and assess their success rates under varying computational budgets. Figure 5 demonstrates performance across com-putational budgets. On SFL-8, original constraints plateau at 52%, while AutoCO strategy rapidly progresses from 0% to 80% success rate. Au-toCO outperforms expert strategy, showing 1.1 times improvement at 2500 iterations. On SFL-5(Dual), which contains two safety regions, mak-ing the problem more challenging, performance gains are more modest, with AutoCO reaching 53% success. AutoCO exhibits the most favor-able ascending trend among all strategies, confirm-ing that LLM-generated relaxation strategies effec-tively transform constraint navigation by construct-ing more accessible feasible regions than both rigid formulations and static expert designs. 
+
+5.6 Optimization Dynamics Analysis of LLM-based methods 
+
+To systematically analyze the fundamental differ-ences in optimization behaviors between traditional LLM-based methods and our AutoCO method, we conduct a comparative analysis across three SFL 1082 500 1000 1500 2000 2500       
+
+> Computational Budget
+> 020 40 60 80 100
+> +28pp 80%
+> (a) SFL-8-Success Rate (%) ↑
+> 500 1000 1500 2000 2500
+> Computational Budget
+> 020 40 60 80 100
+> +25pp 53%
+> (b) SFL-5(Dual)-Success Rate (%) ↑
+> No Relaxation AutoCO-Designed Expert-Designed
+
+Figure 5: Effectiveness of various constraint relaxation strategies under different computational budgets on SFL8 and SFL-5 (Dual). 10 20 30 40 −16 −15 −14 −13 −12 −11 −10 −9 −8 −7                
+
+> Fitness
+> £10 3(a)
+> EoH FunSearch ReEvo Best fitness
+> 10 20 30 40 −16 −15 −14 −13 −12 −11 −10 −9 −8 −7
+> Fitness
+> £10 3(b)
+> Per-gen best Global best MCTS inject Best fitness
+> 10 20 30 40 −10 −9 −8 −7 −6 −5
+> Fitness
+> £10 4(c)
+> EoH FunSearch ReEvo Best fitness
+> 10 20 30 40 −10 −9 −8 −7 −6 −5
+> Fitness
+> £10 4(d)
+> Per-gen best Global best MCTS inject Best fitness
+> 10 20 30 40
+> Iterations
+> −7 −6 −5 −4 −3
+> Fitness
+> £10 4(e)
+> EoH FunSearch ReEvo Best fitness
+> 10 20 30 40
+> Iterations
+> −7 −6 −5 −4 −3
+> Fitness
+> £10 4(f)
+> Per-gen best Global best MCTS inject Best fitness
+
+Baseline Method-Fitness ↑ AutoCO-Fitness↑ SFL-4 SFL-8 SFL-5(Dual) 
+
+Figure 6: Convergence dynamics and fitness analysis of LLM-based methods across SFL datasets: current LLM-based methods (subplots a, c, e) and AutoCO (subplots b, d, f). 
+
+datasets using Figure 6, comparing baseline meth-ods and AutoCO convergence dynamics. Current LLM-based methods exhibit clear stag-nation: After initial solutions, they focus exclu-sively on local optimization. In SFL-4, FunSearch converges at generation 5, while ReEvo and EoH attempt performance improvements by fine-tuning solutions between generations 35-40, remaining trapped in limited local search spaces. AutoCO reveals distinctly different dynamics. Despite fitness stagnation, it maintains active search through bidirectional exchange and MCTS global strategies. As shown in subfigures b and d, AutoCO endures prolonged stagnation but con-tinuously probes the solution space by injecting global information, ultimately breaking through initial constraints and achieving significant fitness gains. Empirical results clearly validate AutoCO’s key advantages: when traditional methods permanently stagnate after initial convergence, AutoCO system-atically escapes local optima by injecting global strategies from MCTS, temporarily accepting sub-optimal solutions to accumulate global information. 
+
+Although the experiment, constrained by time lim-itations, is set to 45 generations, the convergence plot demonstrates that AutoCO continues global exploration in later stages and achieves effective improvements, suggesting that with sufficient com-putational resources, AutoCO could potentially col-lect more comprehensive global information and achieve further performance enhancements. 
+
+6 Conclusion and Future Work 
+
+This paper introduces AutoCO, an end-to-end method for automated constraint optimization for COPs that transforms LLMs from passive valida-tors into proactive strategy architects. Our key in-novation lies in the systematic integration of three complementary components: (1) a structured three-step constraint relaxation method that codifies ex-pert knowledge into LLM-interpretable principles, (2) a novel triple-representation scheme synchro-nizing constraint strategies, algorithmic concepts, and executable code across abstraction levels, and (3) a bidirectional coevolution mechanism that syn-ergistically combines EA’s local refinement with MCTS’s global exploration to navigate solution spaces. Extensive experiments on VRPTW, SFL, and VRPTW-fuel verify AutoCO’s effectiveness and generalizability. While AutoCO represents a significant advance in autonomous optimization of COPs, future research could focus on: (1) ex-tending multi-objective optimization with more so-phisticated constraint coupling strategies, and (2) developing distributed coevolution frameworks for scalable optimization processes. 1083 Limitations 
+
+This work primarily focuses on solving COPs through LLM-driven constraint relaxation and bidi-rectional coevolution. While the approach effec-tively handles complex constraints in domains like vehicle routing and facility layout, it overlooks sev-eral important aspects that warrant consideration. First, the methodological scope, though vali-dated on three challenging benchmarks, remains limited to static optimization problems with deter-ministic constraints, leaving stochastic and fully dynamic optimization environments unexplored. Additionally, as problem dimensionality increases, the strategy space grows exponentially, potentially affecting the scalability of the coevolution mecha-nism. Second, while AutoCO demonstrates efficiency in generating initial feasible solutions, the compu-tational overhead from maintaining multiple syn-chronized components, including LLM reasoning, evolutionary algorithms, and Monte Carlo tree search—results in longer end-to-end runtime com-pared to some baseline methods. This quality-efficiency trade-off may limit applicability in sce-narios requiring real-time decision-making. Furthermore, the method’s performance is in-fluenced by the reasoning and coding capabilities of LLMs. While the triple-representation scheme provides structured guidance for constraint relax-ation and code generation, the effectiveness of the initial strategy design and evolutionary refinement may vary with the LLM’s analytical consistency, particularly during the early exploration stages. Finally, while the empirical results strongly sup-port the effectiveness of the bidirectional coevolu-tion mechanism, its theoretical convergence prop-erties remain to be fully established. 
+
+Ethics Statement 
+
+The benchmarks and problem instances used in this work are all publicly available, ensuring no ethi-cal concerns regarding data provenance. Beyond data sources, this work also considers the broader ethical implications of the AutoCO method. First, regarding algorithmic robustness and reli-ability risks. As noted in the Limitations section, the method’s performance is influenced by the rea-soning capabilities of LLMs. Inconsistent analyt-ical depth or programming proficiency in LLMs could affect the stability of constraint relaxation strategy generation, particularly during early explo-ration phases. In safety-critical applications such as urban logistics or facility planning, suboptimal solutions generated due to such instabilities could lead to operational inefficiencies or resource misal-location. This risk necessitates maintaining human oversight when deploying such automated systems in real-world scenarios. Second, regarding potential misuse and appli-cability boundaries. The method’s capability to automatically design optimization strategies for complex constraint problems raises considerations about its appropriate application domains. While developed for beneficial purposes in logistics and planning, similar techniques could potentially be applied to contexts with significant societal implica-tions, such as resource allocation in critical infras-tructure or strategic planning in sensitive domains. Domain-specific risk assessments and ethical re-views are strongly recommended before deploying such automated optimization systems, particularly in high-stakes environments where suboptimal de-cisions could have substantial consequences. Finally, regarding computational resource and environmental considerations. The bidirectional co-evolution mechanism achieves strong performance at the cost of substantial computational resources due to its multiple synchronized components. To responsibly manage this demand, strict time limits are enforced during experiments, and algorithmic optimizations are implemented to maximize search efficiency within these constraints. While compu-tationally intensive, this investment is justified by the framework’s capability to automate complex optimization design tasks that traditionally require extensive human expertise. 
+
+Acknowledgments 
+
+This work is supported by the National Natural Science Foundation of China 72501291 and Youth Independent Innovation Fundation of NUDT ZK-2023-31. 
+
+References    
+
+> Fangyun Bai, Xinglong Ju, Shouyi Wang, Wenyong Zhou, and Feng Liu. 2022. Wind farm layout opti-mization using adaptive evolutionary algorithm with Monte Carlo Tree Search reinforcement learning. En-ergy Conversion and Management , 252:115047. Hendrik Baier and Peter I. Cowling. 2018. Evolutionary mcts for multi-action adversarial games. In 2018
+
+1084 IEEE Conference on Computational Intelligence and Games (CIG) , pages 1–8. Federico Berto, Chuanbo Hua, Junyoung Park, Lau-rin Luttmann, Yining Ma, Fanchen Bu, Jiarui Wang, Haoran Ye, Minsu Kim, Sanghyeok Choi, Nayeli Gast Zepeda, André Hottung, Jianan Zhou, Jieyi Bi, Yu Hu, Fei Liu, Hyeonah Kim, Jiwoo Son, Haeyeon Kim, and 14 others. 2025. Rl4co: An ex-tensive reinforcement learning for combinatorial op-timization benchmark. In Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2 , KDD ’25, page 5278–5289. ACM. Pierre Bonami, Lorenz T. Biegler, Andrew R. Conn, Gérard Cornuéjols, Ignacio E. Grossmann, Carl D. Laird, Jon Lee, Andrea Lodi, François Margot, Nico-las Sawaya, and Andreas Wächter. 2008. An algorith-mic framework for convex mixed integer nonlinear programs. Discrete Optimization , 5(2):186–204. Cameron B. Browne, Edward Powley, Daniel White-house, Simon M. Lucas, Peter I. Cowling, Philipp Rohlfshagen, Stephen Tavener, Diego Perez, Spyri-don Samothrakis, and Simon Colton. 2012. A survey of monte carlo tree search methods. IEEE Transac-tions on Computational Intelligence and AI in Games ,4(1):1–43. Pan Cao, John Thompson, and H. Vincent Poor. 2017. A sequential constraint relaxation algorithm for rank-one constrained problems. In 2017 25th European Signal Processing Conference (EUSIPCO) , pages 1060–1064. François Clautiaux and Ivana Ljubi´ c. 2025. Last fifty years of integer linear programming: A focus on recent practical advances. European Journal of Op-erational Research , 324(3):707–731. Naoki Egami, Musashi Hinck, Brandon Stewart, and Hanying Wei. 2023. Using imperfect surrogates for downstream inference: Design-based supervised learning for social science applications of large lan-guage models. In Advances in Neural Information Processing Systems , volume 36, pages 68589–68601. Curran Associates, Inc. A. E. Eiben and J. E. Smith. 2015. Introduction to Evolutionary Computing , 2 edition. Natural Com-puting Series. Springer Berlin, Heidelberg. 55 b/w illustrations, 12 illustrations in colour. Marshall L. Fisher. 1981. The lagrangian relaxation method for solving integer programming problems. 
+
+Management Science , 27(1):1–18. Christodoulos A Floudas. 1995. Nonlinear and Mixed-Integer Optimization: Fundamentals and Applica-tions . Oxford University Press. Ignacio E Grossmann. 2002. Review of nonlinear mixed-integer and disjunctive programming tech-niques. Optimization and Engineering , 3:227–252. Hao Hao, Xiaoqun Zhang, and Aimin Zhou. 2024. Large language models as surrogate models in evolu-tionary algorithms: A preliminary study. Swarm and Evolutionary Computation , 91:101741. Haokai Hong, Min Jiang, and Gary G. Yen. 2024. Im-proving performance insensitivity of large-scale mul-tiobjective optimization via monte carlo tree search. 
+
+IEEE Transactions on Cybernetics , 54(3):1816– 1827. J. Kennedy and R. Eberhart. 1995. Particle swarm opti-mization. In Proceedings of ICNN’95 - International Conference on Neural Networks , volume 4, pages 1942–1948 vol.4. David Kiessling, Charlie Vanaret, Alejandro Astudillo, Wilm Decré, and Jan Swevers. 2024. An almost feasible sequential linear programming algorithm. In 
+
+2024 European Control Conference (ECC) , pages 2328–2335. IEEE. S. Kirkpatrick, C. D. Gelatt, and M. P. Vecchi. 1983. Optimization by simulated annealing. Science ,220(4598):671–680. Fei Liu, Xi Lin, Shunyu Yao, Zhenkun Wang, Xialiang Tong, Mingxuan Yuan, and Qingfu Zhang. 2025. Large language model for multiobjective evolution-ary optimization. In International Conference on Evolutionary Multi-Criterion Optimization , pages 178–191. Springer. Fei Liu, Xialiang Tong, Mingxuan Yuan, Xi Lin, Fu Luo, Zhenkun Wang, Zhichao Lu, and Qingfu Zhang. 2024. Evolution of heuristics: Towards efficient au-tomatic algorithm design using large language model. 
+
+Preprint , arXiv:2401.02051. Fei Liu, Yiming Yao, Ping Guo, Zhiyuan Yang, Xi Lin, Zhe Zhao, Xialiang Tong, Kun Mao, Zhichao Lu, Zhenkun Wang, Mingxuan Yuan, and Qingfu Zhang. 2026. A systematic survey on large language mod-els for algorithm design. ACM Computing Surveys ,58(8):1–32. Ali W. Mohamed, Anas A. Hadi, and Kamal M. Jambi. 2019. Novel mutation strategy for enhancing shade and lshade algorithms for global numerical opti-mization. Swarm and Evolutionary Computation ,50:100455. Mahdi Mokhtarzadeh, Reza Tavakkoli-Moghaddam, Chefi Triki, and Yaser Rahimi. 2021. A hybrid of clustering and meta-heuristic algorithms to solve a p-mobile hub location–allocation problem with the depreciation cost of hub facilities. Engineering Ap-plications of Artificial Intelligence , 98:104121. Pablo Moscato. 1989. On evolution, search, optimiza-tion, genetic algorithms and martial arts: Towards memetic algorithms. Technical Report C3P 826, Cal-tech Concurrent Computation Program 158-79, Cali-fornia Institute of Technology, Pasadena, CA. 1085 Christos H. Papadimitriou and Kenneth Steiglitz. 1982. 
+
+Combinatorial Optimization: Algorithms and Com-plexity . Prentice-Hall, Inc., Upper Saddle River, NJ, USA. David Pisinger and Stefan Ropke. 2019. Large neigh-borhood search. In Michel Gendreau and Jean-Yves Potvin, editors, Handbook of Metaheuristics , pages 99–127. Springer International Publishing, Cham. Bernardino Romera-Paredes, Mohammadamin Barekatain, Alexander Novikov, Matej Balog, M. Pawan Kumar, Emilien Dupont, Francisco J. R. Ruiz, Jordan S. Ellenberg, Pengming Wang, Omar Fawzi, Pushmeet Kohli, and Alhussein Fawzi. 2024. Mathematical discoveries from program search with large language models. 625(7995):468–475. Marius M. Solomon. 1987. Algorithms for the vehicle routing and scheduling problems with time window constraints. Operations Research , 35(2):254–265. Rainer Storn. 1999. System design by constraint adap-tation and differential evolution. IEEE Transactions on Evolutionary Computation , 3(1):22–34. Paul Tseng and Dimitri P. Bertsekas. 1987. Relaxation methods for linear programs. Mathematics of Opera-tions Research , 12(4):569–596. Nguyen Van Thieu and Seyedali Mirjalili. 2023. Mealpy: An open-source library for latest meta-heuristic algorithms in python. Journal of Systems Architecture , 139:102871. Darrell Whitley. 1994. A genetic algorithm tutorial. 
+
+Statistics and Computing , 4(2):65–85. Xingyu Wu, Yan Zhong, Jibin Wu, Bingbing Jiang, and Kay Chen Tan. 2024. Large language model-enhanced algorithm selection: Towards comprehen-sive algorithm representation. In Proceedings of the 33rd International Joint Conference on Artificial In-telligence, IJCAI 2024 , pages 5235–5244. Hai Xia, Changhe Li, Sanyou Zeng, Qingshan Tan, Junchen Wang, and Shengxiang Yang. 2022. Learn-ing to search promising regions by a monte-carlo tree model. In 2022 IEEE Congress on Evolutionary Computation (CEC) , pages 01–08. Chengrun Yang, Xuezhi Wang, Yifeng Lu, Hanxiao Liu, Quoc V Le, Denny Zhou, and Xinyun Chen. 2024. Large language models as optimizers. In 
+
+The Twelfth International Conference on Learning Representations .Canqi Yao, Shibo Chen, and Zaiyue Yang. 2024. Coop-erative operation of the fleet operator and incentive-aware customers in an on-demand delivery system: A bilevel approach. IEEE Internet of Things Journal ,11(6):9668–9680. Haoran Ye, Jiarui Wang, Zhiguang Cao, Federico Berto, Chuanbo Hua, Haeyeon Kim, Jinkyoo Park, and Guo-jie Song. 2024. Reevo: Large language models as hyper-heuristics with reflective evolution. In Ad-vances in Neural Information Processing Systems ,volume 37, pages 43571–43608. Curran Associates, Inc. Haoran Ye, Jiarui Wang, Zhiguang Cao, Helan Liang, and Yong Li. 2023. Deepaco: Neural-enhanced ant systems for combinatorial optimization. In Ad-vances in Neural Information Processing Systems ,volume 36, pages 43706–43728. Curran Associates, Inc. 1086 A Details of The AutoCO Approach 
+
+In this part, we elaborate on the details of our proposed AotoCO ( Auto mated Constraint 
+
+Optimization via LLM-driven bidirectional coevo-lution) as well as experimental results. 
+
+A.1 Triple Representation Scheme 
+
+In Constraint Optimization Problems (COPs), con-straint handling is a critical and complex challenge. Existing LLM-based optimization methods (Liu et al., 2024) are often limited to dual representa-tions of algorithms and code, struggling to effec-tively generate feasible solutions. Multi -Drone Delivery Individual                      
+
+> 1.drone_count_constraint: 5.0
+> 2.battery _capacity_ constraint : 2.0
+> 3.payload _limit_ constraint : 1.5
+> The algorithm design employs a sophisticated approach by introducing a dynamic weight scoring mechanism that
+> comprehensively considers distance, profit, and constraint risk, with weights adaptively adjusted according to
+> iteration progress. This is achieved through a constraint -aware probabilistic selection strategy that evaluates the
+> risk of constraint violations to modulate selection probabilities, while simultaneously implementing an iterative
+> evolution -based relaxation factor adjustment that dynamically modifies the degree of constraint relaxation based
+> on current constraint violation status and solution progress.
+> def select_next_point (self, current_drone_id =None, available_points =None, current_position =None,
+> current_load =None, solution=None, violations=None, iteration=None, max_iterations =None):
+> relaxation_factors = {
+> 'drone_count_constraint ': self.get_relaxation_factor (' drone_count_constraint ', 5.0 ),
+> 'battery_constraint ': self.get_relaxation_factor (' battery_constraint ', 2.0),
+> 'payload_constraint ': self.get_relaxation_factor (' payload_constraint ', 1.5) }
+> if iteration is not None and max_iterations is not None:
+> progress = iteration / max_iterations
+> distance_weight = 0.6 * (1 -0.5 * progress)
+> profit_weight = 0.3 + 0.4 * progress
+> constraint_weight = 0.1 + 0.3 * progress
+> else:
+> distance_weight = 0.5
+> profit_weight = 0.3
+> constraint_weight = 0.2
+
+<Constraint Relaxation Strategy > 
+
+<Algorithmic Concept> 
+
+<Executable Code>             
+
+> if iteration is not None and max_iterations is not None:
+> progress = iteration / max_iterations
+> for constraint in relaxation_factors :
+> violation_degree =violations.get (constraint, 0) / (iteration + 1)
+> adaptive_factor = 1.0 -(progress ** 0.7) * (1 + violation_degree )
+> relaxation_factors [constraint] = max(1.0, relaxation_factors [constraint] *
+> adaptive_factor )
+
+…… 
+
+…… 
+
+Figure 7: The triple individual representation example for the multi-drone delivery problem. 
+
+To overcome this limitation, we propose an innovative triple individual representation Ij =
+
+⟨σj , A j , C j ⟩, focusing on systematically integrat-ing constraint relaxation strategies. This represen-tation, through explicitly introducing the constraint relaxation strategy σj , and containing algorithmic concept Aj and executable code Cj , provides sup-port for collaborative evolution in subsequent opti-mization stages. Figure 7 illustrates a triple individual representa-tion example for the multi-drone delivery problem. As shown, the individual Ij explicitly integrates three key components: 1) Constraint Relaxation Strategy ( σj ): Contains LLM-analyzed relaxation factors for critical constraints in multi-drone de-livery (e.g., drone count: 5.0, battery: 2.0). 2) Algorithmic Concept ( Aj ): Describes the algo-rithmic implementation logic designed by LLM for constraint relaxation strategies, such as a dy-Algorithm 1: Bidirectional Coevolution Mecha-nism 
+
+Input : Initial population P0 = {I i =
+
+⟨σi, A i, C i⟩} , problem instances Π, MCTS tree T
+
+Output : I∗
+
+1: while not converged do 
+
+2: // Local Evolutionary Optimization 
+
+3: Poff ← ∅ 
+
+4: for Ip ∈ Select (Pt) do ▷ Roulette: 
+
+P (i) ∝ f (Ii)
+
+5: Ic ← LLM_Generate (Ip) ▷ ⟨σ, A, C ⟩
+
+6: f (Ic) ← Eval (Cc, Π) ▷ Code Execution 
+
+7: Poff ← Poff ∪ {I c}
+
+8: end for 
+
+9: Pt ← Top N (Pt ∪ Poff ) ▷ Elitism 
+
+10: // Global MCTS Exploration 
+
+11: for k = 1 to K do 
+
+12: v ← TreePolicy (T ) ▷ UCT Selection 
+
+13: R ← f (LLM_Generate (v) ▷ Simulate 
+
+σ
+
+14: Backup (v, R ) ▷ Q v += R, N v += 1 
+
+15: end for 
+
+16: σ∗ ← arg max σ Qleaf /N leaf 
+
+17: // Bidirectional Transfer 
+
+18: for I ∈ Pt do 
+
+19: UpdateTree (T , σ I , f (I)) ▷
+
+Local →Global 
+
+20: end for 
+
+21: if Stagnant (Pt) then ▷ S total < θ 
+
+22: Pt ← Pt ∪ ⟨ σ∗, A, C ⟩ ▷
+
+Global →Local 
+
+23: end if 
+
+24: end while 
+
+25: return arg max f (I)
+
+namic weight scoring mechanism balancing dis-tance, profit, and constraint risk. 3) Executable Code ( Cj ): The executable Python code designed by the LLM that integrates the relaxation strategy with the algorithmic concept. 
+
+A.2 Bidirectional Coevolution Mechanism 
+
+We devise a bidirectional coevolution mechanism combining a local Evolutionary Algorithm (EA) with a global Monte Carlo Tree Search (MCTS) to address constraint challenges in COPs. This mechanism enables effective navigation and opti-mization across diverse solution regions by leverag-ing MCTS’s global perspective to help EA escape local optima while enhancing resource efficiency 1087 through integrating EA’s exploration results into MCTS. It comprises three key components: (1) lo-cal coevolutionary optimization, (2) global strategy exploration, and (3) bidirectional information ex-change. The detail of the mechanism is shown in Algorithm 1. Algorithm 2: Code Execution and Individual Eval-uation 
+
+Require: Strategy σ ∈ Σ, Problem Instances Π
+
+Ensure: Fitness Value f (sigma ) ∈ R+
+
+▷ Σ: Strategy Space, P : Problem Instance Set ▷ R max : Maximum Repair Attempts, Typically Rmax = 3  
+
+> 1:
+
+r ← 0 ▷ Repair attempt counter  
+
+> 2:
+
+Rmax ← 3 
+
+> 3:
+
+while r ≤ Rmax do  
+
+> 4:
+
+ξ ← E (σ, Π) ▷ Execute strategy σ on instances Π 
+
+> 5:
+
+μ ← ω(ξ) ▷ Compute solution metrics  
+
+> 6:
+
+Φ ← χ(ξ) ▷ Check constraint violations  
+
+> 7:
+
+if ¬Φ then ▷ No constraint violations  
+
+> 8:
+
+return f (σ) ← λ(μ) ▷ Calculate fitness from metrics  
+
+> 9:
+
+else  
+
+> 10:
+
+σ ← γ(σ, τ ) ▷ Repair strategy using LLM  
+
+> 11:
+
+r ← r + 1  
+
+> 12:
+
+end if  
+
+> 13:
+
+end while  
+
+> 14:
+
+return fpenalty ▷ Penalty for repeated failures 
+
+A.3 Code execution 
+
+To ensure secure, reliable execution and robust eval-uation of LLM-generated code C, AutoCO imple-ments a lightweight isolated execution environment with comprehensive safety mechanisms. Resource exhaustion is prevented by enforcing strict execu-tion time limits ( Tmax = 60 s) and memory con-straints ( Mmax = 1024 MB). The fitness evaluation process can be formulated as: 
+
+f (I) = 1
+
+|Π|
+
+> |Π|
+
+∑
+
+> i=1
+
+fi(I), (9) where f (I) is the average fitness of an individ-ual, |Π| represents the total number of problem instances, and higher objective function values in-dicate better solutions. The detailed process of code execution and in-dividual evaluation is illustrated in Algorithm 2. Upon detection of syntax or runtime errors, an LLM-based iterative repair mechanism is triggered (maximum attempts Rmax ). If no feasible solution is found or execution fails after reaching the re-pair limit, the individual is assigned an infinite fitness value. The detail is shown in Algorithm 2. 
+
+B Prompt Design 
+
+B.1 LLM-Driven Constraint Relaxation Strategy Generation 
+
+In the process of constraint relaxation strategy gen-eration for COPs, we systematically design three key prompt stages, aiming to fully utilize the rea-soning capabilities of LLMs to transform constraint handling from experience-driven to intelligence-driven methods. Each prompt was carefully crafted to guide LLM to conduct in-depth and systematic constraint analysis from different perspectives. 
+
+B.1.1 Constraint Importance Analysis Prompt 
+
+In the first stage, we guide the LLM to assess the importance of constraints through a carefully de-signed prompt. Figure 8 demonstrates the specific prompt design. The core objective of this prompt is to trans-form complex constraint parsing into a structured importance assessment, enabling the LLM to intel-ligently identify and weigh the criticality of various constraints from the problem description. 
+
+B.1.2 Constraint Relaxation Range Suggestion Prompt 
+
+Based on the constraint importance analysis in the first stage, the second stage prompt (as shown in Figure 9) aims to determine reasonable relaxation ranges for each constraint. This prompt guides the LLM to intelligently rec-ommend minimum and maximum relaxation fac-tors based on the constraint importance and prob-lem characteristics, laying the foundation for sub-sequent strategy generation. 
+
+B.1.3 Constraint Relaxation Strategy Generation Prompt 
+
+Finally, the prompt shown in Figure 10 integrates the analysis results from the previous two stages to generate a series of diverse and meaningful con-straint relaxation strategies. Through this systematic prompt design, we successfully transformed the constraint handling 1088 method from expert experience to an LLM-based automated strategy generation approach. This not only enhances the intelligence of constraint han-dling but also significantly reduces dependence on domain experts. Prompt for Constraint Importance Analysis 
+
+You  are an expert in solving optimization  problems , here  are the detailed 
+
+information of  an  unsolved  nonlinear combinatorial optimization problem. 
+
+``` json 
+
+{"constraint  1" ,  "Importance": 0.9}, 
+
+{"constraint  2" ,  "Importance":  1. 0}
+
+``` 
+
+Do not output anything other than the specified requirements. 
+
+<Problem  Information> 
+
+First,  please carefully analyze all the information of this problem. 
+
+Next,  identify the constraints of the problem. 
+
+Then  carefully analyze the impact of each constraint on the optimization 
+
+objective and the relationships between constraints. 
+
+Finally  perform importance scoring for these constraints and output your 
+
+constraint importance  weights  in the following  format: 
+
+Please analyze the constraint importance for this problem 
+
+according to the following steps: 
+
+Prompt for Constraint Relaxation Range Suggestion 
+
+You are an expert in solving optimization problems, here are the detailed 
+
+information and  constraint importance weights  of an unsolved nonlinear 
+
+combinatorial optimization problem. 
+
+``` json 
+
+{"constraint  1" ,  " Relaxation  Range ": [0. 8,2.1] }, 
+
+{"constraint  2" ,  " Relaxation Range ":[ 1. 0,3.2] }
+
+``` 
+
+Do not output anything other than the specified requirements. 
+
+<Problem  Information>  {"constraint  1" ,  "Importance": 0.9}, 
+
+{"constraint  2" ,  "Importance":  1. 0}
+
+……. .
+
+Please  design  the Constraint Relaxation  Range  for this  problem 
+
+according to the following steps: 
+
+First , assess the relaxation potential of each constraint based on problem 
+
+information and constraint importance .
+
+Next , output reasonable relaxation intervals for each constraint according to 
+
+the analysis results, following the format: 
+
+Figure 8: Constraint importance analysis prompt Analysis 
+
+ere  are the detailed 
+
+timization problem. 
+
+fied requirements. 
+
+s problem. 
+
+on the optimization 
+
+ts and output your 
+
+s problem 
+
+Prompt for Constraint Relaxation Range Suggestion 
+
+You are an expert in solving optimization problems, here are the detailed 
+
+information and  constraint importance weights  of an unsolved nonlinear 
+
+combinatorial optimization problem. 
+
+``` json 
+
+{"constraint  1" ,  " Relaxation  Range ": [0. 8,2.1] }, 
+
+{"constraint  2" ,  " Relaxation Range ":[ 1. 0,3.2] }
+
+``` 
+
+Do not output anything other than the specified requirements. 
+
+<Problem  Information>  {"constraint  1" ,  "Importance": 0.9}, 
+
+{"constraint  2" ,  "Importance":  1. 0}
+
+……. .
+
+Please  design  the Constraint Relaxation  Range  for this  problem 
+
+according to the following steps: 
+
+First , assess the relaxation potential of each constraint based on problem 
+
+information and constraint importance .
+
+Next , output reasonable relaxation intervals for each constraint according to 
+
+the analysis results, following the format: 
+
+Figure 9: Constraint relaxation range suggestion prompt 
+
+B.2 LLM-Guided Evolutionary Strategy Prompt Design 
+
+We introduce an LLM-guided coordinated evo-lution to enhance the EA’s exploration capabili-ties and achieve strategy-code-concept coevolution, ultimately realizing the local coevolutionary op-timization part of our bidirectional coevolution mechanism. Specifically, through carefully de-signed prompt strategies, the LLM guides EA mu-Prompt for  Constraint Relaxation Strategy Generation 
+
+You  are an expert in solving optimization  problems , here  are the constraint  importance 
+
+weights and  Constraint  relaxation range  of  an  unsolved  nonlinear combinatorial 
+
+optimization problem. 
+
+``` json 
+
+{“Strategy 1" : { constraint  1:0.9,  constraint  2:1.3…. },
+
+{“Strategy  2"  : { constraint  2:1.5,  constraint  1:1.6…. }, 
+
+``` 
+
+Do not output anything other than the specified requirements. 
+
+{"constraint  1" ,  "Importance": 0.9}, 
+
+{"constraint  2" ,  "Importance":  1. 0}
+
+……. .
+
+{"constraint  1" ,  " Relaxation  Range ": [0. 8,2.1] }, 
+
+{"constraint  2" ,  " Relaxation Range ":[ 1. 0,3.2] }
+
+…….. 
+
+First, determine the feasible relaxation factors for each constraint of the problem 
+
+based on importance  weights  and  relaxation  range; 
+
+Output  the  designed  relaxation strategies according to the following format: 
+
+Please design  constraint relaxation strategies for  this problem according to the 
+
+following steps: 
+
+Figure 10: Constraint relaxation strategy generation prompt 
+
+tation and crossover across three levels: constraint relaxation strategies, algorithmic concepts, and exe-cutable code, transforming traditional evolutionary search into an intelligently adaptive exploration system, with the following prompt design details. Prompt for  Mutation1 
+
+Please do  mutation operation according to the following steps:     
+
+> 1.Constraint Relaxation Strategy ：
+> 2. Algorithmic Concept ：
+> 3. Executable Code ：
+
+Do not output anything other than the specified requirements.        
+
+> First ,read the parent's constraint relaxation strategy and problem information, and understand the current
+> problem's constraint relaxation processing logic .
+> Second ,read the parent's algorithmic concept and executable code, learn and locate code segments related to
+> constraint relaxation processing.
+> Then ,design a new constraint relaxation strategy.
+> Finally ,maintain the parent's algorithmic concept and executable code structure unchanged, only adjust contents
+> related to constraint relaxation strategy, and output the new individual's three -part information according to the
+> following format requirements:
+> You are an expert in solving optimization problems, here are the detailed information of an unsolved nonlinear
+> combinatorial optimization problem.
+
+<Problem Information> 
+
+Parent  :[ Constraint Relaxation  Strategy 1]; 
+
+[Algorithmic Concept1 ]; 
+
+[Executable Code  1]      
+
+> Focuses on exploring and innovating constraint relaxation strategies. Currently ,parent individual is
+> available with the following details :
+> ``` json
+> {constraint 1:0.9, constraint 2:1.3 ….}
+> ```
+> ``` json
+> [The detail of Algorithmic Concept ]
+> ```
+> ```python
+> [Python code]
+> ```
+> ：请按照以下步 ，阅读亲代当前 信息，理解当前 辑。其次，阅读 学习并定位与约 ，然后设计新的 保持当前算法思 只调整与约束放 按照以下格式要 的信息。
+
+Figure 11: The prompt detail of mutation strategy 1 
+
+B.2.1 Mutation Strategy Prompts 
+
+Mutation strategies are critical for exploring algo-rithm solution spaces. We design three mutation strategy prompts across different dimensions, aim-ing to drive autonomous innovation in algorithmic concept, constraint relaxation strategies, and exe-cutable code through structured and targeted guid-ance. 
+
+Mutation Strategy 1: Constraint Relaxation Strategies Prompt The Constraint Relaxation Prompt focuses on guiding the LLM to conduct an in-depth analysis of existing constraint relaxation 1089 strategies and problem information, redesigning constraint relaxation strategies while maintaining the unchanged algorithm concept and code struc-ture, thereby achieving flexible adjustment and op-timization of constraint strategies (as shown in Fig-ure 11). Prompt for  Mutation 2
+
+Please do  mutation operation according to the following steps: 
+
+1.Constraint  Relaxation Strategy  ：
+
+2. Algorithmic  Concept ：
+
+3. Executable Code  ：
+
+Do not output anything other than the specified requirements. 
+
+First , read the parent's algorithmic concept and executable code, and understand the current code design logic .
+
+Second , read the current constraint relaxation strategy, and clarify the constraint relaxation strategy that needs to 
+
+be implemented .
+
+Then , design a new constraint relaxation strategy. 
+
+Finally , maintain the current algorithmic concept and relaxation strategy unchanged, design an executable code 
+
+completely different from the current one , and output the  new individual's  three -part information according to the 
+
+following format  requirements: 
+
+You are an expert in solving optimization problems, here are the detailed information of an unsolved nonlinear 
+
+combinatorial optimization problem. 
+
+<Problem Information> 
+
+Parent  :[ Constraint Relaxation  Strategy 1]; 
+
+[Algorithmic Concept1 ]; 
+
+[Executable Code  1] 
+
+Focus on code implementation innovation . Currently,  parent  individual is  available with the following 
+
+details :
+
+``` json 
+
+{constraint 1:0.9, constraint 2:1.3 ….} 
+
+``` 
+
+``` json 
+
+[The detail of Algorithmic  Concept ]
+
+``` 
+
+```python 
+
+[Python  code] 
+
+``` 
+
+专注于代码的实现创新。请按照以下步骤进 行变异操作，首先，阅读亲代的 Algorithmic 
+
+concept 与executable code ，理解当前的代码 
+
+设计逻辑。其次，阅读当前约束放宽策略， 
+
+明确目前需要实现的约束放宽策略。最后， 保持当前算法思想及松弛策略不变，设计一 个与当前完全不同的 executable code ，并按 照以下格式要求输出个体的三个部分的信息。 
+
+Figure 12: The prompt detail of mutation strategy 2 Prompt for  Mutation3 
+
+Please do  mutation operation according to the following steps: 
+
+1.Constraint  Relaxation Strategy  ：
+
+2. Algorithmic  Concept ：
+
+3. Executable Code  ：
+
+Do not output anything other than the specified requirements. 
+
+First , read the parent's algorithmic concept and executable code, and understand the current code design 
+
+logic. 
+
+Second , read the current constraint relaxation strategy, clarify the constraint relaxation strategy to be 
+
+implemented and the current implementation approach for constraint relaxation in the code. 
+
+Finally , maintain the current code framework and relaxation strategy unchanged, design an algorithmic 
+
+concept completely different from the current approach to handling relaxation  strategy,  and output the  new 
+
+individual's  three -part information according to the following format  requirements: 
+
+You are an expert in solving optimization problems, here are the detailed information of an 
+
+unsolved nonlinear combinatorial optimization problem. 
+
+<Problem Information> 
+
+Parent  :[ Constraint Relaxation  Strategy 1]; 
+
+[Algorithmic Concept1 ]; 
+
+[Executable Code  1] 
+
+Focus on algorithmic concept implementation  innovation. Currently,  parent  individual is 
+
+available with the following details :
+
+``` json 
+
+{constraint 1:0.9, constraint 2:1.3 ….} 
+
+``` 
+
+``` json 
+
+[The detail of Algorithmic  Concept ]
+
+``` 
+
+```python 
+
+[Python  code] 
+
+``` 
+
+专注于代码的实现创新。请按照以下步骤进 行变异操作，首先，阅读亲代的 Algorithmic 
+
+concept 与executable code ，理解当前的代码 
+
+设计逻辑。其次，阅读当前约束放宽策略， 
+
+明确目前需要实现的约束放宽策略。最后， 保持当前算法思想及松弛策略不变，设计一 个与当前完全不同的 executable code ，并按 照以下格式要求输出个体的三个部分的信息。 
+
+Figure 13: The prompt detail of mutation strategy 3 
+
+Mutation Strategy 2: Code Implementation Prompt By delving into the subtle nuances of current algorithm concepts and constraint relax-ation strategies, the prompt is dedicated to guid-ing the LLM to discover novel implementation pathways, constructing fundamentally different ex-ecutable code while preserving the original strate-gic framework (as shown in Figure 12). 
+
+Mutation Strategy 3: Algorithmic concepts Prompt Grounded in the existing code frame-work and constraint relaxation strategy, the prompt is committed to breaking through the current algo-rithmic concept, introducing a conceptually distinct approach, and guiding the LLM to reimagine the core mechanisms of problem-solving and strategy processing (as shown in Figure 13). 
+
+B.2.2 Crossover Strategy Prompts 
+
+Crossover strategies generate more promising new individuals by integrating advantages in constraint relaxation strategies, algorithmic concepts, or im-plementation code across different parent algo-rithms. We design three crossover strategy prompts to embody the coevolutionary optimization. 
+
+Crossover Strategy 1: Constraint Relaxation Strategies Prompt This crossover prompt fo-cuses on integrating and optimizing constraint re-laxation strategies across parent algorithms. By systematically combining and analyzing constraint relaxation factors, exploring their interactions, and adjusting executable codes based on innovative re-laxation approaches, this prompt aims to generate offspring with enhanced constraint processing ca-pabilities, with primary emphasis on refining relax-ation mechanisms (as shown in Figure 14). You are an expert in solving optimization problems, here are the detailed information of an 
+
+unsolved nonlinear combinatorial optimization problem. 
+
+<Problem Information> 
+
+Focusing on combining the advantages of existing parent individuals and  optimizing  constraint 
+
+relaxation strategies. Currently, parent individuals are available with the following details: 
+
+Please do crossover  operation according to the following steps: 
+
+First , read the  constraint  relaxation  strategies  of two parent individuals. 
+
+Second , combine the  constraint  relaxation  strategies  of both parents, focusing on their constraint 
+
+relaxation factors. 
+
+Then , adjust  parent  1's executable codes based on the new relaxation strategy and  parent 1’s 
+
+algorithmic concept .
+
+Finally , the new individual will be composed of the innovative algorithmic concept, the adjusted code 
+
+and relaxation strategies from  parent  1, and output the new individual's three -part information 
+
+according to the following format requirements: 
+
+Prompt for  Crossover1 
+
+``` json 
+
+{constraint 1:0.9, constraint 2:1.3 ….} 
+
+``` 
+
+``` json 
+
+[The detail of Algorithmic  Concept ]
+
+``` 
+
+```python 
+
+[Python  code] 
+
+``` 
+
+1.Constraint  Relaxation Strategy  ：
+
+2. Algorithmic  Concept ：
+
+3. Executable Code  ：
+
+Do not output anything other than the specified requirements. 
+
+Parent1  :[Constraint Relaxation Strategy 1]; 
+
+[Algorithmic Concept1]; 
+
+[Executable Code 1] 
+
+Parent2  :[Constraint Relaxation Strategy 2 ]; 
+
+[Algorithmic  Concept2]; 
+
+[Executable Code  2] 
+
+Figure 14: The prompt detail of crossover strategy 1 
+
+Crossover Strategy 2: Code Implementation Prompt The prompt aims to achieve algorith-mic implementation optimization through strategic code merging and fine-tuning. By extracting ad-vantageous code segments from parent algorithms, 1090 maintaining original relaxation strategies, and en-suring code execution alignment, this prompt en-ables the creation of more adaptive and sophisti-cated algorithmic implementations.(as shown in Figure 15) You are an expert in solving optimization problems, here are the detailed information of an 
+
+> unsolved nonlinear combinatorial optimization problem.
+
+<Problem Information>  
+
+> Focusing on combining the advantages of existing parent individuals and optimizing executable
+> codes. Currently , two parent individuals are available with the following details :
+
+Please do crossover  operation according to the following steps:           
+
+> First , read the executable codes of two parent individuals.
+> Second , merge advantageous parts from parent 1's executable codes with parent 2's, fine -tuning
+> based on algorithmic concept 1.
+> Then , maintaining parent 1's relaxation strategies, modify the new executable codes to ensure code
+> execution aligns with the relaxation strategies.
+> Finally , the new individual will be composed of the innovative algorithmic concept, the adjusted code
+> and relaxation strategies from Parent 1, and output the new individual's three -part information
+> according to the following format requirements:
+
+Prompt for  Crossover2   
+
+> ``` json
+> {constraint 1:0.9, constraint 2:1.3 ….}
+> ```
+> ``` json
+> [The detail of Algorithmic Concept ]
+> ```
+> ```python
+> [Python code]
+> ```
+
+1.Constraint  Relaxation Strategy  ：
+
+2. Algorithmic  Concept ：
+
+3. Executable Code  ：
+
+Do not output anything other than the specified requirements. 
+
+Parent1  :[Constraint Relaxation Strategy 1]; 
+
+[Algorithmic Concept1]; 
+
+[Executable Code 1] 
+
+Parent2  :[Constraint Relaxation Strategy 2 ]; 
+
+[Algorithmic  Concept2]; 
+
+[Executable Code  2] 
+
+Figure 15: The prompt detail of crossover strategy 2 
+
+Crossover Strategy 3: Algorithmic concepts Prompt The prompt explores innovative integra-tion of algorithmic core concepts while preserving the original code framework and relaxation strate-gies. By extracting advantageous conceptual ele-ments from parent algorithms and carefully adjust-ing code details, this prompt facilitates the develop-ment of conceptually enriched algorithm variants that maintain the essential structural integrity of the original algorithms (as shown in Figure 16). You are an expert in solving optimization problems, here are the detailed information of an 
+
+> unsolved nonlinear combinatorial optimization problem.
+
+<Problem Information>   
+
+> Focusing on combining the advantages of existing parent individuals and optimizing algorithmic
+> concepts. Currently , two parent individuals are available with the following details :
+
+Please do crossover  operation according to the following steps:    
+
+> First , read the algorithmic concepts of two parent individuals.
+> Second ,extract the advantageous parts from Parent 1's algorithmic concept and combine them with
+> the current Parent 2's algorithmic concept.
+> Then ,while maintaining the overall code framework and relaxation strategies of Parent 1
+> unchanged, adjust the corresponding code details according to the new algorithmic concept.
+> Finally ,the new individual will be composed of the innovative algorithmic concept, the adjusted code
+> and relaxation strategies from Parent 1, and output the new individual's three -part information
+> according to the following format requirements :
+
+Prompt for  Crossover3   
+
+> ``` json
+> {constraint 1:0.9, constraint 2:1.3 ….}
+> ```
+> ``` json
+> [The detail of Algorithmic Concept ]
+> ```
+> ```python
+> [Python code]
+> ```
+
+1.Constraint  Relaxation Strategy  ：
+
+2. Algorithmic  Concept ：
+
+3. Executable Code  ：
+
+Do not output anything other than the specified requirements. 
+
+Parent1  :[Constraint Relaxation Strategy 1]; 
+
+[Algorithmic Concept1]; 
+
+[Executable Code 1] 
+
+Parent2  :[Constraint Relaxation Strategy 2 ]; 
+
+[Algorithmic  Concept2]; 
+
+[Executable Code  2] 
+
+Figure 16: The prompt detail of crossover strategy 3 
+
+C Experimental Details 
+
+C.1 Benchmarks 
+
+To validate AutoCO’s generalizability, we strategi-cally select three COPs that systematically span the key challenge dimensions: Vehicle Routing Prob-lem with Time Windows (VRPTW), Safety Facility Layout (SFL), and Vehicle Routing Problem with Time Windows and fuel (VRPTW-fuel). 
+
+Safety Facility Layout The SFL originates from the CMU-IBM Open Source MINLP Project: https://egon.cheme.cmu.edu/ibm/ page.htm . The problem focuses on optimizing facility positioning within a given area, requir-ing simultaneous satisfaction of multiple complex spatial and safety constraints, and addressing sig-nificant interactions between constraints. Specifi-cally, the Safety Facility Layout (SFL) problem minimizes the total cost ( Ctotal = ∑
+
+i<j Cij ·|ci − cj |2 + ∑ iC i · | ci − ci0|2), where ( || · ∥ 2
+
+) represents Euclidean distance, subject to facility non-overlap restrictions (axis-aligned disjunction: 
+
+(( xi + wi ≤ xj ) ∨ (xj + wj ≤ xi) ∨ (yi + hi ≤
+
+yj ) ∨ (yj + hj ≤ yi)) , positional range boundaries ( [xi, x i]×[yi, y i]), safety area limits ( |ci −ok|2 ≤
+
+Rk ), and global boundary requirements. The prob-lem introduces significant nonlinearity through Eu-clidean norms and circular safety inclusion con-straints, creating complex, fragmented solution spaces, with test instances including SFL-4 (4 facil-ities, single safety zone), SFL-8 (8 facilities, single safety zone), and SFL-5 (5 facilities, dual safety zones), representing varying levels of geometric complexity and constraint interactions. 
+
+Vehicle Routing Problem with Time Windows 
+
+The VRPTW seeks a set of vehicle routes starting and ending at a single depot (node 0) to serve cus-tomers N = {1, . . . , n } with travel distances dij ,demands qi, service times si, and time windows 
+
+[ei, ℓ i]. Each customer is visited exactly once; vehi-cle load may never exceed capacity Q; early arrival allows waiting; and exceeding ℓi produces lateness. A solution is encoded as a giant-tour permutation decoded into a route family R. For a route r ∈ R 
+
+with sequence (v0 = 0 , v 1, . . . , v m, v m+1 = 0) ,
+
+its distance is Dr = ∑mk=0 dvk vk+1 , D =∑
+
+r∈R Dr. Arrival times propagate (with tv0 =0,s0 = 0 ) by tvk+1 = max (tvk + dvk vk+1 , e vk+1 
+
+) +
+
+svk+1 , k = 0 , . . . , m. Lateness for customer i
+
+is max(0 , t i − ℓi). A penalized objective consis-tent with our implementation is CVRPTW = D +1091 αtime 
+
+∑ 
+
+> i∈N
+
+max(0 , t i −ℓi) + αfleet max (0, |R|− 
+
+Kmax 
+
+), where Kmax bounds the fleet size. Con-straints: (i) each i ∈ N appears in exactly one route; (ii) every route starts/ends at the depot; (iii) cumulative load on any prefix does not exceed Q;(iv) time-window upper bounds ℓi respected (or penalized if violated); (v) optional fleet-cardinality limit |R| ≤ Kmax . Classical Solomon instances (Solomon, 1987) are challenging due to the inter-dependence of temporal feasibility and capacity-driven splitting. 
+
+Vehicle Routing Problem with Time Windows and fuel VRPTW-Fuel augments VRPTW by adding a per-route fuel capacity constraint. Re-taining base notation, each arc (vk, v k+1 ) on a route carries load-dependent fuel: fvk vk+1 =(β + γL vk
+
+) dvk vk+1 , with Lvk denoting re-maining load just before traversing the arc. Route fuel Fr = ∑mk=0 fvk vk+1 must sat-isfy Fr ≤ Cfuel . Violations aggregate as 
+
+Vfuel = ∑ 
+
+> r∈R
+
+max(0 , F r − Cfuel ), yielding the penalized objective CVRPTW-Fuel = D +
+
+αtime 
+
+∑ 
+
+> i∈N
+
+max(0 , t i − ℓi) + αfleet max(0 , |R| − 
+
+Kmax )+ αfuel Vfuel . All classical constraints remain, with the added per-route fuel capacity. The affine load term (β +γL vk ) couples sequence, load deple-tion, and arc selection: front-loading high-demand customers reduces later fuel intensities but can de-grade temporal feasibility or distance, sharpening trade-offs and fragmenting the search landscape. Ties among fully feasible solutions are further broken (implementation) by lower fleet size, then lower distance, then lower maximum single-route fuel consumption. 
+
+C.2 Experiment Implementation 
+
+All experiments use DeepSeek-R1 LLM (popu-lation size: 45, time limit: 2 hours). 100 inde-pendent runs per instance on Intel® Core™ i5-13400F/NVIDIA RTX 4060 Ti platform. Non-LLM baselines run as single-threaded CPU exe-cutables. 
+
+C.3 Baseline and Baseline Setting 
+
+To comprehensively evaluate AutoCO’s perfor-mance, we selected diverse baseline methods span-ning exact solvers, Reinforcement Learning, meta-heuristics, and LLM-based approaches. 
+
+C.3.1 Exact Solver Gurobi As a leading commercial mixed-integer programming solver, Gurobi (see https://www. gurobi.com/ ) utilizes advanced mathematical pro-gramming techniques, such as Branch and Bound, Cut Generation, and preprocessing techniques. Its ability to precisely solve complex optimization problems and numerical stability make it the gold standard for exact solutions. 
+
+C.3.2 Reinforcement Learning DeepACO Introducing a neural-enhanced meta-heuristic framework that generalizes and ampli-fies traditional Ant Colony Optimization (ACO) through deep reinforcement learning (Ye et al., 2023). This approach employs a graph neural net-work to encode combinatorial problem instances, generating advanced heuristic priors that signifi-cantly accelerate the solution construction process. The framework is trained via proximal policy op-timization, enabling adaptive pheromone initial-ization and dynamic parameter adjustment, which collectively enhance search efficiency and solution quality across diverse combinatorial problems. 
+
+C.3.3 Metaheuristic Algorithms Simulated Annealing (SA) Inspired by the phys-ical annealing process, SA introduces a tempera-ture parameter to control the probability of accept-ing suboptimal solutions (Kirkpatrick et al., 1983). At high temperatures, the algorithm is more in-clined to accept suboptimal solutions, helping to escape local optima; as the temperature decreases, the algorithm gradually converges to the optimal solution. 
+
+Genetic Algorithm (GA) Mimicking natural selection and evolutionary processes, GA opti-mizes solutions through population-level selection, crossover, and mutation operations (Whitley, 1994). Each generation selects the most optimal individu-als through fitness evaluation, simulating the natu-ral selection mechanism of biological evolution. 
+
+Particle Swarm Optimization (PSO) Inspired by collective behaviors of bird flocks and fish schools, each "particle" in PSO represents a poten-tial solution, exploring the solution space by mu-tual following and learning (Kennedy and Eberhart, 1995). Particles are influenced not only by their own historical optimal solutions but also guided by the global optimal solution. 
+
+Memetic Algorithm (MA) Combining genetic algorithms’ evolutionary mechanisms with local search intensification, MA implements a hybrid 1092 optimization paradigm (Moscato, 1989). This algo-rithm maintains population diversity through global evolutionary operations while employing problem-specific local search techniques to refine individual solutions. This dual-optimization strategy achieves an effective balance between exploration and ex-ploitation, frequently demonstrating superior per-formance in complex combinatorial optimization landscapes. 
+
+Differential Evolution (DE) Operating through vector population mutation and recombination, DE implements a robust evolutionary strategy for con-tinuous optimization domains (Mohamed et al., 2019). This approach generates new candidate so-lutions by applying weighted differential mutations between population vectors, followed by crossover operations that recombine parental and trial com-ponents. Its mutation mechanism provides self-organizing coordinate system rotation and transla-tion invariance, ensuring robust performance across diverse optimization scenarios. 
+
+C.3.4 Large Language Model-based Methods FunSearch A sophisticated optimization method-ology leveraging LLMs and a novel island-based evolutionary search paradigm (Romera-Paredes et al., 2024). By decomposing the search pro-cess into multiple autonomous computational do-mains exploring solution spaces in parallel, this approach facilitates robust algorithmic discovery. Each computational island generates candidate so-lutions through strategic generation and evaluation mechanisms, with intermittent knowledge transfer preventing local optimization convergence. 
+
+EoH An advanced computational framework for automated heuristic generation integrating LLMs with evolutionary computation (Liu et al., 2024). The methodology concurrently evolves algorithmic conceptualization and implementation, emulating expert-level heuristic design strategies. Employing a quintuple of sophisticated prompting strategies across exploration and modification taxonomies, it systematically synthesizes diverse and computa-tionally efficient heuristic algorithms. 
+
+ReEvo A pioneering hyper-heuristic optimiza-tion framework utilizing LLMs-driven evolutionary search with introspective refinement mechanisms, ReEvo (Ye et al., 2024). By synthesizing evolu-tionary computation principles with the reflective capabilities of generative models, this approach en-ables progressive algorithmic enhancement through multi-dimensional strategic and tactical refinement processes. 
+
+C.4 Configuration of MetaHeuristic Baselines 
+
+All meta-heuristic baselines (GA, MA, DE, SA, PSO) are implemented using the mealpy (3.0.3) 
+
+library to ensure a standardized and reproducible comparison (Van Thieu and Mirjalili, 2023). Aunified experimental protocol is strictly followed, which includes an identical termination budget (epoch=80, population=45, run=100). To guarantee the statistical robustness and deter-minism of our results, we employ a deterministic set of 20 seeds defined a priori by an arithmetic progression: S = {s0 + ∆ · i | i = 0 , . . . , 19 }
+
+with s0 = 17 and ∆ = 73 . This rule-based con-struction prevents cherry-picking while preserving broad coverage of pseudorandom initializations. All (algorithm, instance) pairs use every seed in 
+
+S; no seed is added, removed, or replaced after observing any results. To ensure fairness and mitigate parameter sensi-tivity, a single set of hyperparameters is fixed for each algorithm and applied across all problems, which avoids iterative per-instance tuning. Key deviations from the library’s default parameters, determined through a preliminary calibration, are summarized in Table 5. 
+
+Table 5: Core hyperparameters (Defaults vs. Adopted).                                          
+
+> Algorithm Parameter Default Adopted GA pc(crossover rate) 0.95 0.85
+> pm(mutation rate) 0.025 0.05 PSO
+> c1(cognitive) 2.05 1.8
+> c2(social) 2.05 1.8
+> w(inertia) 0.4 0.6 DE
+> wf(mutation factor) 0.1 0.6
+> cr(crossover rate) 0.9 0.9 strategy 05MA
+> pc(crossover rate) 0.85 0.85
+> pm(mutation rate) 0.15 0.15
+> plocal (local search probability) 0.5 0.5 max_local_gens (local search depth) 10 10 SA T0(initial temperature) 100 500 step_size (perturbation step size) 0.1 0.2
+
+This standardized setup, with its deterministic seed strategy and fixed hyper-parameters, ensures that performance differences are attributable to the core search strategies rather than implementation or tuning biases. 1093 C.5 Relaxation Strategy Effectiveness Validation 
+
+The solution space in COPs often exhibits highly fragmented characteristics, with the feasible do-main partitioned into isolated connected compo-nents. This experiment defines a foundational search algorithm to explore the solution space un-der different relaxation strategies, aiming to vali-date the topological structure reconstruction effects of various relaxation approaches. Specifically, we evaluate the performance differences between Au-toCO design, expert-defined, and non-relaxation baseline strategies in alleviating solution space frag-mentation. 
+
+C.5.1 Base Random Walk Search Algorithm 
+
+To eliminate the inherent search algorithm’s in-fluence on solution space exploration, we design a heuristic-free baseline, namely random walk search algorithm (the details are shown in Algorithm 3). 
+
+Table 6: Constraint relaxation strategies for SFL8.              
+
+> Strategy Overlap Position Range Safety Area Global Boundary AutoCO-Designed 1.5 1.8 1.2 1.3 Expert-Designed 2.0 1.1 1.3 2.2 No Relaxed 1.0 1.0 1.0 1.0
+
+Table 7: Constraint relaxation strategies for SFL5 (Dual).              
+
+> Strategy Overlap Position Range Safety Area Global Boundary AutoCO-Designed 2.0 2.6 1.5 2.2 Expert-Designed 1.8 2.0 1.4 2.5 No Relaxed 1.0 1.0 1.0 1.0
+
+C.5.2 Experimental Configuration 
+
+The experimental configuration is structured to en-sure comprehensive and reliable results: 1) We generate a uniformly random pre-generated initial solution set to maintain baseline consistency across all strategies; 2) By using an identical random seed for solution generation, we ensure equivalent and controlled initial conditions for each comparative approach; 3) We consistently evaluate feasibility using original strict constraints, implementing a 30-second search limit per iteration to standardize computational resources; 4) To establish statistical robustness, we conduct 1000 trials for each con-figuration, systematically exploring computational budgets from 500 to 2500 steps, which enables a rigorous and multifaceted assessment of the pro-posed relaxation strategies’ performance and relia-bility. 
+
+C.5.3 Relaxation Strategy Configurations 
+
+We evaluate relaxation strategies across two datasets: SFL8 and SFL5 (dual), comparing Au-toCO, expert-designed, and safe region relaxation approaches. Tables 6 and 7 illustrate the detailed relaxation strategies for each dataset. Algorithm 3: Base Random Walk Search Algo-rithm 
+
+Require: Initial solution S0 ∈ S, Relaxation pa-rameter Θ ∈ R+, Exploration steps T ∈ N
+
+Ensure: Feasible solution discovery count η, Op-timal solution S∗ ∈ S, Optimal cost C∗ ∈ R+
+
+▷ S : Solution Space, Θ: Constraint Relaxation Threshold  
+
+> 1:
+
+Initialize: S ← S 0, η ← 0, S∗ ← ∅ , C∗ ←
+
++∞ 
+
+> 2:
+
+for t = 1 to T do ▷ Check current solution feasibility under strict constraints  
+
+> 3:
+
+if ϕstrict (S) then  
+
+> 4:
+
+η ← η + 1  
+
+> 5:
+
+C ← ω(S) ▷ Calculate solution cost  
+
+> 6:
+
+if C < C ∗ then  
+
+> 7:
+
+S∗ ← S  
+
+> 8:
+
+C∗ ← C 
+
+> 9:
+
+end if  
+
+> 10:
+
+end if 
+
+▷ Generate candidate move via atomic exploration  
+
+> 11:
+
+S′ ← ξ(S) ▷ ξ : Atomic move function 
+
+▷ Accept move based on relaxed constraints  
+
+> 12:
+
+if ϕrelaxed (S′, Θ) then  
+
+> 13:
+
+S ← S ′ 
+
+> 14:
+
+end if  
+
+> 15:
+
+end for  
+
+> 16:
+
+return η, S∗, C ∗
+
+▷ Atomic Move Function ξ(S) 
+
+> 17:
+
+function ξ(S) 
+
+> 18:
+
+r ← RandomRectangle () ▷ Randomly select rectangle  
+
+> 19:
+
+δ ← RandomDirection () ▷ Random move direction  
+
+> 20:
+
+Snew ← Copy (S) 
+
+> 21:
+
+Snew [r].x ← S [r].x + δ.dx  
+
+> 22:
+
+Snew [r].y ← S [r].y + δ.dy  
+
+> 23:
+
+return Snew  
+
+> 24:
+
+end function 1094

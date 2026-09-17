@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "figures": [
+    {
+      "url": "assets/figures/acl-2026-findings/anthology-2026findings-acl2115/fig-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 592,
+      "height": 389,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/acl-2026-findings/anthology-2026findings-acl2115/fig-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 537,
+      "height": 787,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/acl-2026-findings/anthology-2026findings-acl2115/fig-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1450,
+      "height": 545,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/acl-2026-findings/anthology-2026findings-acl2115/fig-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 709,
+      "height": 837,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/acl-2026-findings/anthology-2026findings-acl2115/fig-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 803,
+      "height": 707,
+      "label": "Figure"
+    }
+  ]
+}

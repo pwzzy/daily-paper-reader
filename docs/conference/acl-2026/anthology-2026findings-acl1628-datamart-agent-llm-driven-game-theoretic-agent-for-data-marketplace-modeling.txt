@@ -1,0 +1,1772 @@
+Title: 2026.findings-acl.1628.pdf
+
+URL Source: https://aclanthology.org/2026.findings-acl.1628.pdf
+
+Published Time: Thu, 11 Jun 2026 02:31:43 GMT
+
+Number of Pages: 23
+
+Markdown Content:
+> Findings of the Association for Computational Linguistics: ACL 2026 , pages 32509–32531 July 2-7, 2026 ©2026 Association for Computational Linguistics
+
+# Datamart-Agent: LLM-Driven Game-Theoretic Agent for Data Marketplace Modeling 
+
+Pangjing Wu 1, Peter-Q. Chen 1, Xiaodong Li 2, Wenqi Fan 1, Qing Li 1*,
+
+> 1
+
+The Hong Kong Polytechnic University, 2Hohai University 
+
+Abstract 
+
+Data marketplaces analyze strategic data ex-change among users, platforms, and buyers. However, most existing studies model on static equilibria and complete information, which lim-its their realism. In this work, we study whether large language model (LLM)-driven agents can make equilibrium-consistent decisions in ana-lytically tractable data marketplaces with evolv-ing and incomplete-information. Specifically, we introduce EvoDM , an agent-based model-ing framework that extends the classical static data marketplace to dynamic and incomplete-information settings while providing tractable equilibrium benchmarks for evaluating agent decisions. Building upon EvoDM, we pro-pose Datamart-Agent , an LLM-driven game-theoretic agent that improves equilibrium-consistent decision execution through dynamic game tree memory and mechanism-guided reflection, without requiring parameter up-dates. Experiments demonstrate that Datamart-Agent closely matches equilibrium-consistent decision-making, achieving the lowest util-ity gap and over 20% higher Pass@ ϵ than strong baselines. After validating its effec-tiveness, we employ EvoDM with Datamart-Agent to analyze competition and regulation in assumption-relaxed settings where closed-form ground truth is unavailable, providing ex-ploratory simulation-based insights into market dynamics and regulatory effects. 
+
+1 Introduction 
+
+Data marketplaces play a central role in modern AI infrastructure by enabling data sharing and reuse. As large language models (LLMs) scale and pub-licly available datasets approach saturation (Agha-janyan et al., 2023), high-value proprietary data has become scarce (Chen et al., 2025a). This scarcity creates monetary incentives for organiza-tions to collect and share higher-quality data (Agar-wal et al., 2019; Zhu et al., 2024), while buyers 
+
+> *Corresponding Author ( csqli@comp.polyu.edu.hk ).
+
+turn to purchase these data products from market-places for competitive advantage (Borgman, 2012). Consequently, three-layer data marketplaces, such as AWS Data Exchange (aws, 2025), have at-tracted growing attention from academia and indus-try (Moor, 2019; Fernandez et al., 2020a; Fallah et al., 2024). Existing studies on data marketplaces have pri-marily focused on formalizing data trading mech-anisms and incentive structures (Castro Fernan-dez, 2023), with later work incorporating privacy considerations driven by regulations such as the GDPR (Huang et al., 2023; Xiao et al., 2023). Building on these foundations, equilibrium analysis has examined how pricing, competition, and regula-tion jointly shape welfare and market outcomes (Bi et al., 2024; Bimpikis et al., 2024; Bi et al., 2025). However, most existing models rely on restrictive assumptions, notably single-round interactions and complete information (CI). Extending these models to scenarios with evolving and incomplete infor-mation (INC) is analytically intractable due to the interdependence of decisions across temporal evo-lution and heterogeneous information structures. Agent-based modeling (ABM) provides an al-ternative approach for studying complex environ-ments. Recent work has shown that LLMs can serve as effective agents in ABMs, enabling the simulation of adaptive behaviors in complex social and economic systems (Zhang et al., 2025). Their adaptability further allows the exploration of emer-gent phenomena and regulatory impacts (Li et al., 2024a; Mou et al., 2025). However, equilibrium-consistent decision-making requires agents to rea-son over payoffs, beliefs, and strategic dependen-cies, which are capabilities that LLMs do not in-herently possess (Duan et al., 2024). It remains unclear whether LLM-driven agents can reliably ap-proximate equilibrium-consistent decision-making, especially in evolving and INC data marketplaces. To bridge this gap, we propose EvoDM , an 
+
+32509 ABM framework for evolving and INC data mar-ketplaces. EvoDM extends the static three-layer data marketplace to support temporally evolving in-teractions and INC. To maintain analytical ground-ing, we derive tractable equilibrium solutions un-der simplified regimes of CI, Evolving, and β-INC, serving as analytical benchmarks for evaluating agents’ equilibrium-consistent decisions under in-creasingly realistic conditions. Building upon the EvoDM, we introduce Datamart-Agent , an LLM-driven agent with self-evolving strategic capabil-ity designed to operate within EvoDM. Datamart-Agent employs role-conditioned prompts to encode objectives, constraints, and reasoning patterns, en-abling utility-grounded decisions. A dynamic game tree records the evolving sequence of interactions and expands as new strategies and entrants emerge, while a memory retrieval mechanism identifies se-mantically similar historical trajectories. These components enable agents to accumulate experi-ence, refine their decisions without parameter up-dates, and generalize across scenarios. Our study follows a two-stage objective. The primary objective is to benchmark whether LLM agents can execute equilibrium-consistent deci-sions in analytically tractable data marketplaces with verifiable ground truth. We verify Datamart-Agent under tractable CI, Evolving, and β-INC settings. It achieves the lowest Utility Gap and is over 20% more Pass@ ϵ than strong ABM base-lines. The secondary objective is to use the vali-dated agents in EvoDM to study competition and regulation in more realistic settings where exact equilibria are unavailable. We demonstrate that strict data-deletion rules enhance user utility, while dynamic pricing benefits both buyers and platforms. Cost-aware privacy mandates significantly improve fairness, reducing lifespan inequality by over 40% compared to uniform regulations. Our contributions are summarized as follows: 1. We propose EvoDM , a controlled ABM framework for evaluating agent decisions in evolving INC data marketplaces, with equilib-rium benchmarks for validation. 2. We introduce Datamart-Agent , an LLM-driven agent with self-evolving strategic ca-pability that achieves equilibrium-consistent decision-making in EvoDM. 3. We demonstrate that EvoDM, with the vali-dated Datamart-Agent, supports exploratory analysis of competition and regulation. 
+
+2 Related Work 
+
+Data marketplaces study pricing, exchange, and regulation among users, platforms, and buyers. Prior research investigates data trading mecha-nisms (Yu and Zhang, 2017; Koutris et al., 2015; Jia et al., 2019; Liu et al., 2021). These efforts converge on user-platform-buyer interactions (Fal-lah et al., 2024), with equilibrium analyzes un-der competition, privacy, and bargaining (Bi et al., 2024, 2025). Recent approaches address valuation and strategic uncertainty (Castro Fernandez, 2022; Amiri et al., 2023; Wang and Jia, 2023), but largely rely on static or CI assumptions, leaving evolving and INC settings underexplored. Recent work integrates LLMs into ABMs to sup-port language-based reasoning and adaptive behav-ior beyond rule-based agents (Gao et al., 2024). LLM agents have demonstrated promising perfor-mance in social and economic simulations (Huang et al., 2022; Xie et al., 2024; Wu et al., 2024; Li et al., 2024a), yet most focus on behavioral real-ism rather than rational decisions. This gap moti-vates our work on equilibrium-consistent decision-making LLM agents for ABM of data marketplaces. A detailed review is provided in Appendix B. 
+
+3 Three-Layer Data Marketplace 
+
+In this section, we first formalize the static CI three-layer data marketplace, and then theoretically ex-tend it to i) a temporally evolving setting and ii) a buyer-valuation INC setting ( β-INC), yielding ground-truth equilibria and utilities to evaluate the reliability of agents in data marketplace ABMs. 
+
+3.1 Preliminary: Static CI Marketplace 
+
+Unlike classical markets, data marketplaces treat data as an information good whose value depends on signal quality rather than exclusivity (Babaioff et al., 2012), quantify privacy loss as informa-tion leakage controlled via noise (Ghosh and Roth, 2011), and exhibit a multi-layer structure with in-centives among users, platforms, and buyers (Pei, 2020). Platform-provided information is often sub-stitutable and aggregatable for the buyer under Gaussian models (Koutris et al., 2015). We be-gin by formalizing the static CI three-layer data marketplace of Fallah et al. (2024). 32510 Definition 1 (Static CI Marketplace) . A static CI three-layer data marketplace is a four-stage game defined as follows: i) Each platform i ∈ [K] simul-taneously chooses an entry decision ei ∈ { 0, 1}
+
+and a buyer-facing noise level σi ≥ 0. ii) The user selects a sharing decision a ∈ { 0, 1}K . iii) 
+
+Entered platforms post prices p ∈ RK 
+
+> +
+
+. iv) The data buyer chooses purchases b ∈ { 0, 1}K .
+
+We next specify the game’s payoff structure. Utilities are defined in terms of mutual informa-tion, capturing the informational benefits obtained by platforms and the buyer, as well as the privacy leakage incurred by the user. 
+
+Definition 2 (Utility) . Let θ ∼ N (0 , I d) denote the user’s data, with platform signals si = xT 
+
+> i
+
+θ +
+
+N (0 , 1) and perturbed signals ˜si = si +N (0 , σ 2 
+
+> i
+
+).The utilities of platform i, the user u, and the buyer 
+
+b are given by, 
+
+Ui(σ,e,a,p,b) = [ ai(Ii + bipi) − ci] · ei, (1) 
+
+Uu(σ,e,a,p,b) = ∑
+
+> i
+
+aieiIi −αI(σ,e,a,b), (2) 
+
+Ub(σ,e,a,p,b) = β I(σ,e,a,b)−∑
+
+> i
+
+bipi, (3) 
+
+where Ii denote user side revealed information as formally defined in Prop. A1. 
+
+A detailed rationale for the settings of the informa-tion framework ( i.e. , the Gaussian data signal) and utilities is provided in Appendix C.1. 
+
+3.2 Equilibrium in the Evolving Marketplace 
+
+As real-world data marketplaces involve evolving rounds of interaction among participants, including new entrants joining and incumbents leaving, we extend the static marketplace to T discrete rounds. At each round t ∈ [T ], a new buyer arrives with 
+
+(βt, yt), while the active platform set evolves from incumbents St−1 to St by admitting a subset of new entrants SNew  
+
+> t
+
+⊆ [Kt] \ St−1. Therefore, the per-round utilities are given by, 
+
+Proposition 1 (Per-Round Utilities) . Let Pt−1 := ∑ 
+
+> i∈St−1
+
+pi denote the total incumbent price car-ried into round t (prices are set at entry and then fixed). Then for t = 1 , . . . , T :
+
+U(t) 
+
+> u
+
+= 0; (4) 
+
+U(t) 
+
+> i
+
+= 12 + pi − ci, ∀i ∈ St−1; (5) 
+
+U(t) 
+
+> j
+
+= 12 + βt
+
+2α − cj , ∀j ∈ SNew  
+
+> t
+
+; (6) 
+
+U(t) 
+
+> b
+
+= βtI(σt) −
+
+(
+
+Pt−1 + βtmt
+
+2α
+
+)
+
+. (7) 
+
+where mt := |SNew  
+
+> t
+
+| and σt is the round-t noise profile. For platforms entering in round τi ≥ 2,
+
+pi = βτi /(2 α); for τi = 1 , pi follows the static CI equilibrium pricing. 
+
+The result demonstrates that cumulative leakage tightens the user’s privacy constraint over time, where later entrants must inject larger noise to be accepted, and entry ceases once the implied equilib-rium noise becomes infeasible. The detailed proofs could be found in Appendix C.2. 
+
+3.3 β-INC: Incomplete Information on Buyer Valuation 
+
+The CI data marketplace assumes an ideal situation in which the user and the platforms can observe β.We relax this to a more realistic buyer-valuation INC setting, 
+
+Assumption 1 (Private Buyer Valuation) . The buyer’s valuation β is drawn from a continuous, atomless, common-knowledge CDF F on [β, β ]
+
+(uniform unless stated otherwise). 
+
+The platforms and the user must form beliefs con-sistent with a Perfect Bayesian Equilibrium. Let the platform’s per-unit price be zi := pi 
+
+> I(σi)
+
+. Abuyer with value β purchases from platform i iff 
+
+β ≥ zi, so the purchase probability is 1 − F (zi).This induces two regimes ( i.e. low-privacy regime 
+
+α ≤ αcrit and high-privacy regime α > α crit ) sep-arated by a user privacy threshold αcrit , as formally discussed in Appendix C.3. Under β-INC, prices respond to uncertain buyer demand, privacy is en-forced on average rather than strictly, and utilities are expectation-based, leading to screening losses and selective market participation. These equilibria, across various data market-place situations, provide ground truth for verifying the effectiveness of ABMs in data marketplaces. 
+
+4 EvoDM 
+
+Real-world data marketplaces evolve under con-ditions of INC, with platforms, users, and buy-ers adjusting their decisions in response to chang-ing conditions. While existing three-layer mar-ketplace models capture core strategic interac-tions, they are largely static and assume full ob-servability, limiting their applicability. To model 32511 adaptive behavior under uncertainty, we propose 
+
+EvoDM , a data marketplace ABM framework that incorporates temporal evolution and asymmetric information, as illustrated in Figure 1(a). Plat-forms i, the user u, and buyers b are modeled as LLM-driven agents in a multi agent Markov game 
+
+M = ⟨S ∗, O∗, A∗, U∗, P⟩ , where S∗ denotes inter-nal states, O∗ observations, A∗ action spaces, U∗
+
+utilities, and P marketplace dynamics. The marketplace unfolds over discrete rounds 
+
+t = 1 , . . . , T , each representing a complete trading cycle. At round t, agents update internal states S(t)
+
+> ∗
+
+and observations O(t) 
+
+> ∗
+
+, which jointly determine fea-sible actions A(t) 
+
+> ∗
+
+. Interactions proceed as follows. 
+
+1) Platform Retention and Entry. Incumbent and candidate platforms choose participation via 
+
+A(t) 
+
+> e
+
+= {e(t) 
+
+> i
+
+∈ { 0, 1} | i ∈ St−1 ∪ Snew  
+
+> t
+
+}. Each incumbent i ∈ St−1 evaluates its private state 
+
+S(t) 
+
+> i
+
+= {xi, c i, b (t) 
+
+> i
+
+} and either remains active with 
+
+e(t) 
+
+> i
+
+= 1 or exits permanently with e(t) 
+
+> i
+
+= 0 to avoid future operational costs ci. Each candidate 
+
+j ∈ Snew  
+
+> t
+
+samples S(t) 
+
+> j
+
+= {xj , c j } with |xj | = 1 ,observes public information O(t) 
+
+> j
+
+= {σi, p (t−1)  
+
+> i
+
+|
+
+i ∈ St−1}, and decides whether to enter. 
+
+2) Platform Offer. Each newly entered platform selects a privacy noise level via A(t) 
+
+> σ
+
+= {σj ∈
+
+R+ | j ∈ Snew  
+
+> t
+
+} based on its private state S(t) 
+
+> j
+
+=
+
+{xj , c j } and public observation O(t) 
+
+> j
+
+. The chosen 
+
+σj remains fixed throughout the platform lifetime, ensuring consistent privacy guarantees. 
+
+3) User Data Sharing. Given active platforms and announced privacy levels, the user with inter-nal state S(t) 
+
+> u
+
+= {θ, α } observes O(t) 
+
+> u
+
+= {σ(t) 
+
+> i
+
+|
+
+i ∈ St} and selects A(t) 
+
+> u
+
+= {a(t) 
+
+> i
+
+∈ { 0, 1} | i ∈
+
+St, e (t) 
+
+> i
+
+= 1 }. Under the strict deletion regime with deletion-on-withdrawal (Commission, 2012), the current choice applies to all active platforms, and any previously selected platform not chosen in round t must delete stored data. Under the legacy retention regime, previously selected platforms re-tain data while active, and a(t) primarily concerns new entrants. The two regimes differ only in feasi-ble actions and state transition rules. 
+
+4) Platform Pricing. Platforms that both en-ter and receive data set prices using internal state S(t) 
+
+> i
+
+= {xi, si, σ i} and observation O(t) 
+
+> i
+
+=
+
+{p(t−1)  
+
+> i
+
+, e (t−1) } via A(t) 
+
+> p
+
+= {p(t) 
+
+> i
+
+∈ R+ | i ∈
+
+St, e (t) 
+
+> i
+
+= a(t) 
+
+> i
+
+= 1 }. We consider two regimes: a price persistence regime, in which prices evolve gradually, and a price reoptimization regime, in which prices are allowed to adjust at each round. The platforms cannot observe the private state of other agents as in the real-world. 
+
+5) Buyer Selection. A buyer with internal state 
+
+S(t) 
+
+> b
+
+= {yt, β t} observes public offers O(t) 
+
+> b
+
+=
+
+{σi, p (t) 
+
+> i
+
+| i ∈ St, e (t) 
+
+> i
+
+= a(t) 
+
+> i
+
+= 1} and se-lects A(t) 
+
+> b
+
+= {b(t) 
+
+> i
+
+∈ { 0, 1} | i ∈ St, e (t) 
+
+> i
+
+=
+
+a(t) 
+
+> i
+
+= 1 }. For each purchase, the buyer receives 
+
+˜s(t) 
+
+> i
+
+= s(t) 
+
+> i
+
++ η(t) 
+
+> i
+
+, where η(t) 
+
+> i
+
+∼ N (0 , σ 2 
+
+> i
+
+), without observing true signals or platform costs. All agents receive per round utilities U(t) 
+
+> ∗
+
+as defined in Section 3, with cumulative utilities 
+
+U(1: t) 
+
+> ∗
+
+= ∑tt′=1 U(t′) 
+
+> ∗
+
+. Platforms with U(1: t) 
+
+> i
+
+< 0
+
+exit endogenously. The EvoDM enables systematic analysis of data marketplaces under evolving and fully INC settings. Appendix C.4 provides theoret-ical justification for the modeling of EvoDM. 
+
+5 Datamart-Agent 
+
+As shown in Figure 1(b), Datamart-Agent 
+
+is an LLM-driven agent designed to replicate equilibrium-consistent decisions in simulating data marketplaces within EvoDM. It integrates three components that jointly enable agents to per-ceive the marketplace, accumulate experience, and iteratively refine decisions toward equilibrium-consistent behaviors. 
+
+5.1 Dynamic Role-Conditioned Perception 
+
+To model heterogeneous cognition in data mar-ketplaces, Datamart-Agent employs a dynamic role-conditioned perception that translates struc-tured numerical states and observations into natural-language descriptions tailored to each role. Partic-ipants receive role-specific perceptions that com-bine private internal states with publicly observable market signals, ensuring consistency with the mar-ketplace’s information constraints. Perceptions are encoded into compact natural-language representations that translate numerical states and symbolic market dynamics into seman-tically meaningful descriptions. These prompts capture pricing, privacy levels, competition, and cooperation, and are updated each round to re-flect changes such as platform entry, exit, and user sharing decisions. By bridging structured percep-tion with linguistic reasoning, this module enables agents to interpret uncertainty and evolving in-centives without relying on fixed decision rules. 32512 Round t Round t+2         
+
+> Stage 1:
+> Platform Entry
+> Stage 2:
+> Platform Set Privacy
+> Stage 5:
+> Buyer Selection
+> Buyer
+> 𝜎 0= 0.5 𝜎 1= 3.2 𝑒 0= 1 𝑒 2= 0 𝑎 0= 1 𝑎 1= 2 𝑝 0= 0.8 𝑝 1= 1.3
+
+(b) Datamart-Agent        
+
+> Dynamic Role-Conditioned Perception Dynamic Game Tree Memory Mechanism-Guided Reflection Decision
+> Role: You are a just-entered platform. You must select a noise...
+> Role: You are a data owner (user) to decide whether to share data…
+> Role: You are a data buyer, deciding which data to purchase…
+> Game Path Game Tree
+> Update
+> Game Tree Memory Pool
+> Decision
+> JSON Response: {Reason: My reason…
+> Decision: I decide …}
+
+(a) EvoDM       
+
+> Store Retrieve Similar Tree
+> Perception Memory Reflection
+> Stage 4:
+> Platform Pricing
+> Stage 3:
+> User Data Sharing
+> User
+> Platform costs 𝑐
+> Plat. #0 Plat. #2 Plat. #1
+> 𝑒 1= 1 Plat. #0 Plat. #1
+
+𝒮 ! 𝒪 ! 𝒜 ! 
+
+> Inherent State Observations Decisions
+
+Round t-2 
+
+𝒰 !   
+
+> Utilities
+> Privacy preference 𝛼 Value preference 𝛽
+
+Round t-1 Round t+1   
+
+> Available decisions: [Decisions]
+> Stepwise Impact: [List of Impact]
+
+Figure 1: The framework of EvoDM and Datamart-Agent. 
+
+The perception prompt structure is provided in Ap-pendix D. 
+
+5.2 Dynamic Game Tree Memory 
+
+Decision-making in data marketplaces is sequential and interdependent. To support long-horizon rea-soning, Datamart-Agent maintains a dynamic game tree memory that incrementally organizes histori-cal interactions into structured decision trees (Hua et al., 2024). A sequential decision game is repre-sented as a game tree 
+
+T = ( V, E), E ⊆ V × V , (8) where nodes correspond to partial action sequences and leaf nodes store realized utilities. Unlike static game trees, the memory grows on-line as the marketplace evolves. For each role 
+
+∗ ∈ { u, i, b }, the agent maintains a memory pool 
+
+T∗ indexed by role-specific state-observation pairs. When a new round begins, the agent initializes a new tree if no matching index exists, or expands an existing tree by appending the current action and its observed utility. This process consolidates experience across rounds, enabling generalization beyond one-shot reasoning. When making new decisions, the module per-forms similarity-based retrieval to recall rele-vant past experiences. Given the current state-observation pair #(t)
+
+∗ and each stored index #∗,j ,the similarity is computed as, 
+
+sim 
+
+(
+
+#(t)
+
+∗ , #∗,j 
+
+)
+
+= ⟨#(t)
+
+∗ , #∗,j ⟩∥#(t)
+
+∗ ∥ ∥ #∗,j ∥ . (9) The top-N most similar trees, {T∗,j }Nj=1 , are re-trieved and summarized into a compact natural-language reflection that highlights historical deci-sions and their corresponding payoffs. This reflec-tion serves as contextual evidence for the agent, helping it anticipate the outcomes of alternative strategies and maintain equilibrium consistency across rounds. The game tree memory prompt is detailed in Appendix D. 
+
+5.3 Mechanism-Guided Reflection Decision 
+
+The mechanism-guided reflection decision enables each agent to reason about the consequences of its actions through explicit utility formulations, al-lowing for more equilibrium-consistent decision-making. Rather than relying only on pattern match-ing, the agent is prompted to evaluate how can-didate actions affect its utility under the market mechanism in Section 3. The prompt specifies the payoff structure and decision constraints for the current role, but it does not directly provide the optimal action, as illustrated in Appendix D. In evolving, incomplete-information settings, effec-tive decisions still require the agent to infer the hid-den states of other participants and anticipate how future actions may change the realized utility. By combining the mechanism-guided reflection with 32513 prior perception and memory, the agent’s actions align with equilibrium-consistent behavior rather than heuristic imitation, ensuring that decisions re-main both context-aware and utility-driven within the EvoDM. At each round t, the agent integrates its percep-tion, memory, and mechanism awareness into a unified decision context. Specifically, we construct,      
+
+> C(t)
+> ∗=
+> (
+> ϕperc (S(t)
+> ∗,O(t)
+> ∗),ϕ mem (T∗,#(t)
+> ∗),ϕ ref (U∗,M)
+> )
+> ,(10)
+
+where ϕperc denotes the role-conditioned percep-tion that maps internal states and public observa-tions to a natural-language representation, ϕmem re-trieves relevant experience from the dynamic game tree memory T∗ based on the current role-specific identifier #(t) 
+
+> ∗
+
+, and ϕref embeds the utility formu-lation and equilibrium constraints induced by the marketplace mechanism M. The final decision is, 
+
+a(t) 
+
+> ∗
+
+= LLM 
+
+(
+
+C(t)
+
+> ∗
+
+)
+
+, s.t. a(t) 
+
+> ∗
+
+∈ A (t) 
+
+> ∗
+
+. (11) This formulation allows Datamart-Agent to com-bine mechanism information with role-specific con-text and retrieved experience, producing structured and utility-aware decisions under evolving and INC market conditions. 
+
+6 Experiments 
+
+In this section, we conduct experiments to study the simulation performance of the Datamart-Agent in the EvoDM. Our evaluation is organized into two stages. Section 6.2 focuses on quantitative val-idation against analytical ground truth in tractable settings. Sections 6.3 and 6.4 then use the vali-dated agents for simulation-based analysis in set-tings where exact equilibrium benchmarking is un-available or intentionally relaxed. The experiments are structured around three core questions: 
+
+RQ1 (Effectiveness): To what extent can the pro-posed Datamart-Agent accurately replicate equilib-rium behaviors within the EvoDM? 
+
+RQ2 (Emergent Dynamics): How do agents adapt and interact under evolving and INC data market-places, and what emergent phenomena arise in such realistic multi-platform environments? 
+
+RQ3 (Application): Can the Datamart-Agent sup-port practical applications? 
+
+6.1 Experimental Setup 
+
+We evaluate the Datamart-Agent on benchmarks derived from our EvoDM under three settings: 
+
+CI , Evolving , and β-INC , each with analyti-cally tractable equilibria. We randomly generate data marketplace scenarios for training, valida-tion, and testing, and additionally construct out-of-distribution (OOD) scenarios with shifted param-eter ranges and numbers of competing platforms to evaluate generalization. Detailed benchmark construction is provided in Appendix A.1. In our experiments, we compare Datamart-Agent with both RL-based and LLM-based baselines on EvoDM. RL agents learn policies through interac-tion with the environment, whereas LLM agents make decisions by conditioning on role descrip-tions, observations, and mechanism information provided through prompting. Our baselines in-clude: RL-ABM (Lowe et al., 2017), and LLM agents: LLM-State (Zhang et al., 2024b), LLM-Recent (Zhang et al., 2024c; Piao et al., 2025), 
+
+LLM-I (Li et al., 2024a), and LLM-E (Hua et al., 2024). Details are illustrated in Appendix A.2. We evaluate ABM performance in the EvoDM using i) Utility Gap ∆U and ii) Pass@ ε, as de-scribed in Appendix A.3. The backbone models and hyperparameter settings are illustrated in Ap-pendix A.4. 
+
+6.2 Effectiveness in Simulation (RQ1) 6.2.1 Main Results 
+
+To verify the effectiveness of our Datamart-Agent in making equilibrium-consistent decisions and achieving equilibrium utilities in the data market-place ABM framework, we evaluate it against RL-based and LLM-driven baselines across six data marketplace settings, as summarized in Table 1. The results show that Datamart-Agent most accu-rately replicates equilibrium behaviors in EvoDM. It consistently achieves the lowest equilibrium util-ity gap and the highest Pass@ ϵ across all eval-uated settings, indicating strong alignment with equilibrium-consistent decisions under evolving and INC settings. When instantiated with GPT-4o, Datamart-Agent exceeds the best LLM-E by over 20% in Pass@ ϵ, demonstrating its effectiveness in making equilibrium-consistent decisions. Figure 2 further confirms this effectiveness at the decision level. Datamart-Agent attains the high-est accuracy for discrete equilibrium decisions and the lowest MSE for continuous decisions such as privacy noise σ and price p, outperforming all base-lines. These results indicate that Datamart-Agent not only matches equilibrium outcomes in aggre-32514 Agents Models CI CI-OOD Evolving Evolving-OOD β-INC β-INC-OOD 
+
+∆U(↓) Pass@ ϵ(↑) ∆U(↓) Pass@ ϵ(↑) ∆U(↓) Pass@ ϵ(↑) ∆U(↓) Pass@ ϵ(↑) ∆U(↓) Pass@ ϵ(↑) ∆U(↓) Pass@ ϵ(↑)
+
+RL-MAB DQN 0.354 0.200 0.370 0.182 0.385 0.158 0.410 0.123 0.270 0.417 0.466 0.223 PPO 0.344 0.251 0.360 0.236 0.375 0.202 0.400 0.185 0.125 0.530 0.292 0.307 
+
+LLM-State 
+
+LLaMA3.1-8B 0.302 0.395 0.347 0.306 0.301 0.313 0.429 0.208 0.334 0.395 0.401 0.297 Qwen2.5-32B 0.285 0.415 0.332 0.325 0.285 0.335 0.395 0.225 0.301 0.411 0.348 0.345 GPT-4o 0.225 0.570 0.315 0.331 0.235 0.450 0.335 0.350 0.256 0.485 0.302 0.415 
+
+LLM-Recent 
+
+LLaMA3.1-8B 0.351 0.336 0.359 0.276 0.359 0.259 0.428 0.215 0.405 0.314 0.467 0.262 Qwen2.5-32B 0.304 0.356 0.331 0.303 0.333 0.264 0.413 0.231 0.353 0.359 0.398 0.327 GPT-4o 0.264 0.513 0.311 0.343 0.282 0.337 0.351 0.349 0.335 0.412 0.346 0.378 
+
+LLM-I 
+
+LLaMA3.1-8B 0.173 0.632 0.204 0.525 0.177 0.599 0.382 0.414 0.323 0.411 0.402 0.318 Qwen2.5-32B 0.169 0.662 0.196 0.582 0.165 0.630 0.326 0.434 0.288 0.467 0.285 0.410 GPT-4o 0.147 0.701 0.179 0.589 0.160 0.675 0.313 0.455 0.256 0.491 0.240 0.524 
+
+LLM-E 
+
+LLaMA3.1-8B 0.182 0.615 0.185 0.666 0.189 0.582 0.175 0.565 0.268 0.525 0.357 0.453 Qwen2.5-32B 0.177 0.659 0.183 0.649 0.165 0.652 0.165 0.594 0.242 0.552 0.274 0.481 GPT-4o 0.146 0.742 0.144 0.787 0.154 0.702 0.158 0.632 0.213 0.661 0.236 0.602 
+
+Ours 
+
+LLaMA3.1-8B 0.193 0.603 0.188 0.651 0.165 0.674 0.178 0.588 0.277 0.440 0.288 0.470 Qwen2.5-32B 0.178 0.652 0.174 0.674 0.161 0.681 0.168 0.597 0.231 0.602 0.264 0.473 GPT-4o 0.132 0.849 0.136 0.796 0.145 0.734 0.151 0.656 0.203 0.712 0.215 0.681 
+
+Table 1: Main results comparing different RL-based and LLM-driven agents across six data marketplace settings. 
+
+gate utility but also reliably reproduces the under-lying equilibrium decision rules. 
+
+6.2.2 Ablation Study 
+
+To evaluate the effectiveness of each module, we conduct ablation studies on the EvoDM bench-marks using GPT-4o for Datamart-Agent. As shown in Table 2, removing any major module consistently degrades equilibrium replication per-formance. The most significant drop occurs when removing the natural language representation in the Dynamic Role-Conditioned Perception , which increases the equilibrium utility gap by 0.391, indi-cating that semantic grounding is critical for accu-rate equilibrium alignment. For the Dynamic Game Tree Memory , removing similarity-based retrieval leads to substantial degradation, whereas removing tree memory alone results in only a minor change, showing that experience retrieval is essential for maintaining equilibrium consistency. In addition, removing the Mechanism Guided Reflection Deci-sion increases the utility gap, confirming that ex-plicit mechanism guidance enhances equilibrium-consistent decision-making. We also examine the computational overhead introduced by the memory module. Although the Acc( e) Acc( a) Acc( b)      
+
+> 40 50 60 70
+> Accuracy (%)
+> (a) Decision Accuracy Comparison
+> MSE( )MSE( p)
+> 0.10 0.15 0.20 0.25
+> MSE
+> (b) Decision MSE Comparison
+> LLM-State LLM-Recent LLM-I LLM-E Datamart-Agent
+
+Figure 2: Agent Decision Performance. 
+
+Modules CI Evolving β-INC Avg. Chg. 
+
+Datamart-Agent 0.132 0.145 0.203 —
+
+Perception 
+
+w/o Natural Language Representation 0.525 0.532 0.595 +0.391 
+
+Memory 
+
+w/o Tree Memory 0.136 0.151 0.225 +0.011 w/o Similar Retrieval 0.278 0.290 0.341 +0.143 w/o Tree Memory + Similar Retrieval 0.282 0.296 0.340 +0.146 
+
+Action 
+
+w/o Mechanism-Guided Reflection 0.139 0.163 0.254 +0.025 
+
+Table 2: Ablation results of Datamart-Agent on ∆U (↓). 
+
+dynamic game tree expands online, inference only uses the Top-N retrieved paths rather than the full tree, which keeps the prompt length bounded. Ta-ble 3 reports the average token usage and infer-ence latency over each scenario in the CI setting with Qwen-2.5-32B-Instruction on one Nvidia H20 GPU. The additional overhead remains modest compared with strong LLM-agent baselines, sug-gesting that our game tree memory module is com-putationally manageable. LLM-State LLM-Recent LLM-I LLM-E Ours Avg. Tokens 7232 8322 9318 9136 9778 Avg. Time (s) 13.5 15.7 17.6 17.2 18.8 
+
+Table 3: Computational overhead in CI scenarios. 
+
+We further analyze similarity-based retrieval in the most challenging β-INC-OOD setting. We log the Top-N retrieval similarity at each decision step and summarize the resulting ∆U by similarity bin. Table 4 shows that higher retrieval similarity is associated with smaller ∆U, with a Pearson corre-lation of −0.331 . This result further supports the importance of retrieving trajectories close to the current data marketplace context. 32515 Similarity [0.00, 0.25) [0.25, 0.50) [0.50,0.75) [0.75, 1.00] 
+
+∆U (↓) 0.362 0.295 0.271 0.254 
+
+Table 4: ∆U vs. retrieval similarity over β-INC-OOD. 
+
+6.3 Emergent Market Dynamics (RQ2) 
+
+Building on the verified effectiveness of Datamart-Agent in aligning equilibria, we examine the emergent behaviors of the Datamart-Agent in the EvoDM to provide simulation-driven insights. All simulations employ the GPT-4o as the backbone. 
+
+6.3.1 Utilities under Different Mechanisms 
+
+We examine how marketplace mechanisms influ-ence utility distributions across users, platforms, and buyers by varying two core design dimensions: i) strict deletion versus legacy retention , and ii) 
+
+price persistence versus price re-optimization . Sim-ulations are repeated 50 times with T = 25 and 
+
+Kmax = 8 , and aggregate utilities are reported in Figure 3. Strict deletion consistently improves user utility by allowing adaptive withdrawal and limit-ing cumulative information leakage, while slightly reducing platform and buyer utilities due to con-strained long-term data access. In contrast, price re-optimization increases buyer utility and moderately benefits platforms through competitive pricing, but slightly reduces user utility as higher trading in-tensity amplifies the loss of privacy. These results illustrate clear trade-offs induced by regulatory and pricing mechanisms, demonstrating how agent be-haviors and utilities co-evolve under INC. w/o
+
+> Both
+> w/P. Re.
+> w/Deletion
+> w/Both 0.0 0.5 1.0 1.5
+> User Utility
+> w/o
+> Both
+> w/P. Re.
+> w/Deletion
+> w/Both 0.0 0.2 0.4
+> Platform Utility
+> w/o
+> Both
+> w/P. Re.
+> w/Deletion
+> w/Both 0.02
+> 0.00 0.02 0.04 0.06
+> Buyer Utility
+
+Figure 3: Utilities under different mechanisms. 
+
+6.3.2 Behavioral Responses to Platform 
+
+We study how platform privacy and pricing jointly affect market participation on both the user and buyer sides. User sharing behavior is analyzed as a function of platform privacy levels under heteroge-neous privacy preferences. Specifically, we group users into low ( α ∈ [0 , 1) ), mid ( α ∈ [1 , 4) ), and high ( α ∈ [4 , 5] ) according to their privacy sensi-tivity. As shown in Figure 4 (a), privacy sensitivity has a strong impact on user participation. User sharing probability increases with stronger privacy [0,0.25) [0.25,0.5) [0.5,0.75) [0.75, 1] Normalized         
+
+> (a)
+> 0.0 0.5 1.0 User Sharing Prob.
+> low (0-1)
+> mid (1-4)
+> high (4-5) 0.0 0.2 0.4 0.6 0.8 1.0 Privacy level
+> (b)
+> 0.0 0.2 0.4 0.6 0.8 1.0 Normalized Price  p
+> Pr=0.2 Pr=0.5 Pr=0.8
+> 0.0 0.5 1.0 Purchase probability
+
+Figure 4: Behavioral responses to platform privacy and pricing. (a) User sharing probability as a function of privacy level under heterogeneous privacy preferences. (b) Buyer purchase probability across price and privacy combinations, illustrating the price-privacy trade-off. 
+
+protection across all groups, with low-α users shar-ing consistently while high-α users respond sharply only at higher privacy levels. We uniformly sample platforms and buyers to measure the purchase probability of buyers across different combinations of normalized price p and privacy level σ. As shown in Figure 4 (b), the buyer’s purchase probability decreases with higher prices and increases with stronger privacy protec-tion, revealing a clear price-privacy trade-off. No-tably, high privacy levels can partially offset higher prices, indicating that privacy acts as a complemen-tary value signal in buyer decision-making. 
+
+6.3.3 Lifespan over Heterogeneous Platforms 
+
+We analyze platform survival under varying mar-ket horizons and platform density by measuring normalized platform lifespan. With Kmax = 16 ,increasing the horizon from T = 10 to T = 50 
+
+raises the normalized lifespan of low-cost platforms (ci ≤ 0.3) from approximately 0.15 to 0.25 , while high-cost platforms ( ci ≥ 0.8) exhibit near-zero lifespan across all horizons. Fixing T = 25 and increasing Kmax from 8 to 32 reduces the normal-ized lifespan of low-cost platforms from around 
+
+0.30 to below 0.15 , indicating intensified compe-tition. These patterns, shown in Figure 5, reveal emergent selection effects where competitive pres-sure drives platform exit and market turnover. 0.2 0.4 0.6 0.8 1.0      
+
+> Cost
+> 0.0 0.1 0.2 0.3
+> Norm Lifespan
+> (a) Varying Horizon
+> T=10 T=25 T=50 0.2 0.4 0.6 0.8 1.0
+> Cost
+> 0.0 0.1 0.2 0.3
+> (b) Varying Kmax
+> Kmax =8
+> Kmax =16
+> Kmax =32
+
+Figure 5: Platform lifespan over varying competitions. 32516 6.3.4 Preference Heterogeneity and Market Composition 
+
+We discuss how heterogeneous user privacy pref-erences interact with market composition to shape platform selection behavior. Concretely, platforms are categorized as privacy-first with high privacy noise σ = 0 .9 or utility-first with low privacy noise 
+
+σ = 0 .1. The market composition is controlled by the high-σ platform ratio , defined as the fraction of active platforms that are privacy-first. Users are grouped into low-, mid-, and high-α cohorts and evaluated under the legacy retention regime. 0.25 0.50 0.75 1.00 High Platform Ratio    
+
+> 0.6 0.7 0.8 0.9 High  Platform Share
+> low (0-1)
+> mid (1-4)
+> high (4-5)
+
+Figure 6: Share of high-σ platforms selected by users with different privacy preferences under varying high-σ
+
+platform ratios. 
+
+As shown in Figure 6, low-α users consistently maintain a high probability of sharing with high-
+
+σ platforms across all market compositions, in-dicating weak sensitivity to changes in platform availability. In contrast, high-α users exhibit a marked decline in the share of high-σ platforms they engage with as the high-σ platform ratio in-creases. This pattern reflects increased selectiv-ity among privacy-sensitive users, who concen-trate their sharing on a limited subset of trusted platforms when privacy-first options become abun-dant, rather than distributing interactions uniformly. The results demonstrate how heterogeneous privacy preferences lead to differentiated platform selec-tion and concentration effects, highlighting nontriv-ial interactions between user behavior and market composition in data marketplaces. 
+
+6.4 Case Study: Privacy Regularities (RQ3) 
+
+Motivated by the market patterns observed in Sec-tion 6.3, we next study how privacy regulation affects platform lifespan fairness under cost het-erogeneity. We compare representative regulatory regimes to examine which policy designs better balance fairness and platform viability in dynamic data marketplaces. We quantify fairness using the Gini coefficient (Gini, 1921), 
+
+GL =
+
+∑Ki=1 
+
+∑Kj=1 |Li − Lj |
+
+2K ∑Ki=1 Li
+
+, (12) where Li denotes the lifespan of platform i, and lower GL indicates more balanced lifespans.                              
+
+> Regime ci∈(0 .0,0.4) ci∈[0 .4,0.7) ci∈[0 .7,1.0] Gini (↓)
+> None 0.248 0.164 0.052 0.256
+> Ban 0.121 0.033 0.011 0.435
+> Uniform 0.198 0.086 0.028 0.387
+> Tiered 0.117 0.042 0.039 0.259
+
+Table 5: Lifespan distribution and Gini coefficients un-der different regulatory regimes. 
+
+We compare three representative regulatory regimes: i) a “Privacy Ban” with σi = ∞, ii) a “Uniform Minimum Privacy Mandate” with σi =0.5, and iii) a “Tiered Privacy Mandate” that ap-plies σi = ∞ to platforms with ci < 0.5 and 
+
+σi = 0 .5 otherwise. Table 5 reports the resulting lifespan distributions and fairness outcomes. The privacy ban sharply reduces platform participation and increases inequality, resulting in a Gini coef-ficient of 0.435. The uniform minimum privacy mandate also exacerbates imbalance, with a Gini coefficient of 0.387, disproportionately harming high-cost platforms. In contrast, the tiered privacy mandate significantly improves fairness, reducing the Gini coefficient to 0.259 while preserving plat-form viability across cost groups. It provides in-sights and feedback for designing privacy protec-tion regulations in data marketplaces. 
+
+7 Conclusion 
+
+In this paper, we propose EvoDM, an ABM frame-work for evolving and INC data marketplaces, to-gether with Datamart-Agent, an LLM-driven agent for equilibrium-consistent decision-making. Using analytically tractable CI, Evolving, and β-INC set-tings, we show that Datamart-Agent more closely matches theoretical equilibria than RL-based and LLM-based baselines. Building on this validation, we further use EvoDM with Datamart-Agent to study competition and privacy regulation in dy-namic data marketplaces, revealing platform lifes-pan inequality under cost heterogeneity and the fairness benefits of cost-aware privacy mandates over uniform regulation. 32517 Limitations 
+
+Although the current framework effectively models equilibrium-consistent decision-making and regu-latory dynamics, several promising directions re-main for future exploration. i) Persona integra-tion: incorporating diverse agent personas with varying cognitive styles, risk preferences, and be-havioral biases can enrich heterogeneity and en-able the simulation of more human-like interactions among participants. ii) Optimization-based regu-lation: extending the current regulator to a multi-objective optimization paradigm can support the automatic discovery of Pareto-efficient policy con-figurations that balance privacy, fairness, and wel-fare objectives. Coupling this regulator with feed-back signals from the data marketplace ABM and Datamart-Agent would facilitate adaptive policy refinement and closed-loop governance. iii) Eval-uation scope . The current evaluation focuses on equilibrium-consistent decision execution in ana-lytically tractable settings. It demonstrates reliable decision execution under this benchmark protocol, while it does not consider agent behavior under strategic disequilibrium, against non-equilibrium opponents, or in environments with equilibrium multiplicity. 
+
+Acknowledgments 
+
+The research described in this paper has been par-tially supported by the General Research Funds from the Hong Kong Research Grants Coun-cil (project No. PolyU 15207322, 15200023, 15206024, and 15224524), Hong Kong Research Grants Council’s Theme-based Research Scheme (No. T43-513/23-N), Hong Kong Research Grants Council’s Research Impact Fund (No. R1015-23), Hong Kong Research Grants Council’s Collabora-tive Research Fund (No. C1043-24GF), Internal re-search funds from Hong Kong Polytechnic Univer-sity (project no. P0059586, P0042693, P0048625, and P0051361), and Sheertek International (HK) Limited. This work was supported by computa-tional resources provided by The Centre for Large AI Models (CLAIM) of The Hong Kong Polytech-nic University. 
+
+References 
+
+2025. Aws data exchange. https://aws.amazon. com/data-exchange/ .Melika Abolhassani, Hossein Esfandiari, Mohammad-Taghi Hajiaghayi, Brendan Lucier, and Hadi Yami. 2017. Market pricing for data streams. In Proceed-ings of the AAAI Conference on Artificial Intelligence ,volume 31. Anish Agarwal, Munther Dahleh, and Tuhin Sarkar. 2019. A marketplace for data: An algorithmic solu-tion. In Proceedings of the 2019 ACM Conference on Economics and Computation , pages 701–726. Armen Aghajanyan, Lili Yu, Alexis Conneau, Wei-Ning Hsu, Karen Hambardzumyan, Susan Zhang, Stephen Roller, Naman Goyal, Omer Levy, and Luke Zettle-moyer. 2023. Scaling laws for generative mixed-modal language models. In International Conference on Machine Learning , pages 265–279. PMLR. Mohammad Mohammadi Amiri, Frederic Berdoz, and Ramesh Raskar. 2023. Fundamentals of task-agnostic data valuation. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 37, pages 9226–9234. Rossella Argenziano and Alessandro Bonatti. 2023. Data markets with privacy-conscious consumers. In 
+
+AEA Papers and Proceedings , volume 113, pages 191–196. American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203. Moshe Babaioff, Robert Kleinberg, and Renato Paes Leme. 2012. Optimal mechanisms for selling information. In Proceedings of the 13th ACM Con-ference on Electronic Commerce , pages 92–109. Dirk Bergemann, Alessandro Bonatti, and Alex Smolin. 2018. The design and price of information. Ameri-can economic review , 108(1):1–48. Aditya Bhaskara, Sreenivas Gollapudi, Sungjin Im, Kostas Kollias, Kamesh Munagala, and Govind S Sankar. 2024. Data exchange markets via utility bal-ancing. In Proceedings of the ACM Web Conference 2024 , pages 57–65. Yuran Bi, Jinfei Liu, Kui Ren, Yihang Wu, and Yang Cao. 2025. Bargaining-based data markets. In 2025 IEEE 41st International Conference on Data Engi-neering (ICDE) , pages 1456–1469. IEEE. Yuran Bi, Jinfei Liu, Chen Zhao, Junyi Zhao, Kui Ren, and Li Xiong. 2024. Share: Stackelberg-nash based data markets. In 2024 IEEE 40th International Con-ference on Data Engineering (ICDE) , pages 3573– 3586. IEEE. Kostas Bimpikis, Ilan Morgenstern, and Daniela Saban. 2024. Data tracking under competition. Operations Research , 72(2):514–532. Christine L Borgman. 2012. The conundrum of shar-ing research data. Journal of the American Society for Information Science and Technology , 63(6):1059– 1078. 32518 Raul Castro Fernandez. 2022. Protecting data markets from strategic buyers. In Proceedings of the 2022 International Conference on Management of Data ,pages 1755–1769. Raul Castro Fernandez. 2023. Data-sharing markets: model, protocol, and algorithms to incentivize the formation of data-sharing consortia. Proceedings of the ACM on Management of Data , 1(2):1–25. Lingjiao Chen, Paraschos Koutris, and Arun Kumar. 2019. Towards model-based pricing for machine learning in a data marketplace. In Proceedings of the 2019 international conference on management of data , pages 1535–1552. Zhengyu Chen, Siqi Wang, Teng Xiao, Yudong Wang, Shiqi Chen, Xunliang Cai, Junxian He, and Jingang Wang. 2025a. Revisiting scaling laws for language models: The role of data quality and training strate-gies. In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Vol-ume 1: Long Papers) , pages 23881–23899. Zhixun Chen, Zijing Shi, Yaodong Yang, Meng Fang, and Yali Du. 2025b. Hierarchical multi-agent frame-work for dynamic macroeconomic modeling using large language models. In Proceedings of the 24th International Conference on Autonomous Agents and Multiagent Systems , pages 2460–2462. European Commission. 2012. Proposal for a regulation of the european parliament and of the council on the protection of individuals with regard to the process-ing of personal data and on the free movement of such data (general data protection regulation). Procedure 2012/0011(COD). Thomas M Cover. 1999. Elements of information theory .John Wiley & Sons. Jinhao Duan, Renming Zhang, James Diffenderfer, Bhavya Kailkhura, Lichao Sun, Elias Stengel-Eskin, Mohit Bansal, Tianlong Chen, and Kaidi Xu. 2024. Gtbench: Uncovering the strategic reasoning capa-bilities of llms via game-theoretic evaluations. Ad-vances in Neural Information Processing Systems ,37:28219–28253. Meta FAIR, Anton Bakhtin, Noam Brown, Emily Di-nan, Gabriele Farina, Colin Flaherty, Daniel Fried, Andrew Goff, Jonathan Gray, Hengyuan Hu, and 1 others. 2022. Human-level play in the game of diplo-macy by combining language models with strategic reasoning. Science , 378(6624):1067–1074. Alireza Fallah, Michael Jordan, and Ali Makhdoumi. 2024. On three-layer data markets. In Agentic Mar-kets Workshop at ICML .Wenqi Fan, Yao Ma, Qing Li, Yuan He, Eric Zhao, Jiliang Tang, and Dawei Yin. 2019. Graph neural networks for social recommendation. In The world wide web conference , pages 417–426. Raul Castro Fernandez, Pranav Subramaniam, and Michael J Franklin. 2020a. Data market platforms: Trading data assets to solve data problems. Proceed-ings of the VLDB Endowment , 13(11). Raul Castro Fernandez, Pranav Subramaniam, and Michael J Franklin. 2020b. Data market platforms: trading data assets to solve data problems. Proceed-ings of the VLDB Endowment , 13(12):1933–1947. Chen Gao, Xiaochong Lan, Nian Li, Yuan Yuan, Jingtao Ding, Zhilun Zhou, Fengli Xu, and Yong Li. 2024. Large language models empowered agent-based mod-eling and simulation: A survey and perspectives. 
+
+Humanities and Social Sciences Communications ,11(1):1–24. Arpita Ghosh and Aaron Roth. 2011. Selling privacy at auction. In Proceedings of the 12th ACM conference on Electronic commerce , pages 199–208. Corrado Gini. 1921. Measurement of inequality of in-comes. The Economic Journal , 31(121):124–126. Denizalp Goktas. 2022. An algorithmic theory of mar-kets and their application to decentralized markets. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 36, pages 12878–12879. Qwen Group. 2025. Qwen2. 5-vl technical report. 
+
+arXiv preprint arXiv:2412.15115 .Tiancheng Hu and Nigel Collier. 2024. Quantifying the persona effect in LLM simulations. In Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) ,pages 10289–10307, Bangkok, Thailand. Association for Computational Linguistics. Wenyue Hua, Ollie Liu, Lingyao Li, Alfonso Amayue-las, Julie Chen, Lucas Jiang, Mingyu Jin, Lizhou Fan, Fei Sun, William Wang, and 1 others. 2024. Game-theoretic llm: Agent workflow for negotiation games. 
+
+arXiv preprint arXiv:2411.05990 .Wenlong Huang, Pieter Abbeel, Deepak Pathak, and Igor Mordatch. 2022. Language models as zero-shot planners: Extracting actionable knowledge for em-bodied agents. In International conference on ma-chine learning , pages 9118–9147. PMLR. Zezhou Huang, Jiaxiang Liu, Daniel Gbenga Alabi, Raul Castro Fernandez, and Eugene Wu. 2023. Sai-bot: A differentially private data search platform. 
+
+Proceedings of the VLDB Endowment , 16(11):3057– 3070. Nicole Immorlica, Ian A Kash, and Brendan Lucier. 2021. Buying data over time: Approximately op-timal strategies for dynamic data-driven decisions. In 12th Innovations in Theoretical Computer Sci-ence Conference (ITCS 2021) , pages 77–1. Schloss Dagstuhl–Leibniz-Zentrum für Informatik. 32519 Ruoxi Jia, David Dao, Boxin Wang, Frances Ann Hubis, Nezihe Merve Gurel, Bo Li, Ce Zhang, Costas Spanos, and Dawn Song. 2019. Efficient task-specific data valuation for nearest neighbor al-gorithms. Proceedings of the VLDB Endowment ,12(11):1610–1623. Zhuohang Jiang, Pangjing Wu, Ziran Liang, Peter Q Chen, Xu Yuan, Ye Jia, Jiancheng Tu, Chen Li, Pe-ter HF Ng, and Qing Li. 2025a. Hibench: Bench-marking llms capability on hierarchical structure rea-soning. In Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Min-ing V. 2 , pages 5505–5515. Zhuohang Jiang, Pangjing Wu, Xu Yuan, Wenqi Fan, and Li Qing. 2025b. Qa-dragon: Query-aware dy-namic rag system for knowledge-intensive visual question answering. In 2025 KDD Cup Workshop for Multimodal Retrieval Augmented Generation .Paraschos Koutris, Prasang Upadhyaya, Magdalena Bal-azinska, Bill Howe, and Dan Suciu. 2015. Query-based data pricing. Journal of the ACM (JACM) ,62(5):1–44. Nian Li, Chen Gao, Mingyu Li, Yong Li, and Qingmin Liao. 2024a. Econagent: Large language model-empowered agents for simulating macroeconomic activities. In Proceedings of the 62nd Annual Meet-ing of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 15523–15536. Yifan Li, Xiaohui Yu, and Nick Koudas. 2021. Data acquisition for improving machine learning models. 
+
+Proceedings of the VLDB Endowment , 14(10):1832– 1844. Zitao Li, Bolin Ding, Liuyi Yao, Yaliang Li, Xiaokui Xiao, and Jingren Zhou. 2024b. Performance-based pricing for federated learning via auction. Proceed-ings of the VLDB Endowment , 17(6):1269–1282. Jinfei Liu, Jian Lou, Junxu Liu, Li Xiong, Jian Pei, and Jimeng Sun. 2021. Dealer: An end-to-end model marketplace with differential privacy. Proceedings of the VLDB Endowment , 14(6). Ryan Lowe, Yi I Wu, Aviv Tamar, Jean Harb, OpenAI Pieter Abbeel, and Igor Mordatch. 2017. Multi-agent actor-critic for mixed cooperative-competitive envi-ronments. Advances in neural information process-ing systems , 30. A Woodbury Max. 1950. Inverting modified matri-ces. In Memorandum Rept. 42, Statistical Research Group , page 4. Princeton Univ. META. 2024. The llama 3 herd of models. arXiv e-prints , pages arXiv–2407. Volodymyr Mnih, Koray Kavukcuoglu, David Sil-ver, Alex Graves, Ioannis Antonoglou, Daan Wier-stra, and Martin Riedmiller. 2013. Playing atari with deep reinforcement learning. arXiv preprint arXiv:1312.5602 .Dmitry Moor. 2019. Data markets with dynamic arrival of buyers and sellers. In Proceedings of the 14th Workshop on the Economics of Networks, Systems and Computation , pages 1–6. Xinyi Mou, Chen Qian, Wei Liu, Xuanjing Huang, and Zhongyu Wei. 2025. Ecolang: Efficient and effective agent communication language induction for social simulation. arXiv preprint arXiv:2505.06904 .OpenAI. 2023. Gpt-4 technical report. arXiv preprint arXiv:2303.08774 .Jian Pei. 2020. Data pricing–from economics to data science. In Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining , pages 3553–3554. Jinghua Piao, Yuwei Yan, Jun Zhang, Nian Li, Junbo Yan, Xiaochong Lan, Zhihong Lu, Zhiheng Zheng, Jing Yi Wang, Di Zhou, and 1 others. 2025. Agentso-ciety: Large-scale simulation of llm-driven genera-tive agents advances understanding of human behav-iors and society. arXiv preprint arXiv:2502.08691 .Deepak Ravichandran and Nitish Korula. 2019. Effect of disabling third-party cookies on publisher revenue. 
+
+Google Report .John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov. 2017. Proxi-mal policy optimization algorithms. arXiv preprint arXiv:1707.06347 .Haoran Tang, Xueyao Sun, Shiqing Wu, Zhihong Cui, Guandong Xu, and Qing Li. 2025. Dybooster: Lever-aging large language model as booster for dynamic recommendation. Expert Systems with Applications ,286:128080. Jiachen T Wang and Ruoxi Jia. 2023. Data banzhaf: A robust data valuation framework for machine learn-ing. In International Conference on Artificial Intelli-gence and Statistics , pages 6388–6421. PMLR. Xiaoyang Wang, Yao Ma, Yiqi Wang, Wei Jin, Xin Wang, Jiliang Tang, Caiyan Jia, and Jian Yu. 2020. Traffic flow prediction via spatial temporal graph neu-ral network. In Proceedings of the web conference 2020 , pages 1082–1092. Zengqing Wu, Run Peng, Shuyuan Zheng, Qianying Liu, Xu Han, Brian Inhyuk Kwon, Makoto Onizuka, Shaojie Tang, and Chuan Xiao. 2024. Shall we team up: Exploring spontaneous cooperation of competing llm agents. arXiv preprint arXiv:2402.12327 .Mingyan Xiao, Ming Li, and Jennifer Jie Zhang. 2023. Locally differentially private personal data markets using contextual dynamic pricing mechanism. IEEE Transactions on Dependable and Secure Computing ,20(6):5043–5055. Chengxing Xie, Canyu Chen, Feiran Jia, Ziyu Ye, Shiyang Lai, Kai Shu, Jindong Gu, Adel Bibi, Ziniu 32520 Hu, David Jurgens, and 1 others. 2024. Can large lan-guage model agents simulate human trust behavior? 
+
+Advances in neural information processing systems ,37:15674–15729. Aolin Xu and Maxim Raginsky. 2017. Information-theoretic analysis of generalization capability of learning algorithms. Advances in neural informa-tion processing systems , 30. Yuwei Yan, Jinghua Piao, Xiaochong Lan, Chenyang Shao, Pan Hui, and Yong Li. 2025. Simulating gen-erative social agents via theory-informed workflow design. arXiv preprint arXiv:2508.08726 .Shuhua Yang, Jiahao Zhang, Yilong Wang, Dongwon Lee, and Suhang Wang. 2026. Query-efficient agen-tic graph extraction attacks on graphrag systems. 
+
+arXiv preprint arXiv:2601.14662 .Haifei Yu and Mengxiao Zhang. 2017. Data pricing strategy based on data quality. Computers & Indus-trial Engineering , 112:1–10. Xu Yuan, Liangbo Ning, Wenqi Fan, and Qing Li. 2025. mkg-rag: Multimodal knowledge graph-enhanced rag for visual question answering. arXiv preprint arXiv:2508.05318 .YANG Yuzhe, Yifei Zhang, Minghao Wu, Kaidi Zhang, Yunmiao Zhang, Honghai Yu, Yan Hu, and Benyou Wang. 2025. Twinmarket: A scalable behavioral and social simulation for financial markets. In ICLR 2025 Workshop on World Models: Understanding, Modelling and Scaling .Jiayao Zhang, Yuran Bi, Mengye Cheng, Jinfei Liu, Kui Ren, Qiheng Sun, Yihang Wu, Yang Cao, Raul Castro Fernandez, Haifeng Xu, and 1 others. 2024a. A survey on data markets. arXiv preprint arXiv:2411.07267 .Xinnong Zhang, Jiayu Lin, Libo Sun, Weihong Qi, Yi-hang Yang, Yue Chen, Hanjia Lyu, Xinyi Mou, Sim-ing Chen, Jiebo Luo, and 1 others. 2024b. Election-sim: Massive population election simulation pow-ered by large language model driven agents. arXiv preprint arXiv:2410.20746 .Zeyu Zhang, Jianxun Lian, Chen Ma, Yaning Qu, Ye Luo, Lei Wang, Rui Li, Xu Chen, Yankai Lin, Le Wu, and 1 others. 2024c. Trendsim: Simulat-ing trending topics in social media under poisoning attacks with llm-based multi-agent system. arXiv preprint arXiv:2412.12196 .Zheyuan Zhang, Daniel Zhang-Li, Jifan Yu, Linlu Gong, Jinchang Zhou, Zhanxin Hao, Jianxiao Jiang, Jie Cao, Huiqin Liu, Zhiyuan Liu, and 1 others. 2025. Simulating classroom education with llm-empowered agents. In Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers) , pages 10364– 10379. Yiding Zhu, Hongwei Zhang, Jiayao Zhang, Jinfei Liu, and Kui Ren. 2024. Dataprice: An interactive system for pricing datasets in data marketplaces. Proceed-ings of the VLDB Endowment , 17(12):4433–4436. 
+
+A Experimental Settings 
+
+The source code of EvoDM and Datamart-Agent is available at this GitHub repository. 
+
+A.1 Benchmark Construction Details 
+
+The benchmark is derived from the EvoDM intro-duced in Section 4, where each scenario admits a closed-form equilibrium and utility solution. Each scenario is generated by independently sampling user, platform, and buyer characteristics from pre-defined distributions. For each setting, we construct disjoint training, validation (with 200 examples for RL baselines), and test splits. In addition, we design OOD scenarios to evaluate robustness un-der distributional shifts and increased marketplace complexity. We summarize the benchmark con-struction for all experimental settings in Table 6. Setting Train # Test # α Range β Range #Platforms CI 1000 200 U(0 , 5) U(0 , 1) 2–6 Evolving 1000 200 U(0 , 5) U(0 , 1) 2–8                             
+
+> β-INC 1000 200 U(0 ,5) U(0 ,1) 2–6 CI (OOD) –200 U(0 ,10) U(0 ,2) 6–8
+> β-INC (OOD) –200 U(0 ,10) U(0 ,2) 6–8 Evolving (OOD) –200 U(0 ,10) U(0 ,2) 6–16
+
+Table 6: Benchmark construction settings. 
+
+In all settings, platform costs are sampled as 
+
+ci ∼ U(0 , 1) and platform-user alignment parame-ters are sampled as γi ∼ U(0 , 1) . The OOD bench-marks jointly test the agent’s ability to generalize across both parameter shifts (privacy sensitivity and buyer valuation) and structural changes (num-ber of competing platforms), while maintaining consistency with analytically tractable equilibria. 
+
+A.2 Baselines 
+
+In our experiments, we compared our Datamart-Agent with the following RL- and LLM-driven baselines on EvoDM, • RL-ABM (Lowe et al., 2017): RL-based ABM frameworks, in which each agent learns a policy from repeated environment interac-tion and then makes decisions. • LLM-State (Zhang et al., 2024b): An LLM agent conditioned solely on its predefined role 32521 and current state observations, without any memory of prior decisions. • LLM-Recent (Zhang et al., 2024c; Piao et al., 2025): Extends the LLM-State by incorporat-ing the k most recent decision trajectories as short-term flat memory. • LLM-I (Li et al., 2024a): Incorporates the top-N most similar decision trajectories and prompts the agent to reason about how alter-native actions affect others’ decisions and util-ities. • LLM-E (Hua et al., 2024): Builds upon LLM-I by integrating both natural language and symbolic reasoning to infer how alternative actions affect others’ decisions and utilities. The LLM-driven baselines build on existing LLM-agent frameworks, adopting their design principles for multi-agent interaction and decision-making. 
+
+A.3 Metrics 
+
+We evaluate performance using two primary met-rics. 1) Utility Gap ∆U depicts the deviation be-tween predicted utilities ˆU∗,j , ∗ ∈ { u, i, b } and ground-truth equilibrium utilities U∗,
+
+∆U = 1
+
+N
+
+> N
+
+∑
+
+> j=1
+
+∣∣ ˆU∗,j − U ∗
+
+∣∣. (13) 
+
+2) Pass@ ε illustrates fraction of runs whose pre-dicted utilities fall within an ε-tolerance of equilib-rium, Pass@ ε = 1
+
+N
+
+> N
+
+∑
+
+> j=1
+
+I(| ˆU∗,j − U ∗| ≤ ε), (14) where I(·) denotes the indicator function. For fine-grained evaluation, we additionally report accuracy for discrete actions ( i.e. , e, a, and b) and mean square error (MSE) of continuous decisions ( i.e. , σ
+
+and p). 
+
+A.4 Models and Hyperparameters 
+
+We instantiate the LLM-driven agents with three widely used instruction-tuned LLMs across different scales and families, including GPT-4 O (OpenAI, 2023), LLAMA -3.1-8B-INSTRUCT (META, 2024), and Q WEN -2.5-32B-INSTRUCT (Group, 2025). Unless otherwise noted, decoding is deterministic with temperature=0 
+
+and max_tokens=8192 to ensure stability and reproducibility. All other runtime hyperparameters follow the defaults of SGL ANG 1.For settings with training data (RQ1), we warm-up each LLM agent’s memory by reviewing ground-truth equilibrium decisions from the training split without exposing test instances. For settings with-out training data (RQ2 and RQ3), we perform a 200-round self-play warm-up within the ABM en-vironment. During simulation, the agent retrieves at most Nmem =10 prior game tree memory for our DATAMART -A GENT or flat decision traces for the baselines. For RL-MAB baselines, we employ two repre-sentative RL models, DQN (Mnih et al., 2013), and PPO (Schulman et al., 2017), trained under identi-cal conditions within the data marketplace ABM environment. All models adopt vectorized observa-tions consistent with those used by the LLM-based Agents. The observation of RL-based agents in-cludes decision-relevant historical variables, which already satisfies the Markov property for the policy learner. Therefore, we use an MLP policy model to capture states in data marketplace ABM environ-ment and make actions. These RL models are op-timized using the Adam optimizer with a learning rate of 3 × 10 −4 and a discount factor of γ = 0 .99 .For DQN, we use a replay buffer of size 10 4, a batch size of 128, and an ϵ-greedy exploration strat-egy that decays from 0.9 to 0.02 over 10 3 steps. PPO follows standard configurations with general-ized advantage estimation of λ = 0 .95 , a clipping ratio of 0.2, eight training epochs per policy update, a batch size of 64, a value loss coefficient of 0.5, and an entropy coefficient of 0.1. 
+
+B Extended Related Work 
+
+B.1 Data Marketplace Properties and Mechanisms 
+
+Research on data marketplaces is fundamentally shaped by the informational nature of data, which distinguishes it from traditional economic goods. In particular, data is commonly modeled as an infor-mation good whose value depends on signal quality and informativeness rather than exclusivity or con-sumption (Babaioff et al., 2012), naturally motivat-ing information-theoretic abstractions for valuation and utility (Cover, 1999; Xu and Raginsky, 2017). These properties provide the conceptual foundation for formal models of data marketplaces. 
+
+> 1https://github.com/sgl-project/sglang
+
+32522 Early research on data marketplaces focuses on direct dataset trading, formalizing ownership, pric-ing, and access control (Yu and Zhang, 2017; Fer-nandez et al., 2020b; Zhang et al., 2024a). Sub-sequent work generalizes data products beyond static datasets to query-based markets (Koutris et al., 2015) and model-based markets (Chen et al., 2019; Jia et al., 2019; Liu et al., 2021), empha-sizing arbitrage-free pricing, incentive compatibil-ity, and fair revenue allocation under information reuse. These lines of work culminate in the three-layer data marketplace formulation (Fallah et al., 2024), which explicitly models strategic interac-tions among users, platforms, and buyers. Equi-librium analyzes under Stackelberg–Nash competi-tion (Bi et al., 2024) and bargaining dynamics (Bi et al., 2025) further characterize incentive align-ment under privacy and competition constraints. A parallel literature examines regulation and competition in data exchange. Studies on data-sharing restrictions show that uniform policies may reduce welfare or innovation depending on market structure (Bimpikis et al., 2024; Argenziano and Bonatti, 2023; Ravichandran and Korula, 2019). Work on dynamic data sales and information de-sign highlights how repeated interactions and data replicability complicate pricing and regulation un-der uncertainty (Abolhassani et al., 2017; Immor-lica et al., 2021; Bergemann et al., 2018). Recent approaches propose adaptive mechanisms such as utility-balanced exchanges (Bhaskara et al., 2024) and performance-based pricing in federated set-tings (Li et al., 2024b). Finally, learning-based approaches incorporate adaptive pricing and valuation into data market-places. These include mechanisms robust to strate-gic buyers (Castro Fernandez, 2022), task-agnostic data valuation methods (Amiri et al., 2023; Wang and Jia, 2023), and reinforcement-learning-driven market optimization (Li et al., 2021; Goktas, 2022). While effective under fixed assumptions, these models typically abstract away agent cognition and language-mediated interaction, limiting their ap-plicability to more realistic and generalizable data marketplace analysis. 
+
+B.2 LLM-Based Agents in ABMs 
+
+Traditional ABMs rely on predefined rules or heuristics, producing emergent dynamics through repeated interactions (Gao et al., 2024). In contrast, recent LLM-based agents demonstrate strong ca-pabilities in natural language reasoning, dialogue, and contextual adaptation (Jiang et al., 2025a,b; Yuan et al., 2025; Tang et al., 2025; Yang et al., 2026). They can efficiently decompose tasks hier-archically, plan over long horizons, and condition actions on memory, surpassing traditional agents in flexibility (Huang et al., 2022). This paradigm further exhibits negotiation and coordination be-haviors through language, enabling multi-agent in-teraction without explicit protocol design (FAIR et al., 2022). Empirical evaluations show that LLM agents reproduce human-like trust, reciprocity, coopera-tion, and risk preferences aligned with behavioral economics (Xie et al., 2024; Wu et al., 2024; Hu and Collier, 2024). Extensions incorporate motiva-tional and educational theories to simulate adaptive learning and social dynamics (Yan et al., 2025; Zhang et al., 2025). More broadly, complex re-lational dependencies and dynamic interactions have also been studied in structured learning set-tings, including social recommendation and spatio-temporal forecasting (Fan et al., 2019; Wang et al., 2020). These agents have further been applied to economic and financial simulations, modeling het-erogeneous decision-making and macro-level adap-tation under policy interventions (Li et al., 2024a; Chen et al., 2025b; Yuzhe et al., 2025). Despite these advances, a key challenge re-mains in ensuring equilibrium-consistent decision-making by LLM agents in strategic environments. Most existing studies emphasize behavioral real-ism or emergent social patterns, whereas our work focuses on enhancing LLM agents’ decision ra-tionality in data marketplace simulations, thereby enabling principled analysis of strategic interac-tion, incentive alignment, and regulatory feed-back. 
+
+C Theorem Proofs and Examples 
+
+In this section, we provide full derivations, proofs, and illustrative examples for the equilibria and util-ities used as ground truth in Section 3. We organize the materials by (i) static CI equilibrium founda-tions, (ii) temporally evolving entry, and (iii) buyer-valuation incomplete information ( β-INC). 
+
+C.1 Preliminary (Static CI) 
+
+This section presents the formal propositions and proofs that underpin the equilibrium structure of the static, complete-information three-layer data marketplace introduced in Section 3.1. Under the 32523 standard Gaussian assumptions adopted in Fallah et al. (2024), we characterize how platform signals induce information revelation, how buyer-facing noise affects information aggregation, and how these primitives jointly determine privacy leakage, equilibrium pricing, and agent utilities. Before presenting the technical results, we briefly explain the economic and informational ra-tionale behind the utility functions defined in Defi-nition 2. Each agent’s utility is expressed in terms of mutual information to directly capture the value and cost of information flows in the marketplace. Specifically, platform i’s utility Ui(σ, e, a, p, b)
+
+consists of a service component proportional to the user-side revealed information Ii = I(xT 
+
+> i
+
+θ | si)
+
+whenever the user shares data ( ai = 1 ), together with revenue bipi from selling noisy signals to the buyer, minus a fixed entry cost ci. The user’s utility 
+
+Uu(σ, e, a, p, b) trades off service gains ∑ 
+
+> i
+
+aieiIi
+
+against a privacy loss measured by the total in-formation leaked to the buyer, I(yTθ | ˜s). The buyer’s utility Ub(σ, e, a, p, b) is linear in the ag-gregated information obtained from all purchased platforms, scaled by valuation parameter β, and net of total payments. Formulating utilities directly in terms of mutual information ensures that noise choices, informa-tion substitutability across platforms, and privacy– utility trade-offs are explicitly and tractably repre-sented, enabling closed-form equilibrium charac-terization under Gaussian assumptions. 
+
+Proposition A1 (User-Side Revealed Informa-tion) . For data signal si = x⊤ 
+
+> i
+
+θ + εi shared to platform i with εi ∼ N (0 , 1) and ∥xi∥ = 1 , the revealed information is, 
+
+Ii = 12 log 
+
+(
+
+1 + Var( x⊤ 
+
+> i
+
+θ)Var( εi)
+
+)
+
+= 12 . (15) 
+
+Proof. Since θ ∼ N (0 , I d) and ∥xi∥ = 1 , we have x⊤ 
+
+> i
+
+θ ∼ N (0 , 1) and Var( x⊤ 
+
+> i
+
+θ) = 1 . The signal si = x⊤ 
+
+> i
+
+θ + εi is a scalar Gaussian channel with independent noise εi ∼ N (0 , 1) . Thus, Ii =
+
+I(x⊤ 
+
+> i
+
+θ; si) = 12 log 
+
+(
+
+1 + Var( x⊤ 
+
+> iθ)Var( εi)
+
+)
+
+= 12 log(2) =  
+
+> 12
+
+.
+
+Proposition A2 (Buyer-Side Received Informa-tion) . Let S = {i | ei = ai = bi = 1 } ⊆ [K] be the set of platforms whose data reach the buyer, 
+
+mS = [ γi]i∈S , and 
+
+(MS )ij =
+
+{
+
+2 + σ2 
+
+> i
+
+, i = j, γiγj , i̸ = j. (16) 
+
+Then, I(σS ) = m⊤ 
+
+> S
+
+M −1 
+
+> S
+
+mS .
+
+Proof. Let ˜sS = [˜ si]i∈S denote the vector of buyer-observed signals. Under the linear-Gaussian model in Section 3, ˜sS is jointly Gaus-sian with the target scalar y⊤θ and admits the standard mutual-information form I(y⊤θ; ˜ sS ) =  
+
+> 12
+
+log 
+
+( Var( y⊤θ)Var( y⊤θ|˜sS )
+
+)
+
+. Writing the conditional vari-ance via the Schur complement yields the closed form I(σS ) = m⊤ 
+
+> S
+
+M −1 
+
+> S
+
+mS , with mS and MS
+
+defined in Proposition A2. 
+
+Corollary A1 (Individual Platform Received In-formation) . For |S| = 1 , Proposition A2 yields, 
+
+I(σi) = γ2
+
+> i
+
+2 + σ2
+
+> i
+
+. (17) 
+
+Proof. When |S| = 1 , mS = [ γi] and MS =[2 + σ2 
+
+> i
+
+]. Therefore m⊤ 
+
+> S
+
+M −1 
+
+> S
+
+mS = γ2 
+
+> i
+
+/(2 + σ2 
+
+> i
+
+),proving the claim. 
+
+Proposition A3 (Leaked Information and Equal-Leakage Structure) . Fix a participating platform set S, and assume the user shares with every entered platform. An equilibrium noise profile exists iff α > K−12 and is characterized by the common ratio, 
+
+2 + σ2
+
+> i
+
+γ2
+
+> i
+
+= 2 α − K + 1 . (18) 
+
+The buyer’s total information equals the user’s privacy boundary, 
+
+I(σS ) = K
+
+2α . (19) 
+
+Proof (sketch). (i) By Proposition A2, the buyer-side leakage I(σS ) is a smooth function of 
+
+{σi}i∈S . (ii) When the user shares with all en-tered platforms, the user’s best response makes the privacy term binding, which implies I(σS ) = 
+
+K/ (2 α). (iii) Platforms’ optimality conditions for maximizing revenue, subject to the binding leakage constraint, force the equal-ratio structure 
+
+> 2+ σ2
+> i
+> γ2
+> i
+
+= 2 α − K + 1 for all i ∈ S. Feasibility re-quires 2α − K + 1 > 0, i.e., α > (K − 1) /2.32524 Proposition A4 (Platform Pricing Equilibrium (Marginal Contribution)) . Given entry e, sharing 
+
+a, and noise σ, the optimal price posted by plat-form i is its marginal contribution to the buyer: 
+
+p∗ 
+
+> i
+
+= β (I(σS ) − I (σS\{ i}
+
+)) . (20) 
+
+Proof. Fix entry e, sharing a, and noise σ. Given 
+
+σ, the buyer’s utility is linear in purchased infor-mation, and the buyer selects S by comparing per-unit value with induced per-unit prices. In equilib-rium, each platform sets price equal to its marginal information contribution to the buyer, yielding Eq. (20). These propositions and corollaries characterize the subgame-perfect equilibrium of the three-layer marketplace and serve as ground truth for the multi-agent simulation. 
+
+C.2 Temporally Evolving Marketplace 
+
+In this section, we formalize equilibrium behavior in a temporally evolving data marketplace with se-quential platform entry. We provide proofs for the entrant noise-price characterization and the result-ing per-round utility decomposition, as stated in the main paper. Proposition A5 establishes the equilibrium noise-price choice of a platform entering in round t,formally deriving the closed-form expressions of temporally evolving marketplaces under a binding marginal privacy constraint. 
+
+Proposition A5 (Noise–Price Pair for Round-t En-trants) . Fix any round t ≥ 2 with incumbents St−1.For each new entrant j / ∈ St−1, the equilibrium noise level satisfies, 
+
+σ2 
+
+> j
+
+(t) = 2 αγ 2
+
+> j
+
+(1−I (σSt−1 ))2+γ2 
+
+> j
+
+I(σSt−1 )−2, (21) 
+
+whenever the right-hand side is non-negative; oth-erwise, the entrant cannot be admitted without violating the privacy boundary. The correspond-ing equilibrium entry-time price is, 
+
+p(t) 
+
+> j
+
+= βt
+
+2α . (22) 
+
+Proof. At round t, a new platform j ∈ SNew  
+
+> t
+
+can be accepted by the user only if the incremental buyer-side information ∆I(t) 
+
+> j
+
+:= I(σSt−1 ∪ { σj }) −I(σSt−1 ) satisfies the marginal privacy constraint  
+
+> 12α
+
+, which arises from the condition that the incre-mental service gain Ij = 12 equals the privacy cost 
+
+α∆I(t) 
+
+> j
+
+according to Eq. (2). Under the Gaussian assumption and the substitute-good information structure in Proposition A2, this marginal gain can be expressed using the Woodbury identity (Max, 1950) as, 
+
+∆I(t) 
+
+> j
+
+= γ2
+
+> j
+
+(1 − I (σSt−1 ))2
+
+2 + σ2 
+
+> j
+
+− γ2 
+
+> j
+
+I(σSt−1 ) .
+
+Solving for σ2 
+
+> j
+
+gives the unique candidate noise in Eq. (21). Feasibility requires σ2 
+
+> j
+
+(t) ≥ 0; oth-erwise, no valid noise level satisfies the privacy constraint and the entrant is excluded. If feasible and accepted, the entrant’s marginal information contribution equals 12α , implying an equilibrium price proportional to the buyer’s valuation, yield-ing Eq. (22) by Proposition A4. Proposition 1 verifies the per-round utility de-composition, showing that user surplus is driven to zero, incumbents earn constant flow payoffs, en-trants receive entry-time revenues, and buyer utility evolves with cumulative prices and information. 
+
+Proof. The user utility U (t) 
+
+> u
+
+follows from Proposi-tion A3, which implies the binding leakage struc-ture and hence U(t) 
+
+> u
+
+= 0 . Incumbents keep (σi, p i)
+
+and obtain constant per-round utility in Eq. (5). En-trants satisfy Eq. (22), hence their per-round utility is Eq. (6). Buyer yt earns βtI(σt) and pays in-cumbents Pt−1 plus mt entrants at price βt/(2 α),giving Eq. (7). 
+
+Example A1 (Three-Round Evolution with Se-quential Entry) . In the first round, let α = 4,
+
+β1 = 1, and incumbent platforms (γ1, γ 2) =(1 .0, 0.8) with costs (c1, c 2) = (0 .55 , 0.40) . By Proposition A3, σ21 = 5.00 , σ22 = 2.48 , and 
+
+I(σS1 ) = 14 . Prices from Proposition A4 yield 
+
+p(1) 1 = p(1) 2 = 328 = 0 .107 , and the corresponding utilities are U(1)  
+
+> u
+
+= 0 , U(1) 1 = 0 .057 , U(1) 2 = 0 .207 ,
+
+U(1)  
+
+> b
+
+= 0 .036 .In the second round, a new buyer with β2 = 1 
+
+arrives, and the pre-entry information leakage is I(σS1 ) = 14 . A new platform j = 3 with 
+
+(γ3, c 3) = (1 .0, 0.30) enters. By Proposition A5, 
+
+σ23 = 2 .75 and p(2) 3 = 0 .125 . The updated in-formation leakage is I(σS2 ) = 0 .375 , and utili-ties are U(2)  
+
+> u
+
+= 0 , U(2) 1 = 0 .057 , U(2) 2 = 0 .207 ,
+
+U(2) 3 = 0 .325 , U(2)  
+
+> b
+
+= 0 .036 .In the third round, buyer β3 = 1 .2 arrives and a new platform j = 4 with (γ4, c 4) = (0 .8, 0.35) 32525 enters. By Proposition A5, σ24 = 0 .24 and p(3) 4 =0.15 . This leads to I(σS3 ) = 0 .5. Per-round util-ities are U(3)  
+
+> u
+
+= 0 , U(3) 1 = 0 .057 , U(3) 2 = 0 .207 ,
+
+U(3) 3 = 0 .325 , U(3) 4 = 0 .300 , and buyer utility 
+
+U(3)  
+
+> b
+
+= 0 .111 .
+
+C.3 β-INC Marketplace 
+
+In this section, we provide the formal equilibrium characterizations and illustrative examples for the data marketplace under buyer-valuation incomplete information, including optimal per-unit pricing, user sharing cutoffs, equilibrium noise design, and utility outcomes in low- and high-privacy regimes. The optimal per-unit price defined in Section 3.3 can be obtained by, 
+
+Lemma A1 (Optimal Per-Unit Price) . Assume 
+
+β ∼ U[β, β ]. Given any I(σi) and the expected revenue of platform i, Ri(zi) = ziI(σi)[1 −
+
+F (zi)] , the revenue is maximized at z∗ =max 
+
+{
+
+β, β
+
+> 2
+
+}
+
+.Proof. Under the uniform prior F (zi) = zi−ββ−β , we have Ri(zi) ∝ zi(β − zi), a concave quadratic maximized at zi = β/ 2. Projecting back to [β, β ]
+
+yields z∗ = max {β, β/ 2}.
+
+Lemma A2 (User Cut-off in Buyer INC) . The user shares its data with all entered K platforms iff, 
+
+α ≤ αcrit := K
+
+2 Pr( β ≥ z∗)I(σS ) . (23) 
+
+Proof. If the user shares with all entered platforms, Eq. (2) and Proposition A1 yield 
+
+Eβ [Uu] = K
+
+2 − α Pr( β ≥ z∗)I(σS ).
+
+If the user shares with no platform, the utility is 0.Therefore, sharing all is preferred iff Eβ [Uu] ≥ 0,which yields the stated condition. 
+
+C.3.1 Low-privacy regime. 
+
+When α ≤ αcrit , the user is willing to share even with zero noise. Each platform maximizes expected revenue by choosing σ∗ 
+
+> i
+
+= 0 and posting p∗ 
+
+> i
+
+=
+
+z∗I(σ∗ 
+
+> i
+
+) = z∗γ2 
+
+> i
+> 2
+
+.
+
+Proposition A6 (Equilibrium at Low-Privacy Regime) . If α ≤ αcrit , any sub-game-perfect equi-librium satisfies σ∗ 
+
+> i
+
+= 0 and p∗ 
+
+> i
+
+= z∗ γ2 
+
+> i
+> 2
+
+for all 
+
+i ∈ S. The resulting expected utilities are, 
+
+Eβ [Uu] = K
+
+2 − α Pr( β ≥ z∗)I(σ∗ 
+
+> S
+
+), (24) 
+
+Eβ [Ui] = 12 − ci + Pr( β ≥ z∗)p∗ 
+
+> i
+
+, (25) 
+
+Eβ [Ub] = Pr( β ≥ z∗)( E[β | β ≥ z∗]−z∗)I(σ∗ 
+
+> S
+
+).
+
+(26) 
+
+Proof. Given α ≤ αcrit , Lemma A2 implies the user shares with all entered platforms even when 
+
+σi = 0 . Platforms then maximize expected revenue by setting per-unit price z∗ (Lemma A1) and hence 
+
+p∗ 
+
+> i
+
+= z∗I(σ∗ 
+
+> i
+
+) = z∗γ2 
+
+> i
+
+/2. The expected utilities follow by substituting σ∗ 
+
+> i
+
+, p ∗ 
+
+> i
+
+into Eqs. (1)–(3) and taking expectations over β.
+
+C.3.2 High-privacy regime. 
+
+When α > α crit , the user shares only if the ex-pected leakage satisfies, 
+
+Pr( β ≥ z∗) · I (σS ) = K
+
+2α . (27) Platforms then choose noise and price to maximize expected revenue subject to this binding constraint. 
+
+Theorem A1 (Optimal Noise and Price at High--Privacy Regime) . In the high-privacy regime 
+
+α > α crit , platforms choose, 
+
+σ∗2 
+
+> i
+
+=γ2 
+
+> i
+
+(2 α Pr( β ≥ z∗) − K + 1) − 2, (28) 
+
+p∗ 
+
+> i
+
+= z∗
+
+2α Pr( β ≥ z∗) − K + 1 , (29) 
+
+which satisfy Eq. (27) with minimal noise while maximizing expected revenue. Proof. Let ϕi := γ2 
+
+> i
+> 2+ σ2
+> i−γ2
+> i
+
+> 0. Woodbury for-mula gives, I(σS ) =    
+
+> ∑
+> iϕi
+> 1+ ∑
+> iϕi
+
+, and Eq. (27) be-comes, 
+
+∑
+
+> i∈S
+
+ϕi = K
+
+2α Pr( β ≥ z∗) − 1.
+
+The expected revenue of platform i is, 
+
+Ri(ϕi) = Pr( β ≥ z∗)z∗ ϕi
+
+1 + ϕi
+
+.
+
+Up to the positive constant Pr( β ≥ z∗)z∗, the objective is f (ϕi) := ϕi 
+
+> 1+ ϕi
+
+, which is strictly con-cave since f ′′ (ϕi) = − 2(1+ ϕi)3 < 0. By first-order 32526 conditions under a linear coupling constraint, the optimum equalizes ϕi across i:
+
+ϕi = 1
+
+K
+
+( K
+
+2α Pr( β ≥ z∗)−1
+
+)
+
+= 12α Pr( β ≥ z∗)−K .
+
+Substituting back yields, 
+
+σ∗2 
+
+> i
+
+= γ2 
+
+> i
+
+(2 α Pr( β ≥ z∗) − K + 1) − 2.
+
+Finally, using p∗ 
+
+> i
+
+= z∗I(σ∗ 
+
+> i
+
+) and I(σ∗ 
+
+> i
+
+) = γ2 
+
+> i
+
+/(2 + 
+
+σ∗2 
+
+> i
+
+) gives, 
+
+p∗ 
+
+> i
+
+= z∗
+
+2α Pr( β ≥ z∗) − K + 1 .
+
+Proposition A7 (Utilities in the High-Privacy Regime) . Assume α > αcrit and the optimal noise–price pair of Theorem A1. In equilibrium, 
+
+ei = ai = 1 for all i ∈ S, and bi = 1 only when 
+
+β ≥ z∗. Then the expected utilities are,                                   
+
+> Eβ[Uu] = 0 ,(30)
+> Eβ[Ui] = 12−ci+Pr( β≥z∗)z∗
+> 2αPr( β≥z∗)−K+ 1 ,(31)
+> Eβ[Ub] = K
+> 2αE[β|β≥z∗]−KPr( β≥z∗)z∗
+> 2αPr( β≥z∗)−K+1 .(32)
+
+Proof. For the user, Proposition A1 yields a total service gain of K/ 2. In the high-privacy regime, the expected leakage constraint binds: Pr( β ≥
+
+z∗)I(σ∗ 
+
+> S
+
+) = K/ (2 α), therefore, 
+
+Eβ [Uu] = K
+
+2 − α · K
+
+2α = 0 .
+
+For platform i, the platform receives p∗ 
+
+> i
+
+only when 
+
+β ≥ z∗, hence Eβ [Ui] = 12 − ci + Pr( β ≥ z∗)p∗ 
+
+> i
+
+;substituting p∗ 
+
+> i
+
+from Theorem A1 yields the stated form. For the buyer, conditional on β ≥ z∗, utility is βI(σ∗ 
+
+> S
+
+) − ∑ 
+
+> i∈S
+
+p∗ 
+
+> i
+
+, otherwise 0. Taking expec-tations and substituting the binding leakage and p∗
+
+> i
+
+yields the expression. 
+
+Example A2 (Low-Privacy Regime) . Let γ =(1 .0, 0.8, 0.6) , c = (0 .55 , 0.40 , 0.30) , and α =1.5. Assume β ∼ U[0 , 1] , so z∗ = β/ 2 = 0 .5
+
+and Pr( β ≥ z∗) = 0 .5. In the low-privacy regime, 
+
+σ∗ 
+
+> i
+
+= 0 and p∗ 
+
+> i
+
+= z∗ · γ2 
+
+> i
+> 2
+
+= (0 .25 , 0.16 , 0.09) . Us-ing Proposition A6, platform utilities are Eβ [U1] = 0.075 , Eβ [U2] = 0.180 , Eβ [U3] = 0.245 . The user’s utility is Eβ [Uu] = 1 .029 and the buyer utility is Eβ [Ub] = 0 .079 .
+
+Example A3 (High-Privacy Regime) . Let β ∼
+
+U[0 , 1] , so z∗ = 0.5 and Pr( β ≥ z∗) =0.5. Take γ = (1 .0, 0.8, 0.6) , entry costs c =(0 .5, 0.40 , 0.30) , and choose α = 8 > α crit so that the market operates in the high-privacy regime. With K = 3 and 2α Pr( β ≥ z∗) − K + 1 = 6 ,Theorem A1 gives σ∗2 = (4 .00 , 1.84 , 0.16) and 
+
+p∗ 
+
+> i
+
+= 0 .0833 . Using Proposition A7, Eβ [Uu] = 0 ,
+
+Eβ [U1] = 0.042 , Eβ [U2] = 0.142 , Eβ [U3] =0.242 , and Eβ [Ub] = 0 .016 .
+
+C.4 Justification for Non-Exclusive Data Trading 
+
+This section justifies two modeling choices, similar to those in the general data marketplace studies, made in Sections 3 and 4: (i) modeling a single buyer arrival in each round, and (ii) omitting ex-plicit buyer competition in the data trading stage. We demonstrate that both choices are without loss of generality under non-exclusive data trading and information-based pricing. We fix a round t and let S ⊆ [K] denote the set of platforms whose data reach the buyer. Let σS =
+
+{σi}i∈S be the corresponding noise profile, and let 
+
+I(σS ) denote the buyer-side received information as defined in Prop. A2. Platform prices {pi}i∈S are determined by marginal information contribution as Prop. A4. For any buyer with valuation β ≥ 0,the buyer utility is 
+
+Ub = βI (σS ) − ∑
+
+> i∈S
+
+bipi, (33) where bi ∈ { 0, 1} indicates whether the buyer pur-chases from platform i.
+
+C.4.1 Equivalence of Single-Buyer and Multi-Buyer Formulations 
+
+We first demonstrate that explicitly modeling mul-tiple buyers within the same round is equivalent to a single-buyer formulation with an aggregated valuation. 
+
+Theorem A2 (Buyer Aggregation Equivalence) .
+
+Suppose that in round t there are Nt buyers in-dexed by k = 1 , . . . , N t, each with valuation βt,k ,and buyers purchase data independently under non-exclusive access. Then, for any platform set 
+
+S and noise profile σS , equilibrium platform pric-ing and platform incentives are equivalent to a 32527 single-buyer formulation with valuation, 
+
+βagg  
+
+> t
+
+:= 
+
+> Nt
+
+∑
+
+> k=1
+
+βt,k . (34) 
+
+Proof. Each buyer k derives utility, 
+
+Ub,k = βt,k I(σS ) − ∑
+
+> i∈S
+
+bi,k pi. (35) Because data access is non-exclusive, a buyer’s pur-chase does not affect the information received by other buyers, nor does it constrain platforms from serving additional buyers. Hence, buyer utilities are additively separable. Summing over all buyers yields, 
+
+> Nt
+
+∑
+
+> k=1
+
+Ub,k =
+
+( Nt∑
+
+> k=1
+
+βt,k 
+
+)
+
+I(σS )−∑
+
+> i∈S
+
+( Nt∑
+
+> k=1
+
+bi,k 
+
+)
+
+pi.
+
+(36) By Prop A4, each platform’s optimal price is pro-portional to its marginal information contribution 
+
+I(σS ) − I(σS\{ i}), which is independent of buyer identity. Therefore, the only buyer-side quantity af-fecting pricing is the aggregated valuation ∑ 
+
+> k
+
+βt,k ,implying the stated equivalence. The aggregation result extends naturally to stochastic buyer arrivals. 
+
+Corollary A2 (Temporal Distributional Equiva-lence) . If buyers’ valuations are independently drawn from a common distribution F , then mod-eling a single buyer with valuation βt ∼ F in each round yields the same expected pricing and platform behavior by explicitly modeling multiple buyers per round. Proof. By Theorem A2, pricing depends only on the aggregated valuation ∑ 
+
+> k
+
+βt,k . Under i.i.d. draws, 
+
+E
+
+[ Nt∑
+
+> k=1
+
+βt,k 
+
+]
+
+= NtE[β]. (37) An equivalent expected valuation mass is generated by sequential single-buyer arrivals with βt ∼ F
+
+over time. Since platform pricing and noise choices depend only on the realized or expected valuation, both formulations induce the same equilibrium be-havior. 
+
+C.4.2 Irrelevance of Explicit Buyer Competition 
+
+We now show that explicit multiple-buyer compe-tition does not affect equilibrium outcomes in the data trading stage. 
+
+Proposition A8 (Irrelevance of Buyer Competi-tion) . In the data marketplace, explicit strategic interaction among buyers does not affect equilib-rium platform pricing or platform incentives, pro-vided that buyer competition does not alter access feasibility or the information term I(σS ).Proof. Under non-exclusive access, the buyer-side received information I(σS ) depends only on the platform set S and the noise profile σS , and is in-dependent of the number of buyers purchasing the data. Platform pricing is determined by marginal in-formation contribution as Prop. A4, which depends on I(σS ) and buyer valuation β.Buyer competition occurs downstream after data acquisition and affects buyers’ realized payoffs in their respective tasks or markets. Its effect on the data trading stage is fully captured by buyers’ willingness-to-pay, represented by β or its distri-bution. Therefore, modeling explicit buyer compe-tition introduces no additional pricing primitives unless exclusivity, capacity constraints, or buyer-side externalities are imposed. 
+
+Remark A1 (Exclusive Data Trading) . The above equivalence fails if data access is exclusive, capacity-constrained, or if buyer-side congestion affects I(σS ), which is not a general characteris-tic of the data marketplace mechanism. In such cases, data becomes effectively rivalrous, and the market reduces to a setting with scarce goods or auctions, which is outside the scope of this work. 
+
+D Prompts 
+
+In this section, we illustrate the prompts of role-conditioned perception, dynamic game tree mem-ory, and mechanism-guided reflection decision of each role in the EvoDM. 32528 Platform Agent Prompts System Prompt: 
+
+You are an agent in a three-layer data marketplace. You need to make rational decisions based on the current market situation. 
+
+Dynamic Role-Conditioned Perception. 
+
+- You are a platform agent at the [stage] stage. - [platform_role_description_for_][stage] 
+
+Stage description. 
+
+- [platform_stage_description_for_][stage] 
+
+Dynamic Game Tree Memory. Past episodes are stored as a game tree. Each root node corresponds to one environment with parameters [env_params]. Each episode is stored as a root-to-leaf path formatted as: - Root: [environment_description] - [stage_1] stage decision: [decision_description_1] - [stage_2] stage decision: [decision_description_2] - ... - Leaves: [utility_description including U_user, U_platforms, U_buyer] When current environment parameters [current_env_params] are available, select roots whose [env_params] are sufficiently similar; if none are similar, use a small number of the most recent roots. Provide up to [max_paths] such paths as [memory_context]. 
+
+Mechanism-Guided Explicit Reasoning. At stage [stage], reason explicitly as a platform using the stage-specific mechanism. 
+
+1. Utility function. Use platform utility: - U_i = [a_i (I_i + b_i p_i) - c_i] * e_i 
+
+2. Meaning of symbols. Briefly explain the symbols relevant to the current platform stage, especially e_i, a_i, I_i, b_i, p_i, c_i, and when relevant sigma_i, gamma_i, alpha, beta. 
+
+3. Analytical impact. Using the formula, explain how changing the platform decision variable [decision_variable_for_platform_][stage] affects platform utility and, when relevant, user participation and buyer demand. 
+
+4. Stepwise impact. Given the current parameter values, identify which action maximizes U_i at the [stage] stage. 
+
+Final decision rule. Base your final decision on both: (a) patterns from [memory_context], and (b) the formal mechanism above. 
+
+User Prompt: 
+
+Previous Experiences: [memory_context] 
+
+Current Market Situation: [observation_text] 
+
+Decision Required: [platform_stage_decision_question] 
+
+Return: [stage_response_format] Please respond only with a JSON object with the following fields: - "reasoning": your decision-making process and key considerations. - "action": your final decision value. No other text or comments are allowed. 32529 User Agent Prompts System Prompt: 
+
+You are an agent in a three-layer data marketplace. You need to make rational decisions based on the current market situation. 
+
+Dynamic Role-Conditioned Perception. 
+
+- You are a data owner (user) at the user sharing stage. - Decide whether to share your data with different platforms. - Consider privacy concerns and potential benefits from sharing. 
+
+Stage description. 
+
+- This is the user sharing stage. - Consider privacy costs and potential benefits from data sharing. 
+
+Dynamic Game Tree Memory. Past episodes are stored as a game tree. Each root node corresponds to one environment with parameters [env_params]. Each episode is stored as a root-to-leaf path formatted as: - Root: [environment_description] - [stage_1] stage decision: [decision_description_1] - [stage_2] stage decision: [decision_description_2] - ... - Leaves: [utility_description including U_user, U_platforms, U_buyer] When current environment parameters [current_env_params] are available, select roots whose [env_params] are sufficiently similar; if none are similar, use a small number of the most recent roots. Provide up to [max_paths] such paths as [memory_context]. 
+
+Mechanism-Guided Explicit Reasoning. Reason explicitly as a user. 
+
+1. Utility function. Use user utility: - U_u = \sum _i a_i e_i I_i - alpha * I_total 
+
+2. Meaning of symbols. Briefly explain a_i, e_i, I_i, alpha, and I_total. 
+
+3. Analytical impact. Using the formula, explain how the sharing decision a_i changes user utility, emphasizing the trade-off between service benefit and privacy loss. 
+
+4. Stepwise impact. Given the current parameter values, identify which sharing action maximizes U_u. 
+
+Final decision rule. Base your final decision on both: (a) patterns from [memory_context], and (b) the formal mechanism above. 
+
+User Prompt: 
+
+Previous Experiences: [memory_context] 
+
+Current Market Situation: [observation_text] 
+
+Decision Required: Which platforms should you share your data with? 
+
+Return: [stage_response_format] Please respond only with a JSON object with the following fields: - "reasoning": your decision-making process and key considerations. - "action": your final decision value. No other text or comments are allowed. 32530 Buyer Agent Prompts System Prompt: 
+
+You are an agent in a three-layer data marketplace. You need to make rational decisions based on the current market situation. 
+
+Dynamic Role-Conditioned Perception. 
+
+- You are a data buyer at the buyer selection stage. - Decide which platform’s data to purchase based on quality, price, and your needs. 
+
+Stage description. 
+
+- This is the buyer selection stage. - Consider data quality, prices, and your valuation. 
+
+Dynamic Game Tree Memory. Past episodes are stored as a game tree. Each root node corresponds to one environment with parameters [env_params]. Each episode is stored as a root-to-leaf path formatted as: - Root: [environment_description] - [stage_1] stage decision: [decision_description_1] - [stage_2] stage decision: [decision_description_2] - ... - Leaves: [utility_description including U_user, U_platforms, U_buyer] When current environment parameters [current_env_params] are available, select roots whose [env_params] are sufficiently similar; if none are similar, use a small number of the most recent roots. Provide up to [max_paths] such paths as [memory_context]. 
+
+Mechanism-Guided Explicit Reasoning. Reason explicitly as a buyer. 
+
+1. Utility function. Use buyer utility: - U_b = beta * I(sigma, e, a, b) - \sum _i b_i p_i 
+
+2. Meaning of symbols. Briefly explain beta, I(sigma,e,a,b), b_i, and p_i. 
+
+3. Analytical impact. Using the formula, explain how the purchase decision b_i affects buyer utility, emphasizing the trade-off between information gain and payment cost. 
+
+4. Stepwise impact. Given the current parameter values, identify which purchase action maximizes U_b. 
+
+Final decision rule. Base your final decision on both: (a) patterns from [memory_context], and (b) the formal mechanism above. 
+
+User Prompt: 
+
+Previous Experiences: [memory_context] 
+
+Current Market Situation: [observation_text] 
+
+Decision Required: Which platform’s data should you purchase? 
+
+Return: [stage_response_format] Please respond only with a JSON object with the following fields: - "reasoning": your decision-making process and key considerations. - "action": your final decision value. No other text or comments are allowed. 32531
