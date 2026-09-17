@@ -1,0 +1,661 @@
+Title: GenOR-Twin: A Semantic Middleware for Integrating Operational Discourse with Mathematical Optimization
+
+URL Source: https://arxiv.org/pdf/2609.12863v1
+
+Published Time: Mon, 14 Sep 2026 01:05:39 GMT
+
+Number of Pages: 33
+
+Markdown Content:
+> Intl. Trans. in Op. Res. xx (2026) 1–33
+
+# GenOR-Twin: A Semantic Middleware for Integrating Operational Discourse with Mathematical Optimization 
+
+## Rahimeh Neamatian Monemi, Shahin Gelareh, Lubin Cui, Nelson Maculan 
+
+Sharkey Predictim Globe Département R&T, IUT de Béthune, Université d’Artois, F-62000 Béthune, France Federal University of Rio de Janeiro, COPPE-PESC, P.O. Box 68511, Rio de Janeiro, RJ 21941-972, Brazil School of Mathematics and Statistics, Henan Normal University, Xinxiang 453007, Henan, China E-mail: shahin.gelareh@univ-artois.fr 
+
+Abstract 
+
+We introduce GenOR-Twin, a neuro-symbolic framework that bridges the translation gap between unstructured operational logs and rigorous mathematical optimization. Our architecture uniquely positions Large Language Models as semantic translators rather than direct solvers, ensuring that the system retains the feasibility guarantees of exact combinatorial methods. We design a dynamic constraint injection mechanism (the runtime translation of qualitative disruption events into formal mathematical constraints) that allows the system to structurally modify the optimization problem’s feasibility region in real-time based on qualitative human inputs. The resulting bidirectional coupling—where operational observations update the virtual model state and optimized decisions are reflected back into the Knowledge Graph—satisfies the synchronization requirement of a proper Digital Twin. The framework features an adaptive decision policy that automatically selects between low-complexity schedule repair and full re-optimization by analyzing the available system slack. Finally, we demonstrate the generalization of this approach across six distinct optimization domains, turning static models into resilient systems that adapt to the operational uncertainty and variability of real-world environments. 
+
+Keywords: Digital Twin, Large Language Models, Semantic Translation, Job Shop Scheduling, Reactive Optimization, Indus-trial Informatics, Mixed-Reality Simulation. 
+
+1. Introduction 
+
+The field of Operations Research has long provided the mathematical backbone for industrial efficiency. From the early days of linear programming in the 1940s to modern mixed-integer solvers capable of handling millions of variables, OR methods have saved organizations trillions of dollars by optimizing supply chains, production schedules, and logistics networks. Yet despite these advances, a fundamental disconnect persists between the theoretical elegance of optimization models and the messy reality of day-to-day operations. 1arXiv:2609.12863v1 [cs.LG] 11 Sep 2026 Let us consider a typical manufacturing floor. A carefully optimized production schedule assumes that machines will operate according to specification, that raw materials will arrive on time, and that workers will be available as planned. In practice, none of these assumptions hold perfectly. A machine operator notices a subtle vibration and notes it in a logbook. A supplier sends an email warning of potential delays. A maintenance technician mentions during a shift handover that a hydraulic seal looks worn. These signals, rich with actionable information, exist entirely outside the mathematical models that govern production decisions. This gap between qualitative operational intelligence and quantitative optimization represents what we term the “Translation Gap.” Traditional OR solvers require structured inputs: vectors of processing times, matrices of resource capacities, and precisely defined constraint inequalities. Real-world disrup-tions, however, often arrive as unstructured text, verbal communications, or implicit patterns that human operators recognize intuitively but cannot easily formalize for a computer system. The emergence of Digital Twins has partially addressed this challenge by creating virtual replicas of physical systems that continuously ingest sensor data. Yet even sophisticated Digital Twins primarily serve descriptive and predictive functions. They can tell us what is happening and forecast what might happen, but they rarely prescribe complex corrective actions that respect the mathematical rigor required for true optimization. Meanwhile, Generative Artificial Intelligence, particularly Large Language Models, has demonstrated remarkable capabilities in understanding and generating natural language. These models can parse com-plex documents, extract relevant entities, and reason about relationships in ways that seemed impossible just a few years ago. However, applying LLMs directly to optimization problems is fraught with diffi-culty. Neural networks are prone to arithmetic errors and can “hallucinate” solutions that violate hard constraints, making them unsuitable as standalone solvers for combinatorial optimization. Recent work has explored adjacent positions in this design space. Jackson et al. [11] demonstrated that natural language can drive simulation-based decision models for operations management; however, their approach targets stochastic simulation rather than combinatorial optimization with hard feasibility guarantees. Li et al. [15] applied generative AI to process planning in manufacturing systems but with-out symbolic validation of constraint consistency. Li et al. [14] introduced large manufacturing decision models for human-centric settings, yet without an automated constraint injection mechanism connecting unstructured discourse to solver inputs. None of these approaches simultaneously provide (a) automated real-time constraint injection from unstructured logs, (b) symbolic validation of feasibility, and (c) an adaptive decision rule for selecting between heuristic repair and full re-optimization—the triple capabil-ity that defines GenOR-Twin’s contribution. This paper introduces GenOR-Twin, a semantic middleware designed to bridge these worlds by posi-tioning Large Language Models as robust semantic translators rather than arithmetic solvers. Through-out this paper, “semantic” is used in the computational linguistics sense: a semantic translation is a meaning-preserving mapping from a natural language expression to its formal symbolic representation. For example, “Machine 3 is overheating” is semantically translated into the mathematical constraint 
+
+Si,3 ≥ tnow + 120 for all pending operations on M3—preserving operational intent (resource unavail-ability) rather than merely matching syntactic patterns. Unlike Digital Twin architectures that primarily ingest physical data in a single direction, GenOR-Twin establishes a bidirectional coupling: operational observations drive constraint injection into the optimization model (physical-to-virtual direction), while optimized decisions feed back into the Knowledge Graph to update the virtual state (virtual-to-physical direction). In our architecture, an LLM-based agent acts as a decoder that perceives qualitative op-erational data and converts it into structured mathematical constraints. The framework automates the translation process by integrating the LLM into the data-ingestion loop as a semantic parser that feeds symbolic solvers; this operation is formalized as dynamic constraint injection (Definition 4, Section 3). Crucially, we utilize an Adaptive Smart Scheduler that decided whether to apply low-complexity sched-ule repair or full re-optimization based on available system slack. This approach ensures that we main-tain the mathematical rigor of classical optimization while gaining the linguistic flexibility of neural networks. Our contributions are as follows: (1) we provide a practical engineering framework for the automated injection of dynamic constraints from natural language logs, (2) we describe a robust decision rule for choosing between schedule repair and re-optimization based on system state, and (3) we evaluate the cross-domain utility of this approach across multiple optimization domains. While the mathematical solvability remains the domain of established OR methods, the GenOR-Twin framework reduces the latency and human effort in the operation-to-model loop. The remainder of this paper is organized as follows. In Section 2, we review the relevant literature on Digital Twins, machine learning for combinatorial optimization, and reactive scheduling methods. In Section 3, we present the formal mathematical foundations for the six optimization problems addressed in this study. In Section 5, we describe the GenOR-Twin methodology in detail. Subsequent sections present computational experiments and managerial implications. 
+
+> 2. Literature Review
+
+The integration of artificial intelligence with operations research has attracted significant attention in recent years, driven by advances in machine learning and the increasing availability of operational data. This section reviews three streams of literature that inform our work: Cognitive Digital Twins, AI-augmented optimization, and dynamic scheduling under uncertainty. 
+
+> 2.1. Digital Twins and Cognitive Systems
+
+The concept of the Digital Twin originated in manufacturing as a virtual representation of physical assets for simulation and monitoring purposes [6]. Early implementations focused on lifecycle management and predictive maintenance, using sensor data to anticipate equipment failures. Rasheed et al. [21] provided a comprehensive survey of Digital Twin values, challenges, and enablers, identifying data integration and model fidelity as key concerns. More recently, researchers have extended the Digital Twin paradigm toward “Cognitive” systems that incorporate reasoning capabilities [4, 29]. A comprehensive review by Zhuang et al. [31] reinforces the transition toward intelligent shop-floor management through DT-assisted scheduling and production process control. However, most existing cognitive architectures rely on reinforcement learning or rule-based systems [16], which require extensive training data or expert knowledge to encode. Our work differs by leveraging pre-trained language models that can interpret diverse operational scenarios without task-specific training. In parallel, Ivanov [7] introduced Agentic Digital Twins that bridge model-based and AI-driven decision-making for supply chain management, and Ivanov and Gusikhin [8] demonstrated Digital Twin design and implementation at industrial scale—both works reinforcing the need for frameworks that couple AI reasoning with operational decision support under real-time constraints. 
+
+> 2.2. Machine Learning for Combinatorial Optimization
+
+The intersection of machine learning and combinatorial optimization represents a rapidly growing re-search area. Bengio et al. [1] authored an influential survey categorizing approaches into end-to-end learning, learning to configure algorithms, and hybrid methods. More recently, the emergence of Large Language Models has opened a new frontier: optimization from natural language . Projects like Opti-MUS [28] and work by Wu et al. [26] have demonstrated that LLMs can generate mathematical formu-lations from natural language problem descriptions. While OptiMUS [28] and LLM4Opt position the LLM as a formulation generator —producing full mathematical programs from natural language, including objective functions and decision variable definitions—GenOR-Twin takes a fundamentally different architectural stance. Here, the LLM is re-stricted to constraint-level semantic extraction , producing structured JSON patches that are validated by a symbolic gatekeeper before reaching the solver. This design preserves the feasibility guarantees and optimality certificates of exact combinatorial methods, at the cost of requiring pre-defined constraint template schemas. Critically, GenOR-Twin never exposes the objective function or decision variables to the neural component, eliminating the risk of arithmetic hallucination at the formulation level. However, using LLMs as direct solvers (e.g., through Chain-of-Thought reasoning for the Travel-ing Salesman Problem (TSP)) remains limited by their arithmetic instability [24, 27]. Our framework differs from end-to-end neural solvers by positioning the LLM strictly as a semantic interface —a neuro-symbolic bridge that converts qualitative operational intelligence into structured constraints for exact solvers, similar to the OptiGuide approach for supply chains [13]. At the intersection of generative AI and operations management, Simchi-Levi et al. [22] argue for democratizing optimization through generative AI, positioning LLMs as accessibility layers that reduce the expertise barrier for exact solvers—a perspective closely aligned with GenOR-Twin’s architectural stance. Jackson et al. [9] survey generative AI applications across supply chain and OR domains, identi-fying semantic translation from operational discourse to solver inputs as an open research challenge that the present work addresses. 
+
+> 2.3. Knowledge-Centric Digital Twins
+
+The evolution of Digital Twins toward “Cognitive” systems has increasingly relied on Knowledge Graphs and semantic technologies to move beyond simple descriptive monitoring toward active rea-soning [17, 29]. Rasheed et al. [21] and Negri et al. [20] identify data integration as a key challenge in industrial informatics, particularly when bridging the gap between low-level telemetry (Supervisory Control and Data Acquisition (SCADA) / Manufacturing Execution System (MES) data) and the high-level operational knowledge typically held by human experts. While rule-based event handlers have ex-isted for decades, they lack the flexibility to interpret the high-variability, unstructured communications common in manufacturing handovers, where vital disruption signals are often buried in unstructured shift logs or informal alerts. Zhuang et al. [30] emphasize that resilient production management requires frameworks capable of dynamically adapting to such shop-floor variations. GenOR-Twin addresses this need by utilizing the emergent reasoning of Large Language Models to automate the populating and updating of Knowledge Graphs from unstructured logs. This transformation allows the Digital Twin to act as a more sophisticated semantic sensor, grounding human observations into the formal symbolic structure required for mathematical optimization. 
+
+3. Problem Scope and Primary Formalization 
+
+GenOR-Twin is designed as a domain-agnostic framework capable of supporting a wide range of combi-natorial optimization problems. To demonstrate this flexibility, we evaluate the system across six distinct domains: Job Shop Scheduling (JSSP [10]), Vehicle Routing (VRP [23]), Project Scheduling (RCPSP [12]), Nurse Scheduling (NSP [2]), Bin Packing (BPP [18]), and Maximum Flow [3]. While we main-tain a full mathematical specification for each in Appendix A, this section focuses on the formalization of our primary industrial use case, the Job Shop Scheduling Problem, followed by the general dynamic constraint model. 
+
+3.1. Domain Taxonomy and Evaluation Scope 
+
+The selection of these six problems is not arbitrary; they represent fundamentally different mathematical structures and industrial contexts, allowing us to stress-test the neuro-symbolic bridge’s ability to map varied semantic inputs to diverse symbolic constraints. We classify these problems into four distinct categories as shown in Table 1.                       
+
+> Table 1 Cross-Domain Evaluation Suite and Constraint Mapping
+> Category Problem Primary Resource Example Disruption
+> Discrete Scheduling JSSP Machines ( Mi)"Spindle motor failure on M2" RCPSP Renewable Resources ( Rk)"Overlapping site maintenance" NSP Human Personnel ( Ni)"Nurse 4 has personal emergency"
+> Spatial Routing CVRP Vehicles ( Kj)"Truck 10 stuck in heavy traffic"
+> Spatio-Temporal Packing BPP Bin Capacity ( V)"Bin 5 safety seal damaged"
+> Network Flow Max Flow Edge Capacity ( ui j )"Pipe segment 4-7 leakage"
+
+This taxonomy ensures that GenOR-Twin’s Translator Agent must reason about discrete availability (JSSP/NSP), resource intensity (RCPSP), spatial constraints (CVRP), volumetric capacity (BPP), and throughput constraints (Max Flow). 3.2. Job Shop Scheduling Problem (JSSP) 
+
+The Job Shop Scheduling Problem is one of the most studied problems in combinatorial optimization, introduced by Jackson [10] and extensively analyzed by Muth and Thompson [19]. 
+
+Definition 1 (JSSP Instance) . A Job Shop Scheduling Problem instance is formally defined as a tuple 
+
+Π = ( J, M, O, p, d, w), where J = {1, . . . , n} represents the set of jobs to be scheduled and M = {1, . . . , m}
+
+denotes the discrete set of available machines. The set O comprises all operations O j,k associated with job j ∈ J, where k ∈ { 1, . . . , |O j|} is the operation index within job j (i.e., the k-th processing step of job j), each requiring processing on a specific machine. The function p : O → Z+ maps each operation to its deterministic processing time, while d and w assign a strict due date and priority weight to each job, respectively. 
+
+Definition 2 (Objective Function) . Minimize Total Weighted Tardiness: 
+
+min Z = ∑
+
+> j∈J
+
+w j · Tj where Tj = max (0,Cj − d j) (1) The JSSP is well-known to be NP-hard [5]. 
+
+3.3. The Dynamic Constraint Injection Model 
+
+The central challenge addressed by GenOR-Twin is the transition from the probabilistic world of natural language observations to the deterministic world of symbolic optimization. We formalize this bridge through the concept of dynamic constraint injection .
+
+Definition 3 (Disruption Event) . A disruption ξ is a triple (R,W, δ ) where R ⊆ R is the set of affected resources (e.g., specific machines or personnel), W = [ ts,te] is the time window of unavailability, and 
+
+δ is the semantic descriptor containing unstructured text (e.g., "The motor is overheating and needs 2 hours of cooling"). 
+
+Definition 4 (Neuro-Symbolic Constraint Injection) . Given a disruption ξ , the neuro-symbolic transla-tion function Φ acts as a mapping Φ : ∆ → C, where ∆ is the space of unstructured observations and C
+
+is the set of valid symbolic constraints for the underlying problem instance. For JSSP, this produces: 
+
+Φ(ξ ) = {CWr : r ∈ R,CWr forbids resource r during W } (2) 
+
+This injection modifies the feasible space of the optimization problem X f easible in real-time, necessitating an immediate re-computation of the optimal policy π.
+
+4. Mathematical Formulation and System Context 
+
+4.1. Stochastic Extension of the JSSP Objective Function: (3) vs. (1) The proposed framework addresses the dynamic scheduling problem through a Single-Level Stochas-tic Mixed-Integer Program (SMIP) formulation. Let ξ be a random variable representing the semantic uncertainty of the disruption (e.g., duration d(ξ ), affected machine m(ξ )). 
+
+Definition 5 (Stochastic Objective Function) . We minimize the expected total weighted tardiness: 
+
+min  
+
+> x
+
+Eξ
+
+"
+
+# ∑
+
+> j∈J
+
+w jTj(x, ξ )
+
+#
+
+(3) 
+
+subject to standard precedence and capacity constraints. 
+
+Remark 1. This formulation extends Definition 2 (the deterministic JSSP objective, (1) ) by introducing the expectation operator Eξ [·] over the random disruption variable ξ , which encodes semantic uncer-tainty in disruption duration d (ξ ) and affected machine m (ξ ). When ξ is deterministic—i.e., when the LLM provides a point estimate ˆξ with confidence θ > τ—(3) reduces exactly to (1) . In practice, the SmartScheduler solves the deterministic version after the LLM resolves ˆξ ; (3) is the theoretical framing that motivates the confidence-based policy Π(D, S, θ ).
+
+Definition 6 (Second-Stage Recourse) . Let ˆξ be the realization inferred by the agent with confidence 
+
+θ = conf ( ˆξ ). The recourse action y( ˆξ ) minimizes the cost of deviation: Q(x, ˆξ ) = min  
+
+> y
+
+(α · Tardiness (y) + ( 1 − θ ) · RiskPenalty ) (4) Our SmartScheduler (Section 5) acts as a computationally efficient approximation of this SMIP, using the confidence score θ to toggle between cheap recourse (Right-Shift) and expensive recourse (Re-optimization). 
+
+4.2. Methodological Positioning 
+
+Traditional OR models assume that exogenous information enters the system in a structured, quantitative form, such as parameters, coefficients, or pre-defined constraints. In practice, however, a substantial portion of operational intelligence arrives as qualitative, unstructured, and temporally ambiguous signals 
+
+(e.g., maintenance notes, shift handovers, informal alerts). These signals are rarely incorporated into optimization models in real time, not due to theoretical limitations of OR solvers, but due to the absence of a systematic translation mechanism. GenOR-Twin introduces a dynamic constraint injection framework , in which qualitative operational discourse is transformed into symbolic, model-consistent constraints that modify the structure of an optimization problem at runtime. This constitutes a shift from static or parameter-adaptive optimization toward structurally adaptive optimization , where feasibility regions evolve dynamically based on newly injected constraints. In addition, the paper formalizes a slack-aware decision policy for reactive optimization that governs the choice between low-complexity schedule repair and full re-optimization. This policy, expressed as a function of disruption duration and system slack, provides a principled criterion for balancing compu-tational effort against solution quality in dynamic environments. While individual repair heuristics and re-optimization algorithms are well established, their adaptive orchestration based on real-time system state enables robust reactive scheduling. Importantly, GenOR-Twin does not replace OR solvers with neural approximations. Instead, it pre-serves the mathematical rigor, feasibility guarantees, and optimality properties of classical optimization by positioning AI strictly as a semantic interface . The resulting neuro-symbolic architecture enables OR models to remain exact, interpretable, and auditable, while significantly reducing the latency and cognitive burden associated with model maintenance in volatile operational contexts. This architectural distinction from LLM-as-formulator approaches [28] is fundamental: GenOR-Twin delegates only semantic translation to the neural component, preserving the solver’s mathematical sovereignty over feasibility and optimality. Optimization models thus become continuously reconfig-urable artifacts embedded within digital twins and human–AI decision loops. The bidirectionality that characterizes a proper Digital Twin is realized at two levels. The physical-to-virtual direction is cap-tured by the semantic injection Φ(L) in (5), where physical operational logs update the virtual model state State virtual . The virtual-to-physical direction is realized through post-optimization feedback: once the adapted schedule π∗ is produced, the Knowledge Graph is updated to reflect confirmed resource occupancy commitments, ensuring that the twin’s virtual representation remains synchronized with op-erational reality. 
+
+5. Methodology 
+
+This section presents the GenOR-Twin architecture and its theoretical foundations. 
+
+5.1. System Architecture 
+
+The GenOR-Twin framework is structured as a three-tier neuro-symbolic architecture designed to bridge the gap between physical operating reality and mathematical optimization. As illustrated in Figure 5.1, the system operates through a continuous feedback loop where the Data Ingestion Layer captures both structured sensor signals and unstructured qualitative inputs such as maintenance logs. This raw intelli-gence is then processed by the Mapping Agent , an LLM-based cognitive core that translates qualitative observations into a valid JSON schema of dynamic constraints. Finally, these constraints are passed to the Optimization Engine , which re-computes feasible schedules using established OR solvers. Understanding the transformation of qualitative signals into quantitative parameters is critical to the reactive OR process. When a disruption occurs, the Cognitive Agent executes a multi-stage reason-ing pipeline to ensure semantic fidelity. The model first performs Entity Extraction to identify affected resources (e.g., "Machine 3") and the specific nature of the disruption. This is followed by Semantic Mapping , where these entities are grounded in the symbolic Knowledge Graph relative to the digital twin’s state. Finally, the agent executes Constraint Generation , applying predefined symbolic templates to convert concepts like "breakdown" into formal mathematical inequalities (e.g., Si ≥ te ∨Ci ≤ ts) that the optimization engine can readily digest. Fig. 1. GenOR-Twin Neuro-Symbolic Architecture. The framework (1) ingests heterogeneous data streams, (2) leverages a Cognitive Agent for semantic-to-symbolic mapping and confidence ( θ ) estimation via RAG and Self-Reflection, and (3) triggers an Adaptive SmartScheduler that selects between Right-Shift Repair, Human Review, or Full Re-optimization based on real-time confidence scores and system slack. The dashed return arrow from the Optimal Adapted Schedule back to the Knowledge Graph represents the virtual-to-physical direction of the Digital Twin coupling, ensuring that the twin’s virtual state State virtual remains synchronized with confirmed operational commitments after each optimization cycle. 
+
+The agent is instructed with a system prompt that enforces strict mathematical formatting for the output, ensuring that the “noisy” input of a human log is converted into a “clean” symbolic record. The state evolution of the twin is then governed by: State virtual (t + ∆t) = f (State physical (t), Φ(L)) (5) where f accounts for both real-time sensor updates and the semantic injections Φ(L) derived from log data. This closed-loop control mechanism ensures that the Optimization Engine is always solving the current instantiation of the problem, rather than a stale static baseline. This allows for “What-If” simulations where the manager can query the semantic interface to predict the ripple effects of a potential disruption across the entire supply chain or production network. The bidirectional coupling is realized through the state update loop: once the Optimization Engine produces an adapted schedule π∗, the Knowledge Graph is updated to reflect the new resource occupancy windows, ensuring that the Digital Twin’s virtual state State virtual remains synchronized with the physical deployment. Physical observations flow upward into the virtual model via semantic constraint injection 
+
+Φ(L); optimized decisions feed back downward to update the Knowledge Graph state—constituting the core bidirectional coupling that validates the “twin” designation. Specifically, (5) captures the physical-to-virtual direction, while the post-optimization Knowledge Graph update realizes the virtual-to-physical direction. 
+
+Knowledge Graph Lifecycle.. The Knowledge Graph G is managed through a three-phase lifecycle. In the initial population phase, G is seeded from ERP/MES master data exports, encoding machines, per-sonnel, routes, and inter-resource dependencies as typed nodes and edges. In the runtime update phase, each disruption event that passes Symbolic Validation triggers a targeted update: the affected resource node is annotated with a recently_disrupted flag and the confirmed unavailability window, so that subsequent semantic lookups reflect current operational state. In the periodic reconciliation phase, a nightly batch synchronization with the ERP system propagates resource additions, retirements, and ca-pacity changes into G. In the current prototype, initial population and reconciliation are semi-automated (requiring an ERP export in standard CSV format); fully automated live ERP connectors are planned as future work. 
+
+5.2. Reliability and Semantic Accuracy 
+
+A primary concern in the use of LLMs for industrial applications is the potential for “hallucinations” or misinterpretations of operational logs. To mitigate this risk, GenOR-Twin employs a multi-layered defense. First, the LLM is instructed with a restrictive system prompt that enforces schema adherence. Second, the Symbolic Validator acts as a physical feasibility filter, ensuring that proposed constraints (e.g., a maintenance window) correspond to existing resources and valid time horizons. We evaluated semantic accuracy on a dataset of 300 manually annotated logs (50 per domain). Two expert annotators independently verified mappings (Cohen’s κ = 0.91). The LLM+Validator pipeline achieved 99.7% exact match with expert annotations, compared to 97.2% for the LLM-only (CoT, no Validator) baseline on the same 300-log dataset. This 2.5-percentage-point improvement directly quan-tifies the contribution of the Symbolic Validator to hallucination reduction. To guarantee safety in industrial deployment, we implemented a Defense-in-Depth protocol (Algo-rithm 2) centered on an enhanced Symbolic Validator. This module enforces three rigorous layers of compliance before any constraint reaches the solver. First, the Symbolic Logic layer validates that all mapped constraints correspond to existing assets, effectively filtering out non-existent IDs. Second, the 
+
+Temporal Consistency check rejects any retroactive timestamps ( tstart < tnow ) to prevent causality viola-tions. Finally, the Physics-Based Bounds layer caps repair durations at physically realistic maximums, ensuring that extreme outliers do not render the scheduling horizon infeasible. This multi-layer approach captures 99.7% of hallucinations overall. Table 2 breaks down detection performance by category across the 300-log evaluation set. 
+
+Counts per category reflect the 300-log evaluation suite (50 per domain), with one injected hallucina-tion of each type per log (1200 total tests). The Logical Consistency layer misses 4 of 300 cases (complex precedence cycles that do not form simple directed cycles within the lookahead horizon), yielding 98.7% per-category detection and 99.7% overall. 
+
+Beyond these three layers, a fourth validation pass performs logical consistency checks on the full con-straint graph. Specifically: (a) precedence cycle detection —if the injected constraint creates a directed Table 2 Hallucination Category Breakdown (300-log evaluation, 50 per domain)                        
+
+> Category Validator Layer Count Detected Detection Rate
+> Existential (non-existent resource ID) Symbolic Logic 300 300 100.0% Temporal (retroactive / impossible time) Temporal Consistency 300 300 100.0% Physical (impossible duration/capacity) Physics-Based Bounds 300 300 100.0% Logical (precedence cycle / over-commit) Logical Consistency 300 296 98.7%
+> Total 1200 1196 99.7%
+
+cycle in the job-operation dependency graph, it is rejected; (b) resource over-commitment detection —if injected maintenance windows render a machine simultaneously unavailable for operations sharing zero total slack, a capacity conflict is flagged. These checks operate on the augmented constraint graph rather than on individual constraints in isolation, and are implemented as part of Validator Ψ detailed in Appendix B. To solve the dynamic JSSP, we utilize a SmartScheduler architecture that moves beyond simple re-optimization. The scheduler implements an adaptive decision rule Π(D, S) where D is the disruption duration and S is the aggregate system slack. 
+
+Definition 7 (Smart Scheduling Decision Rule) . Let S total = ∑ j∈J max (0, d j −Cj) be the total available slack in the current schedule. Given a disruption of duration D, the scheduler selects policy P: 
+
+Π(D, S, θ ) = 
+
+
+
+Right-Shift Repair if D < ksens ¯S ∧ m /∈ B ∧ θ > τ
+
+Human-in-the-Loop if θ ≤ τ
+
+Full Re-optimization otherwise 
+
+(6) 
+
+where k sens ∈ (0, 1] is the sensitivity parameter governing the repair/re-optimization boundary (fully analyzed in Section 7.8), θ is the semantic confidence score (derived from LLM logprobs), τ = 0.85 is the risk threshold, and B is the bottleneck set. This Multi-Factor rule ensures that we only automate repairs when (a) slack is sufficient, (b) critical paths are safe, and (c) semantic certainty is high. 
+
+Remark 2 (Human-in-the-Loop Role) . The Human-in-the-Loop policy does not require the human op-erator to solve the scheduling problem. Rather, it suspends automated action and presents the dispatcher with: (a) the detected disruption description, (b) the LLM’s proposed constraint interpretation and its confidence score θ , and (c) the system’s recommended recourse action. The dispatcher approves, mod-ifies, or rejects the semantic interpretation; the OR solver then executes the approved action. This is a semantic verification role, not a combinatorial computation role. In a 1000 × 50 instance, the human never touches the schedule—they only confirm, for example, whether “MC-3 leaking fluid for 1 hour” should be interpreted as a 60-minute maintenance window on Machine 3. 
+
+Remark 3 (Computational Mechanism of Each Policy Branch) . The three branches of Π(D, Stotal , θ )
+
+invoke distinct computational mechanisms: Policy Mechanism Solver invoked?                    
+
+> Right-Shift Repair O(N)closed-form time shift: S j←Sj+DNo Human-in-the-Loop Suspend; await dispatcher verification Depends on approval Full Re-optimization Exact solver on (1) : minimize ∑jwjTjYes (CP-SAT)
+
+In the Right-Shift branch, all operations O j,m on the disrupted machine m with S j,m within the disruption window [ts,te] are shifted by D = te − ts, requiring no solver invocation. In the Full Re-optimization branch, Google OR-Tools CP-SAT is invoked on the deterministic JSSP instance ( (1) ) after the LLM provides the point estimate ˆξ of the disruption. 
+
+Remark 4 (Slack Absorption in Schedule Repair) . A simple Right-Shift Repair heuristic is sufficient for preserving feasibility if the disruption duration D is less than the available slack of all affected opera-tions. While technically straightforward, this observation provides a useful criterion for the SmartSched-uler’s decision logic, allowing for O (N) updates instead of full re-optimization when disruptions are minor. 
+
+Algorithm 1 Smart Scheduler: Multi-Factor Decison Logic 
+
+Require: Jobs J, Disruption ξ , Confidence θ , Threshold τ = 0.85 
+
+Ensure: Recourse Action a 
+
+> 1:
+
+¯S ← calculate_avg_slack (J) 
+
+> 2:
+
+Butil ← get_bottleneck_utilization (ξ .resource ) 
+
+> 3:
+
+if θ < τ then  
+
+> 4:
+
+return Risk: Request Human Review  
+
+> 5:
+
+else if D < ksens ¯S ∧ Butil < 0.8 then  
+
+> 6:
+
+return Apply Right-Shift Repair  
+
+> 7:
+
+else  
+
+> 8:
+
+return Apply Full Re-Optimization  
+
+> 9:
+
+end if 
+
+The integration of Cdyn into the ES (o) calculation ensures that the solver is "cognizant" of the disrup-tions identified by the LLM. To ensure reproducibility and mitigate the "black box" nature of neural reasoning, we detail the im-plementation of the LLM-based Agent. This approach aligns with transparent LLM-based modeling as-sistants in mathematical optimization. The framework utilizes GPT-4o (May 2024 version) as the default semantic sensor due to its performance in structured entity extraction. The agent is instructed via a system prompt that defines the target JSON schema and provides few-shot examples of operational logs. A sample prompt structure is provided in Table 3. 
+
+5.3. LLM Implementation and Prompt Engineering 
+
+The LLM-based Agent is implemented using the GPT-4o architecture (version gpt-4o-2024-05-13 ). To maximize semantic fidelity, we employ a Chain-of-Thought (CoT) strategy [25]. The agent is pro-Table 3 System Prompt Skeleton for GenOR-Twin middleware agent   
+
+> System Prompt Segment
+> Example In: “Machine 3 has a hydraulic leak, technician says it’s down for 40 ticks.”
+> Example Out: { “resource_id”: “M3”, “start_time”: 100, “end_time”: 140, “type”: “breakdown” }
+
+vided with few-shot examples that demonstrate the transformation from descriptive shop-floor narra-tives to symbolic JSON schema. For instance, given the input log “MC-2 is leaking fluid. Stopped for about an hour,” the model’s chain-of-thought first identifies MC-2 as Machine 2, estimates a disrup-tion window of 60 minutes, and outputs the JSON constraint {"target_id": 2, "duration": 60, "type": "maintenance"} . This multi-step logical derivation reduces “jumping-to-conclusions” errors in complex job-shop scenarios. A distinct failure mode arises when the LLM produces structurally valid JSON but with incorrect opti-mization intent —for example, interpreting “Machine 3 is slow” as a maintenance constraint (machine unavailable) rather than a capacity_reduction constraint (processing time inflated by a factor). To address this, the type field of the generated JSON is cross-validated against the semantic descriptor δ
+
+in the disruption triple (R,W, δ ): the Critic agent (Section 5.4) uses a verb-category lookup table (e.g., “leak” → maintenance ; “slow” → capacity_reduction ; “unavailable” → unavailability ) to de-tect mismatches between the inferred constraint type and the operational verb in δ . A detected intent mismatch triggers a self-reflection cycle before the constraint is forwarded to the Symbolic Validator. 
+
+5.4. Advanced AI Modules: RAG and Self-Reflection 
+
+To further bolster reliability, GenOR-Twin incorporates a suite of advanced neural modules designed to ground the LLM’s reasoning in industrial reality. The system employs Retrieval-Augmented Generation (RAG) by maintaining a vector database of historical disruptions, allowing the agent to retrieve similar past events ( k-nearest neighbors) to inform its current translation. Simultaneously, a Self-Correcting Reflection Loop leverages a secondary “Critic” agent that evaluates proposed constraints for potential hallucinations, logical flaws, and intent mismatches . Intent verification specifically checks that the type 
+
+field of the JSON output is consistent with the semantic descriptor δ in the disruption triple (R,W, δ ),using a verb-category lookup table (e.g., “leak” → maintenance ; “slow” → capacity_reduction )to flag cases where valid JSON encodes the wrong optimization action. Mismatches trigger iterative refinement before the constraint reaches the Symbolic Validator. Furthermore, the Explainable Semantic Reasoning (XAI) module generates natural language justifications for every constraint injection, creating an audit trail stored in the Enterprise Knowledge Graph that allows managers to verify the "why" behind every automated scheduling decision. These enhancements transform the agent from a static parser into a dynamic, multi-agent semantic system capable of high-fidelity, transparent grounding in industrial realities. To prevent hallucinations, we implement a Symbolic Validator that checks the LLM’s output against the KB-Graph G. If the LLM proposes a constraint for a non-existent Resource ID or an invalid time window (e.g., negative duration), the request is either rejected or corrected based on the nearest valid symbolic node (Algorithm 2, Line 5). Every auto-correction ( rid ← rapprox ) is logged to the XAI audit trail with: the original proposed value, the corrected value, the Levenshtein similarity score, and a times-tamp. Corrections with similarity score below a secondary threshold θwarn = 0.92 additionally trigger a dispatcher notification, surfacing the substitution for human review before the corrected constraint is forwarded to the solver. Corrections above θwarn proceed automatically and remain retrievable from the audit trail on demand. 
+
+6. Multi-Domain Experimental Evaluation 
+
+To demonstrate the cross-domain applicability of GenOR-Twin, we evaluate the framework across six distinct OR problem classes. We present a unified comparative analysis of how qualitative disruptions are semantically localized and symbolic constraints are injected. 
+
+6.1. Cross-Domain Scenario Mapping 
+
+Table 4 summarizes the representative semantic disruptions and their corresponding symbolic transla-tions across the six domains. Each scenario reflects a common industrial occurrence that is typically communicated via unstructured logs. 
+
+Table 4 Comparative Case Studies: From Qualitative Log to Symbolic Constraint                                        
+
+> Problem Domain Qualitative Log Signal ( z)Constraint Injection ( Φ(z))JSSP (Jobs) "Machine 3 has a hydraulic leak. Down for 45 mins."
+> Sj,3≥tnow +45 for pending operations on M3.
+> VRP (Logistics) "Major traffic on Junction 4 to 6. Travel time dou-bled."
+> c4,6←2·c4,6(Edge weight modification).
+> RCPSP (Projects) "Architect unavailable for inspection. Delay Ac-tivities 4,5."
+> S4,S5≥tnow +3 (Temporal shift).
+> NSP (Services) "Nurse Sarah has emergency. Cannot work Tues-day night."
+> xSarah ,Tue ,Night =0 (Binary availability).
+> Bin Packing "Items 7, 8, 12 are fragile. Add 20% bubble wrap." v7,v8,v12 ←1.2·vi(Instance parameter update).
+> Max Flow "Leak at segment 4 to 6. Capacity halved." u4,6←0.5·u4,6(Capacity reduction).
+
+We compare GenOR-Twin against four primary baselines representing the state-of-practice, contem-porary NLP techniques, and an ablated LLM variant: 1. Static Baseline (Strawman): No reaction to disruptions. This measures the cost of ignoring opera-tional reality. 2. Rule-Based (Regex): A deterministic parser using rigid regular expressions. This represents pre-2015 automation logic. 3. LLM-only (CoT, no Validator): The same GPT-4o model with Chain-of-Thought prompting but without the Symbolic Validator or SmartScheduler. This baseline isolates the contribution of the mid-dleware validation components. 4. Transformer (BERT-NER): A modern NLP baseline using BERT for entity extraction and fixed templates for constraint generation. This represents the current industry standard. 
+
+> 7. Experimental Evaluation
+
+To evaluate the performance and resilience of the GenOR-Twin framework, we conducted a massive simulation campaign across six distinct combinatorial optimization domains. This study utilizes a multi-scale benchmarking strategy: from stochastic variance testing on 10x10 JSSP , 50-customer VRP , 30-activity RCPSP , 14-day NSP , and 50-item Bin Packing to industrial-scale validation on JSSP instances with up to 50,000 operations .
+
+> 7.1. Experimental Setup and Baseline Comparison
+
+We compare the GenOR-Twin (LLM-based Agent) against four primary baselines: 1. Static Baseline: A “no-reaction” scenario where the system continues with the baseline schedule, ignoring disruptions. 2. Rule-Based Agent (Regex): A traditional template-based parsing system. To ensure a fair compar-ison, this agent was implemented using a comprehensive set of regular expression patterns (e.g., 
+
+> failure on Machine (\d+).*
+
+). While efficient for structured logs, it lacks the semantic flexibility to handle variations in human phrasing or multi-sentence causal reasoning. 3. LLM-only (CoT, no Validator): The same GPT-4o model with Chain-of-Thought prompting but without the Symbolic Validator or SmartScheduler. Constraints generated by this baseline are fed di-rectly to the solver without symbolic gating. This baseline isolates the contribution of the middleware validation components. 4. GenOR-Twin (LLM-based): Our proposed neuro-symbolic framework with RAG, CoT, Reflexion, and a Partially Observable Markov Decision Process (POMDP)-based belief update mechanism. 
+
+> 7.2. Technical Specification of Rule-Based Baseline
+
+The Rule-Based Baseline utilizes a deterministic extraction pipeline centered on three primary Regex engines. First, an Entity Extraction module identifies resources using patterns such as 
+
+> M(\d+)|Machine\s+(\d+)
+
+. Second, a Temporal Extraction engine parses duration using logic like 
+
+> (\d+)\s+ticks|units
+
+. Finally, a Pattern Matching validation step ensures that if a log does not rigidly adhere to the disruption + resource + duration template, the agent defaults to the static baseline, mimicking the rigidity of legacy Manufacturing Execution Systems (MES) where input must be strictly semi-structured to be actionable. Fig. 2. Cross-Domain Performance Stability. Side-by-side boxplots ( n = 30) demonstrate that GenOR-Twin (Blue) achieves significantly lower variance ( σ ) in performance gains compared to the Rule-Based (Regex) baseline (Grey), confirming superior resilience to linguistic ambiguity ( σRegex ≈ 3.2 · σGenOR ). 
+
+7.3. Core Performance Results 
+
+We evaluate GenOR-Twin’s ability to automate re-optimization across three primary NP-hard domains (JSSP, VRP, and RCPSP). Table 5 aggregates the raw performance gains, statistical significance, and effect sizes across 100 simulation runs per domain. 
+
+Table 5 Master Performance Matrix: Middleware Gain vs. Rule-Based Baselines ( n = 100)                                                  
+
+> Benchmark Size Regex GenOR Gap p-val
+> Taillard ta01 15 ×15 1231.4 1175.8 +4.5% <0.01 Taillard ta21 20 ×20 1654.2 1589.6 +3.9% <0.01 Solomon R101 25 Nodes 428.1 412.5 +3.7% <0.01 PSPLIB J30 30 Activities 49.2 46.8 +4.9% <0.001 LLM-only (CoT) ta01 15 ×15 1231.4 1196.8 +2.8% <0.05 LLM-only (CoT) ta21 20 ×20 1654.2 1624.5 +1.8% <0.05
+
+The middleware demonstrates consistent improvements over deterministic rule-based systems. While the absolute gains are modest (3.6%–5.1%), the primary value proposition lies in the automated bridge 
+
+from natural language logs to solver inputs, which eliminates the time needed for manual coordination latency observed in traditional workflows. 7.4. Brief Survey of Peripheral Domains 
+
+To test the universality of the semantic mapping logic, we conducted a brief survey of Nurse Scheduling, Bin Packing, and Max-Flow. results parallel the core findings, with Gain vs. Rules of 3.28% for NSP and 2.71% for Bin Packing. Maximum Flow, being a polynomial-time problem, primarily served to verify the retention of feasibility, where the middleware correctly recovered 92.4% of capacity post-disruption. 
+
+7.5. Sensitivity Analysis 
+
+We conducted sensitivity analysis to understand how GenOR-Twin performance varies with disruption parameters. 
+
+7.5.1. Impact of Disruption Duration 
+
+We varied the disruption duration from 20 to 80 time units across 30 JSSP instances. GenOR-Twin’s ad-vantage increases with disruption severity. For short disruptions (20 units), the improvement is marginal (+1.5%), but for severe disruptions (80 units), the improvement reaches +6.2%. 
+
+7.5.2. Impact of Disruption Timing 
+
+Performance peaks when disruptions occur mid-schedule (around time 100–125). Early disruptions leave more room for static rescheduling, while very late disruptions have limited impact as most jobs are already completed. 
+
+7.6. Scalability Analysis 
+
+To assess the robustness of the GenOR-Twin framework as the problem dimensionality increases, we evaluated the performance and computational latency across JSSP instances ranging from 5 ×5 to 1000 ×
+
+50 operations (50,000 total operations). Scalability is a critical factor for industrial adoption, as the overhead of LLM-based reasoning must not impede the real-time requirements of reactive scheduling. It should be noted that the Human-in-the-Loop policy branch (Definition 7) is activated solely by low semantic confidence ( θ ≤ τ = 0.85), not by problem scale. Even at 1000 × 50 operations, the human role is bounded to verifying the semantic interpretation of a single disruption event, not solving any scheduling problem. As shown in Table 6, the computational effort is partitioned into two distinct phases: Semantic In-ference (LLM-based parsing) and Symbolic Optimization (solver execution). While the symbolic solver exhibits predictable polynomial complexity, the neural component remains constant in time relative to the problem size, as it depends only on the length and complexity of the qualitative input log. 
+
+Note: Runtimes reflect O (N2 · M) solver complexity. In the shop-floor context, reactive scheduling windows typically span 1–15 minutes; the ∼2 ms semantic inference and sub-millisecond symbolic val-idation are negligible relative to this operational window. The 16.5 s full re-optimization path at 50k operations is borderline for ultra-high-frequency decisions, but the SmartScheduler’s heuristic repair Table 6 Scalability Results for JSSP (Mean values over 30 runs)                                                     
+
+> Instance Size Total Ops Improvement Sem. Inf. (ms) Sym. Val. (ms) Sym. Opt. (ms) E2E Total (ms) Opt. Gap (%)
+> 5×525 3.2% 2.1 0.003 8.5 10.6 0% 20 ×10 200 5.1% 2.1 0.001 26.0 28.1 0% 100 ×20 2,000 4.8% 2.2 0.001 76.3 78.5 0% 500 ×20 10,000 4.3% 2.2 0.004 1630.2 1632.4 0%
+> 1000 ×50 50,000 Valid 2.3 0.005 16518.1 16520.4 4.7%
+
+Optimality Gap = deviation of the heuristic repair solution from the exact re-optimization solution quality. Rows solved via Full Re-optimization have Gap = 0% by definition. The “Improvement” column measures gain over the Static Baseline; the Optimality Gap column measures the internal solution-quality cost of the heuristic path. 
+
+Fig. 3. Scalability Analysis (Log-Log Scale): The adaptive approach shows sub-linear overhead growth compared to the re-optimization baseline, validating applicability to 50k+ operations. 
+
+path (sub-millisecond) handles those cases. The E2E Total column sums all three components for trans-parency; the Sym. Val. column is reported separately to quantify middleware overhead independently of solver time. Levenshtein Matching Overhead.. The Symbolic Validator’s entity-matching step (Algorithm 2, Line 3) has naive complexity O(|G| · L2), where |G| is the number of Knowledge Graph nodes and L
+
+is the average resource ID length. For |G| = 1,000 nodes and typical IDs of length L ≈ 10, this con-tributes approximately 10 ms in the worst case—negligible relative to solver runtime. For |G| = 10 ,000 nodes, naive matching reaches ∼100 ms; a BK-tree or trie index reduces this to O(L2 + k) for k candi-date matches, restoring sub-millisecond performance. The current prototype uses naive linear scanning (sufficient for |G| ≤ 500 nodes as evaluated); BK-tree indexing is planned for the production release and documented in Appendix B. The empirical data in Table 6 demonstrates that the GenOR-Twin overhead becomes negligible as problem complexity grows, remaining well below 10% of total re-optimization time for scales above 200 operations. More importantly, the improvement in scheduling quality peaks at medium-to-large scales (e.g., 200–2,000 operations), where the "ripple effect" of a semantic disruption can be mitigated through more diverse alternative paths. These results conflict with the intuition that LLMs might become a bottleneck; instead, they serve as an efficient asynchronous pre-processor. While Table 6 reports the worst-case latency for a complete symbolic re-optimization, the SmartScheduler’s adaptive logic (Algo-rithm 1) ensures that most disruptions trigger sub-millisecond heuristic repairs, preserving the real-time responsiveness required for shop-floor deployment. 
+
+7.7. Benchmark Comparison 
+
+We compared GenOR-Twin against three reactive scheduling methods. Results in Table 7 show that GenOR-Twin achieves performance identical to Full Rescheduling. 
+
+Value Proposition Analysis: It is critical to note that while the mathematical performance of GenOR-Twin matches Full Rescheduling, the two are not functionally equivalent in an industrial context. Tra-ditional Full Rescheduling requires a structured, machine-readable signal to trigger (e.g., an automated SCADA alert). In contrast, GenOR-Twin provides the semantic bridge that allows this same optimal re-optimization to be triggered by the qualitative intelligence of human operators (the "Translation Gap" discussed in Section 1). Thus, GenOR-Twin is not a new solver, but a new input modality for established re-optimization algorithms. Furthermore, while the detailed benchmark comparison in Table 7 focuses on 100x20 instances (2,000 operations), we demonstrated in Section 7.6 that the framework maintains its efficiency across scales up to 50,000 operations. This confirms that the framework is suitable for large-scale industrial environments where rapid response to feedback is critical.                 
+
+> Table 7 Benchmark Comparison ( n=30, JSSP 100 ×20)
+> Method Avg Tardiness Improvement
+> No Reaction (Static) 1421.5 —Right-Shift (Heuristic) 1045.2 +26.5% Match-up (Heuristic) 982.1 +30.9% Transformer (BERT-NER) 46.7 +96.7%
+> Full Rescheduling (Exact) 41.2 +97.1% GenOR-Twin (Proposed) 41.2 +97.1%
+
+7.8. Sensitivity Analysis: Impact of Sensitivity Parameter k sens 
+
+The SmartScheduler relies on the sensitivity parameter ksens to decide between repair and reschedul-ing. We varied ksens from 0.1 to 1.0 on a scaled JSSP instance (see Table 7.7). 
+
+Note: Experimental data generated via gen_or_twin/k_sensitivity_study.py on scaled 100x20 in-stances. 
+
+The analysis in Table 7.7 reveals why ksens = 0.5 is selected as the operational default. While Table 8 Impact of ksens on Decision Logic and Performance (JSSP 100x20, 50 Runs) 
+
+ksens Repair % Reschedule % Avg Tardiness Std. Dev. Runtime (ms) 
+
+0.1 0% 100% 8704.5 1162.5 23.30 0.3 14% 86% 8779.9 1105.8 21.35 
+
+0.5 34% 66% 8917.9 963.9 15.94 
+
+0.7 66% 34% 9307.7 1080.9 9.48 1.0 94% 6% 9702.1 1288.1 4.30     
+
+> Fig. 4. Pareto Analysis of Sensitivity Parameter ksens . The intersection at ksens =0.5 balances the conflicting objectives of minimizing tardiness (Line) and minimizing runtime (Bar/Square), identifying the optimal operating point for the SmartScheduler.
+
+ksens = 0.1 (always reschedule) achieves the lowest average tardiness, it incurs a significant computa-tional penalty ( ∼14.15 ms per disruption). Conversely, ksens ≥ 0.7 (always repair) is extremely fast but leads to a 39% increase in tardiness. ksens = 0.5 provides the Pareto optimal balance , capturing 84% of the speed relative to the heuristic repair baseline while maintaining tardiness within 15% of the exact re-optimization limit. 
+
+7.9. Ablation Study 
+
+To justify the inclusion of each module in the GenOR-Twin pipeline, we performed an ablation study across 20 stochastic JSSP runs. We compare the default Transformer baseline (BERT-NER) against incremental configurations of our framework. Throughout this evaluation, we measure performance in Tardiness Units . To provide industrial con-text, we calibrate 1 Unit = 5 Minutes of Production Downtime , which corresponds to an estimated operational cost of $300 USD for a standard automotive assembly line. This calibration allows for the Table 9 Ablation Analysis: Contribution of Neural Modules (300 Log Suite) 
+
+Configuration Avg Tardiness Std. Dev. 
+
+1. Transformer (BERT-NER) 10.35 18.82 2. GenOR (Base - CoT only) 14.10 19.94 3. GenOR (+RAG) 14.10 19.94 4. GenOR (+Reflexion) 14.10 19.94 
+
+5. GenOR (FULL) 14.10 19.94 
+
+economic conversion of simulation results into the Total Cost of Ownership (TCO) analysis presented in Section 7.11. 
+
+7.10. Failure Mode and Cascade Analysis 
+
+A critical concern for industrial deployment is the 2.8% error rate observed in the LLM-based Agent’s mapping. Of these errors, approximately 60% are existential hallucinations (non-existent resource IDs) caught by the Symbolic Logic layer, 25% are intent-level errors (structurally valid JSON but incorrect constraint type ), and 15% are temporal errors. Intent-level errors are the most operationally significant because they pass entity validation but produce constraints with the wrong effect on the schedule; the Critic agent’s verb-category lookup (Section 5.4) targets precisely this category. In this section, we ana-lyze the "Failure Cascade" of such hallucinations on a 500 ×20 JSSP instance. Our simulations show that a single mis-mapped constraint (e.g., misidentifying the affected machine) results in a regret of 14%– 22% in total weighted tardiness compared to an omniscient solver. However, the use of the Symbolic Validator significantly dampens this effect by catching 88.2% of illogical constraints before they reach the solver. 
+
+7.10.1. Human-in-the-Loop Recovery Protocols 
+
+All auto-corrections performed by the Symbolic Validator—including the rid ← rapprox substitutions— are logged to the XAI audit trail regardless of whether they trigger a dispatcher alert, providing a com-plete record for post-hoc review. For the remaining 11.8% of hallucinations that escape symbolic valida-tion (approx. 1.65 incidents per year in our reference scenario), the GenOR-Twin framework implements a Visual Variance Check . The system highlights discrepancies between the projected schedule and the real-time telemetry updates. If a job is scheduled on Machine A but telemetry shows Machine B is idle while Machine A is processing, a discrepancy alert is issued to the human operator. Our pilot study (Sec-tion 9) shows that experienced dispatchers identify these "semantic logical gaps" with 65.4% accuracy, providing an final layer of resilience that preserves the system’s economic utility even under rare failure modes. 7.11. Illustrative Case Study: Semantic Repair in Action 
+
+To visualize the transition from qualitative log to symbolic schedule, we present a single-run trace on a 5-job, 5-machine stochastic cluster. Figures 5 and 6 illustrate the "Before" and "After" states following a machine breakdown event.  
+
+> Fig. 5. Baseline Schedule (Optimistic). Fig. 6. Adapted Schedule (Semantic Repair).
+
+Analysis: In the baseline, Job 4 is scheduled on Machine 3 at T = 100. Following a log alert indicat-ing a hydraulic leak on M3, the GenOR-Twin agent injects a [100 , 140 ] unavailability constraint. While a static system would ignore this, causing a 40-unit collision, the SmartScheduler triggers a semantic re-pair, shifting Job 4 and subsequent operations to preserve feasibility with minimal makespan expansion. 
+
+7.12. Economic Impact and Total Cost of Ownership (TCO) 
+
+To evaluate the economic viability and Return on Investment (ROI) of the framework, we provide a detailed TCO analysis in Table 10. This analysis confirms that GenOR-Twin is optimized for high-velocity, high-cost environments (e.g., automotive, semicon), where the value of latency reduction outweighs the higher transactional cost of LLM inference. Under high ambiguity (e.g., "should be fixed soon"), the 76.5% raw semantic match rate presents a potential safety risk. However, the Symbolic Validator acts as a second-order filter, catching 88.2% of hallucinations by enforcing project-wide capacity and precedence laws. This multi-layered defense ensures that even when the AI "guesses" wrongly, the resulting injection is either rejected or corrected to a feasible state. 
+
+7.13. Cost-Benefit and Scalability Analysis 
+
+Industrial adoption requires a clear economic rationale. We compare the operational costs of GenOR-Twin (using GPT-4o) against manual data entry and local BERT-based models in Table 12. Table 10 Conservative TCO & Net Benefit Analysis (500 events/year) 
+
+Metric per Event Manual/MES GenOR-Twin 1. Operational Costs 
+
+Labor / API Cost $12.50 (15 min) $0.02 (API) Review Overhead $0.00 $1.67 (2 min) Risk Premium (False Pos.) $0.00 $41.30 (Risk) 
+
+Subtotal (Direct Cost) $12.50 $42.99 
+
+2. Delay Impact Costs 
+
+Decision Latency 15 min 2 min Cost of Downtime ($60/min) $900.00 $120.00 
+
+Total Cost per Event $912.50 $162.99 Annual Net Benefit — $374,755 
+
+Note: Manual costs based on $50/hr labor. GenOR-Twin leverages a 99.7% accuracy semantic parser to eliminate 94% of manual review cycles. Primary value is derived from reducing decision latency (15 → 2 min). 
+
+> Table 11 Sensitivity Analysis: Breakeven Scenarios (Net Benefit)
+
+Scenario Events/Yr Downtime Cost Net Benefit 
+
+Low Frequency 100 $60/min -$25,400 Med Freq / Low Cost 500 $20/min -$120,500 
+
+Target (Auto) 500 $60/min +$374,755 
+
+High Frequency 1,000 $60/min +$800,200             
+
+> Table 12 Economic Comparison of Semantic Modalities
+> Modality API Cost/Event Latency Reasoning Depth
+> Manual Entry $0.00 10–15 min High (Human) BERT-NER (Local) <$0.01 0.1 sec Low (Entity Only)
+> GenOR-Twin (GPT-4o) $0.02 2.1 sec Medium (Causal)
+
+While local Transformers are cheaper, GenOR-Twin offers a significant latency advantage over man-ual entry (seconds vs. minutes) while maintaining the causal reasoning necessary for complex OR model updates. 
+
+7.14. Honest Concerns and Strategic Limitations 
+
+While GenOR-Twin shows promise as a bridge between operations and optimization, several inherent limitations must be acknowledged. First, regarding the LLM as a Semantic Parser : the AI component is primarily a high-fidelity semantic parser that automates the manual role of a human dispatcher in translating logs to constraints. While this represents a significant engineering contribution, it does not constitute a fundamental advance in combinatorial optimization theory. Second, concerning Marginal Numerical Gains : the 3–7% performance improvement over modern NLP baselines is modest; the value proposition centers on workflow automation and latency reduction rather than dramatic gains in solution quality. Third, on Scalability Evidence : while we have evaluated instances up to 1000 × 50 operations (Section 7.6), extremely large-scale problems may require decomposition strategies not yet integrated into the semantic sensor pipeline. Finally, regarding Safety-Critical Use : the system must not be deployed in life-safety or nuclear environments without mandatory Human-in-the-Loop verification for all re-optimization triggers, regardless of the confidence score θ .
+
+7.15. Sensitivity Analysis 
+
+To understand the boundaries of framework effectiveness, we conducted a sensitivity analysis on two critical parameters: the timing of the disruption and its duration. 
+
+> Fig. 7. Sensitivity to Disruption Timing. Earlier disruptions offer more re-optimization flexibility.
+> Fig. 8. Sensitivity to Disruption Duration. GenOR-Twin’s relative benefit increases with disruption severity.
+
+The analysis in Figure 7 reveals that early disruptions (occurring within the first 30% of the schedule) allow for more aggressive schedule repair. Conversely, Figure 8 shows that the framework’s value propo-sition is most pronounced for high-impact disruptions, where the cost of a static response is catastrophic. 
+
+7.16. Hypothetical Scenario Analysis: Automotive Assembly Line 
+
+To ground our findings, we applied GenOR-Twin to a simulated assembly line scenario modeled after a mid-sized automotive production shift. The baseline shift consisted of 1,200 operations across 45 workstations. The results, projected from our 10x10 JSSP benchmarks, suggest that the framework could poten-tially achieve a 12–15% reduction in unplanned downtime propagation in a fully deployed environment. Unlike manual rescheduling, which typically takes 15–20 minutes of coordination per breakdown, the GenOR-Twin agent repairs the schedule in under 3 seconds. This speed allows for “Micro-Adaptations” that prevent the small delays from snowballing into shift-level tardiness. We estimate that this increased agility may translate to an 8.5% improvement in overall throughput under high-variance disruption pro-files. 
+
+> 8. Managerial Insights
+
+Beyond the technical contributions, this research offers practical implications for operations managers seeking to enhance organizational resilience through intelligent systems. The transition from static, siloed optimization to a dynamic, semantic-driven neuro-symbolic framework requires a shift in both technical infrastructure and organizational culture. 
+
+> 8.1. Deployment Considerations
+
+The GenOR-Twin framework is most effective in operational environments characterized by high volatil-ity and information-rich qualitative discourse, yet successful deployment necessitates addressing several organizational pillars. Foremost among these is Data Availability and Semantic Fidelity , as the efficacy of the LLM-based Agent is directly proportional to the granularity of ingested logs; organizations must therefore encourage rich narrative reporting over sparse check-ins. Equally critical is Integration with Legacy ERP/MES (Enterprise Resource Planning / Manufacturing Execution System), where GenOR-Twin functions not as a replacement but as a high-frequency middleware that bridges the "Translation Gap" without corrupting historical audit trails. Finally, establishing robust Human-AI Feedback Loops 
+
+is essential, ensuring that managers view the LLM as a "semantic sensor" rather than an autonomous decision-maker, potentially requiring a "Consultative Mode" where high-stakes suggestions are flagged for human approval. 
+
+> 8.2. Implementation Success Factors
+
+Three primary factors emerge as critical determinants of industrial success. First, Domain-Specific Cal-ibration is essential; while general-purpose LLMs exhibit strong zero-shot capabilities, performance in specialized sectors like semiconductor manufacturing is significantly enhanced through Retrieval-Augmented Generation (RAG) that grounds the agent in technical manuals and local slang. Second, 
+
+Solver Hybridization ensures the underlying optimization engine matches the urgency of the disruption, utilizing meta-heuristics for millisecond-critical repairs while reserving exact Mixed-Integer Linear Pro-gramming (MILP) methods for global, supply-chain-level reshuffles. Third, effective Change Manage-ment is required to train the workforce in communicating with the "Twin" via natural language, as clear guidelines for operational reporting become increasingly important when dealing with highly variable, unstructured qualitative data. 
+
+> 8.3. Implementation Artifact: The GenOR-Twin Framework
+
+To facilitate the reproducibility of our findings, we provide the core implementation of the GenOR-Twin framework. This reference architecture serves as a research testbed for investigating neuro-symbolic coupling in industrial Digital Twins and is designed with modularity in mind. It features a standard-ized LLM-based API Connector for multi-agent reasoning (incorporating RAG, CoT, and Reflexion), a 
+
+Graph-Based State Persistence layer for maintaining temporal and semantic context across shifts, a Log-ical Safety Layer that filters neural outputs against physical invariant constraints, and lightweight Solver Adapters that connect to standard re-optimization heuristics and exact solvers. A research-grade version of this suite is available at the project repository, enabling the academic community to benchmark different LLM architectures on their ability to solve high-entropy industrial disruption scenarios. 
+
+> 8.4. Limitations and Risk Mitigation
+
+Several limitations warrant acknowledgment and provide a roadmap for future development. A primary concern is Hallucination Risk , where purely neural agents may occasionally invent constraints; our Sym-bolic Validator mitigates this by flagging violations of physical laws, but we recommend a "Hard Bound-ary" approach for critical deployments. Additionally, Latency Thresholds for frontier LLMs (0 .5 − 2.0s) may be prohibitive for ultra-high-frequency applications, necessitating the use of distilled local models at the edge. Finally, maintaining Temporal Consistency in long-running dialogues remains a challenge, which future versions will address by implementing a persistent "State Memory" within the Knowledge Graph. Additionally, the semi-manual Knowledge Graph population and reconciliation process repre-sents a deployment cost that should be factored into any industrial adoption plan: initial KG construction from ERP master data requires an estimated 2–4 person-weeks per facility, with ongoing maintenance proportional to the rate of resource additions and retirements. 
+
+> 8.5. Industrial Value Proposition
+
+The technical components of the GenOR-Twin middleware provide a direct mapping to industrial needs. The system leverages Knowledge Graph Integration to enable grounded reasoning through continuous learning from historical factory logs. It employs Reflexion & Validation protocols to ensure "Zero-defect" mapping by filtering neural outputs through physical invariant constraints. Furthermore, it generates detailed Audit Trails , bolstering stakeholder trust through natural language documentation of the re-optimization logic. 8.6. Domain Adaptation Effort 
+
+GenOR-Twin’s domain-agnosticism is architectural—the neuro-symbolic pipeline is domain-independent—but the knowledge artifacts (JSON constraint templates and Knowledge Graph ontol-ogy) are domain-specific and must be redesigned for each new deployment context. For the six do-mains evaluated in this paper (Table 1), each required between 4 and 12 JSON constraint templates (e.g., maintenance , unavailability , capacity_reduction for JSSP; binary_availability , 
+
+> shift_swap
+
+for NSP). Initial template design required approximately 1–2 person-days per domain from an OR expert familiar with the constraint structure. The Knowledge Graph ontology is more demanding: node types (Machine, Nurse, Vehicle, Pipe), edge types (precedence, routing, staffing-assignment), and allowed-state sets must be defined from scratch for each domain. Adapting GenOR-Twin to a fundamentally different domain—such as financial portfolio optimization—would require asset nodes, correlation edges, and liquidity constraints: an ontology with no overlap with shop-floor resources. We estimate 2–4 person-weeks of knowledge engineering for such a domain, plus Knowledge Graph population from domain master data. This cost should be weighed against the operational benefit of eliminating manual constraint translation latency in high-frequency disruption environments. 
+
+> 9. Final Synthesis and Outlook
+
+The evaluations demonstrate that the semantic middleware addresses a significant industrial pain point: the translation of qualitative operational intelligence into rigorous OR models. While the absolute per-formance gains over modern NLP baselines are modest, the operational latency reduction (seconds vs. minutes) provides the primary economic driver for adoption. The hybrid neuro-symbolic design ensures that the system maintains the mathematical integrity of classical optimization while gaining the linguistic accessibility of neural networks. The computational overhead associated with re-optimization remains negligible, with adaptive solve times exceeding baseline times by less than 10%. Perhaps most significantly, our results underscore the semantic value proposition at the heart of the framework—the ability of the semantic agent to translate unstructured textual observations into structured mathematical constraints. A key finding is the Neuro-Symbolic Synergy : while the LLM provides the semantic flexibility to interpret human nuances, the symbolic solver provides the mathematical rigor. The system’s robustness is largely attributed to the Symbolic Validator , which acts as a logical safety net, filtering out hallucinations before they can corrupt the optimization model. This suggests that the future of Digital Twins lies not in purely neural or purely symbolic models, but in hybrid architectures where LLMs serve as the "semantic sensors" for rigid optimization engines. A key boundary on generalizability is the domain adaptation cost: while the architectural pipeline is domain-agnostic, the JSON constraint templates and Knowledge Graph ontology require re-engineering for each new deployment context—an effort estimated at 2–4 person-weeks for a fundamentally different domain (Section 8.6). Beyond the core domains, we briefly explored the framework’s applicability to other NP-hard prob-lems using a 300-log industrial dataset. For Bin Packing (50 Items), GenOR-Twin achieved a 100% packing fidelity relative to the static baseline by correctly anticipating fragile-item padding require-ments. In Max Flow (Retention) problems, the framework maintained 100% flow retention across all simulated disruptions, compared to a static failure rate of 90%. In RCPSP and NSP domains, the frame-work provided mean improvements of 8.35% and 4.80% , respectively. 
+
+> 10. Offline Validation on Historical Automotive Logs
+
+To evaluate the real-world applicability of the GenOR-Twin framework, we conducted a two-phase offline validation using historical operational data. While the previous sections focused on controlled benchmarks and sensitivity analysis, this section investigates how the neuro-symbolic bridge handles the inherent ambiguity, jargon, and high-entropy noise characteristic of industrial disruption reporting. We specifically targeted a Tier-1 automotive manufacturing context, where high-pressure production schedules necessitate rapid and accurate semantic-to-symbolic mapping. 
+
+> 10.1. Phase 1: Projected Semantic Alignment
+
+The first phase of our validation study involved a retrospective analysis of 300 historical operational logs (50 per problem domain). These logs covered a wide variety of disruption types across the six opti-mization domains. Each log entry was mapped to its expected constraint (e.g., target resource, estimated duration, and disruption type) to establish a ground-truth. We compared the GenOR-Twin framework’s automated extractions against these ground-truth inter-pretations to measure Semantic Alignment Fidelity . The framework achieved an overall alignment accu-racy of 99.7%, significantly outperforming the Regex-based baseline which failed on 82% of the diverse industrial phrasing. In 299 out of 300 cases, the symbolic constraints generated by our framework were identical to the expert-indicated repair strategies, confirming that the neuro-symbolic coupling preserves intended semantic meaning even in noisy industrial environments. We measured Strategy Identification Accuracy , defined as the percentage of scenarios where the par-ticipant correctly selected the optimal re-optimization policy. Our results showed that participants work-ing with the GenOR-Twin framework (Human+AI) achieved a Mean Accuracy of 98.0%, compared to 79.5% for the Human-Alone control group, representing a statistically significant 18.5% performance gain ( t(19 ) = 3.42 , p < 0.0001). This synergy between neural flexibility and human discernment suggests that GenOR-Twin enhances organizational resilience by providing a transparent, high-fidelity semantic buffer. 
+
+> 11. Summary, Conclusion, and Outlook to Future Work
+
+This paper has introduced GenOR-Twin, a neuro-symbolic framework designed to bridge the "Transla-tion Gap" between qualitative operational intelligence and symbolic mathematical optimization. By posi-tioning Large Language Models as semantic interfaces, we have demonstrated a robust methodology for integrating unstructured human discourse (e.g., maintenance logs, shift reports, and field observations) into real-time re-optimization loops. Our work has provided several key contributions to the field of adaptive Operations Research: 1) 
+
+Theoretical Refinement: We described a grounded decision logic for choosing between schedule repair and re-optimization based on system state, 2) Cross-Domain Evaluation: We validated the methodol-ogy across primary NP-hard domains (JSSP, VRP, RCPSP), demonstrating consistent performance in translating natural language logs to solver constraints, 3) Engineering Framework: We provided a mod-ular, neuro-symbolic architecture that integrates LLM-based parsing with symbolic validation, and 4) 
+
+Efficiency Analysis: We quantified the trade-offs between heuristic repair and exact re-optimization, pro-viding a practical tool for industrial resilience. As industrial systems move toward the "Industry 5.0" paradigm, the role of human-centric data be-comes paramount. GenOR-Twin demonstrates that Large Language Models, when correctly coupled with symbolic solvers, empower systems to "listen" to the operating reality. By allowing managers to communicate disruptions in natural language, we reduce the cognitive load of data entry and ensure that optimal decisions are grounded in the most current, qualitative truth of the factory floor. The results of this study open several high-value avenues for future research. Future iterations of GenOR-Twin will explore Multi-Modal Sensor Fusion , integrating computer vision and telemetry data alongside textual logs to provide higher-fidelity constraint generation. We also envision Multi-Agent Ne-gotiation protocols where decentralized GenOR-Twin agents coordinate across a supply chain to resolve cross-entity dependencies. To address latency and security, research into Specialized Small Language Models (SLMs) for edge deployment is critical. Finally, developing more sophisticated Long-Term Tem-poral Grounding within the Enterprise Knowledge Graph will allow the system to maintain contextual consistency across weeks of industrial operation. 
+
+References                                                        
+
+> [1] Bengio, Y., Lodi, A., Prouvost, A., 2021. Machine learning for combinatorial optimization: a methodological tour d’horizon. European Journal of Operational Research 290, 2, 405–421. [2] Burke, E.K., De Causmaecker, P., Vanden Berghe, G., Van Landeghem, H., 2004. The state of the art of nurse rostering.
+> Journal of Scheduling 7, 441–499. [3] Edmonds, J., Karp, R.M., 1972. Theoretical improvements in algorithmic efficiency for network flow problems. Journal of the ACM 19, 2, 248–264. [4] Eirinakis, P., Lounis, S., Plitsos, G., Kyriakopoulos, N., Pramatari, K., Mourtos, I., 2020. Cognitive manufacturing for advanced optimization of industrial operations. IEEE Access 8, 120124–120140. [5] Garey, M.R., Johnson, D.S., 1979. Computers and Intractability: A Guide to the Theory of NP-Completeness .W.H. Freeman. [6] Grieves, M., Vickers, J., 2014. Digital twin: Manufacturing excellence through virtual factory replication. White Paper
+> [7] Ivanov, D., 2026. Agentic digital twins: Bridging model-based and ai-driven decision-making support for anew era of supply chain and operations management. International Journal of Production Research .doi: 10.1080/00207543.2026.2630277. [8] Ivanov, D., Gusikhin, O., 2026. Supply chain digital twin design and implementation at scale. Omega 139, 103447. [9] Jackson, I., Ivanov, D., Dolgui, A., Namdar, J., 2024a. Generative AI in supply chain and operations management.
+> International Journal of Production Research 62, 17, 6120–6145. [10] Jackson, J.R., 1956. An extension of johnson’s results on job-lot scheduling. Naval Research Logistics Quarterly 3, 201–203. [11] Jackson, M., Saenz, M.J., Ivanov, D., 2024b. From natural language to simulations: applying large language models in
+
+operations management. International Journal of Production Research 62, 4, 1434–1457. [12] Kolisch, R., Sprecher, A., 1997. Psplib – a project scheduling problem library. European Journal of Operational Research 
+
+96, 1, 205–216. [13] Li, B., Mellou, K., Zhang, B., Pathuri, J., Menache, I., 2023. Large language models for supply chain optimization. arXiv preprint arXiv:2307.03875 
+
+[14] Li, X., Nassehi, A., Hu, S.J., Joung, B.G., Gao, R.X., 2025a. A large manufacturing decision model for human-centric manufacturing systems. CIRP Annals 74, 1, 621–625. [15] Li, X., Nassehi, A., Yang, H., Tao, F., Sutherland, J., Wang, L., Gao, R.X., 2025b. Generative manufacturing systems using foundation models. Technical report, SSRN. SSRN preprint. [16] Li, X., et al., 2022. Reinforcement learning in digital twin: A survey of industrial applications. IEEE Transactions on Industrial Informatics 
+
+[17] Lu, Y., Liu, C., Kevin, W., Wang, H.P., Xu, X., 2020. Digital twin-driven smart manufacturing: Connotation, reference model, and applications. Engineering 6, 7, 798–812. [18] Martello, S., Toth, P., 1990. Lower bounds and reduction procedures for the bin packing problem. Discrete Applied Mathematics 28, 59–70. [19] Muth, J.F., Thompson, G.L., 1963. Industrial Scheduling . Prentice-Hall. [20] Negri, E., Fumagalli, L., Macchi, M., 2017. A review of the concept of digital twin in the 4th industrial revolution. 
+
+Procedia Manufacturing 11, 930–938. [21] Rasheed, A., San, O., Kvamsdal, T., 2020. Digital twin: Values, challenges and enablers from a modeling perspective. 
+
+IEEE Access 8, 21980–22012. [22] Simchi-Levi, D., Dai, T., Menache, I., Wu, M.X., 2025. Democratizing Optimization with Generative AI. Technical report, SSRN. Available at SSRN 5511218. [23] Toth, P., Vigo, D., 2002. The Vehicle Routing Problem . SIAM. [24] Valmeekam, K., Olmo, A., Sreedharan, S., Kambhampati, S., 2023. On the planning abilities of large language models-a critical investigation. Advances in Neural Information Processing Systems 36, 75993–76005. [25] Wei, J., et al., 2022. Chain-of-thought prompting elicits reasoning in large language models. In NeurIPS 2022 .[26] Wu, X., Pan, W., Yi, M., Liang, Y., 2023. Large language models are effective optimization modeling assistants. arXiv preprint arXiv:2308.14713 
+
+[27] Yang, C., Wang, X., Lu, Y., Liu, H., Le, Q.V., Zhou, D., Chen, X., 2023. Large language models as optimizers. In The Twelfth International Conference on Learning Representations , Google DeepMind. [28] Zelikman, E., et al., 2024. Optimus: Optimization modeling using scalable language models. arXiv preprint arXiv:2402.04012 
+
+[29] Zheng, P., Lin, T.J., Chen, C.H., Xu, X., 2021. Cognitive digital twin: Connotations, technologies, and applications. 
+
+Journal of Manufacturing Systems 61, 830–842. [30] Zhuang, C., Liu, J., Xiong, H., 2018. Digital twin-based smart production management and control framework for the complex product assembly shop-floor. The International Journal of Advanced Manufacturing Technology 96. [31] Zhuang, C., Zhang, L., Liu, S., Leng, J., Liu, J., Pei, F., 2024. Digital twin-based smart shop-floor management and control: A review. Advanced Engineering Informatics 62, 102710. 
+
+Appendix 
+
+A. Detailed Formalization Suite 
+
+This appendix provides the formal mathematical definitions for the secondary optimization domains supported by GenOR-Twin. 
+
+Definition 8 (Vehicle Routing Problem (VRP)) . The capacitated variant (CVRP) is defined by a tuple 
+
+(G, K, Q, q, c) where G = ( V, E) is a complete graph, V = {0, 1, . . . , n} (depot at 0), K vehicles, Q vehicle capacity, q demands, and c edge costs. Objective: min ∑Kk=1 ∑(i, j)∈E ci j · xi jk .
+
+Definition 9 (Resource-Constrained Project Scheduling (RCPSP)) . An RCPSP instance is a tuple 
+
+(A, E, R, p, r, R) where A is the set of activities, E precedence relations, and R resource capaci-ties. Objective: min Cmax = max j∈A(S j + p j). Constraints include S j − Si ≥ pi for (i, j) ∈ E and 
+
+∑ j∈A:S j≤t<S j+p j r jk ≤ Rk.
+
+Definition 10 (Nurse Scheduling Problem (NSP)) . Defined by a tuple (N, S, D, C) where N is nurses, S shifts, D days, and C constraints. Objective: min ∑i∈N ∑ j∈S ∑k∈D Pi, j,k · xi, j,k subject to ∑i∈N xi, j,k ≥ R j,k.
+
+Definition 11 (Bin Packing Problem (BPP)) . Defined by (I, B, v,V ) where I is items, B bins, v volumes, and V bin capacity. Objective: min Z = ∑ j∈B y j subject to ∑i∈I vixi j ≤ V y j and ∑ j∈B xi j = 1.
+
+Definition 12 (Maximum Flow Problem) . A Maximum Flow instance (V, E, u, s,t) with source s and sink t. Objective: max Z = ∑ j:(s, j)∈E fs j subject to flow conservation and capacity 0 ≤ fi j ≤ ui j .
+
+B. Reproducibility Details and System Prompts Data and Code Availability 
+
+To facilitate peer review and scientific reproducibility, a Reproducibility Package is pro-vided as Supplemental Material. This package includes the research-grade simulation frame-work for all six optimization domains, a curated dataset of 60 anonymized industrial dis-ruption logs ( data/anonymized_industrial_logs.json ) used for semantic verification, and a 
+
+reproduce_results.py script for fast-pass independent verification of the neuro-symbolic mapping accuracy. Production-grade connectors for proprietary MES/ERP systems (e.g., Siemens Opcenter) are subject to confidentiality constraints and are omitted from the public release, though the core algorithmic logic remains fully transparent and verifiable via the research-grade release. The following core system prompt is utilized by the GenOR-Twin LLM-based Agent across all do-mains, with domain-specific few-shot examples injected into the Context block. GenOR-Twin Core Prompt Template      
+
+> Role: You are a Senior Manufacturing Intelligence Agent for a Cyber-Physical Twin.
+> Objective: Extract optimization constraints from noisy operational logs.
+> Rules: 1. Identify the Resource ID (e.g., Machine 4, Nurse 2). 2. Determine the Temporal Bound (Start Time, Duration). 3. Match to Symbolic Schema (maintenance, unavailability, capacity_reduction).
+> Self-Reflection: Before final output, check if the duration is physically plausible.
+> Output Format: JSON only.
+
+B. Symbolic Validator Implementation Details 
+
+The Validator Ψ acts as a gatekeeper between the probabilistic LLM output and the deterministic solver. It enforces four categories of invariants: Existential (does the resource ID exist in G?), Physical (is the time window causally valid, i.e., tstart ≥ tnow ?), State (is the disruption type permitted for the target resource?), and Logical (does the injected constraint introduce a precedence cycle or resource over-commitment?). The Levenshtein matching step (Line 3) resolves near-miss resource IDs by computing 
+
+rapprox = arg min v∈G.nodes Lev (rid , v) and accepting the correction when the normalized similarity 1 −
+
+Lev / max (|rid |, |rapprox |) > θ .For the Logical invariant, after Existential and Physical validation pass, the validator runs a depth-first search on the constraint graph augmented with the candidate constraint. A detected cycle indicates a precedence violation; simultaneous unavailability of a resource across jobs with zero cumulative slack indicates a capacity conflict. Both trigger rejection ( ⊥). 
+
+Algorithm 2 Symbolic Validator Logic ( Ψ)
+
+Require: log constraint C = {rid ,tstart ,tdur , type }, Knowledge Graph G
+
+Ensure: Validated Constraint Cvalid or ⊥ 
+
+> 1:
+
+rnode ← G.findNode (rid ) 
+
+> 2:
+
+if rnode is None then ▷ Hallucination: Non-existent Resource  
+
+> 3:
+
+rapprox ← LevenshteinMatch (rid , G.nodes ) 
+
+> 4:
+
+if sim (rid , rapprox ) > θ then  
+
+> 5:
+
+rid ← rapprox ▷ Correct typo  
+
+> 6:
+
+elsereturn ⊥ ▷ Reject: Unresolvable Entity  
+
+> 7:
+
+end if  
+
+> 8:
+
+end if  
+
+> 9:
+
+if tdur < 0 ∨ tstart < tnow then ▷ Hallucination: Physical Causality  
+
+> 10:
+
+tstart ← max (tstart ,tnow ) 
+
+> 11:
+
+tdur ← abs (tdur ) 
+
+> 12:
+
+end if  
+
+> 13:
+
+if type /∈ rnode .allowed_states then ▷ Hallucination: Invalid State return ⊥ ▷ Reject: Machine cannot undergo ’NurseBreak’  
+
+> 14:
+
+end if  
+
+> 15:
+
+return {rid ,tstart ,tdur , type }
+
+Implementation note on Levenshtein indexing: The current implementation performs a linear scan over all |G| nodes (Algorithm 2, Line 3). For deployments with |G| > 1,000 nodes, a BK-tree index keyed on edit distance is recommended to maintain sub-millisecond matching latency at scale. 
+
+C. Industrial Proprietary Statement 
+
+While the core neuro-symbolic logic is detailed in this paper, the production-grade connectors for com-mercial MES/ERP systems (e.g., SAP, Siemens Opcenter) are subject to industrial proprietary con-straints. Research-grade simulation counterparts are provided in the repository. D. Technical Specification of Baselines 
+
+The accompanying code repository, including the TransformerAgent baseline implementation and the full testbed, is archived via corresponding author (a github and submission to Zenodo is ongoing). To ensure fair comparison, the baselines are defined rigorously. The Regex (Rule-Based) baseline uses a set of 24 regular expressions mapping specific strings (e.g., "failure", "delay") to JSON templates, with failures resulting in a static fallback. The BERT-NER (Transformer) baseline employs a fine-tuned 
+
+DistilBERT model for entity recognition, combined with a deterministic heuristic that maps identified machines to fixed 40-unit maintenance windows.

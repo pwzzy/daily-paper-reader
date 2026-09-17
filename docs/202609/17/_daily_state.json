@@ -1,0 +1,89 @@
+{
+  "date": "20260917",
+  "date_label": "",
+  "generated_at": "2026-09-17 21:43:03 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.10629v2",
+      "route": "202609/17/2609.10629v2-quantumqubo-agent-automating-quadratic-unconstrained-binary-optimization-qubo-formulation-generation-from-natural-language",
+      "title": "QuantumQUBO Agent: Automating Quadratic Unconstrained Binary Optimization (QUBO) Formulation Generation from Natural Language",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "从自然语言自动生成QUBO组合优化建模的多智能体框架",
+      "first_seen_at": "2026-09-17 21:43:03 UTC",
+      "updated_at": "2026-09-17 21:43:03 UTC"
+    },
+    {
+      "paper_id": "2609.11636v1",
+      "route": "202609/17/2609.11636v1-maple-memory-augmented-planning-with-language-and-evolution",
+      "title": "MAPLE: Memory-Augmented Planning with Language and Evolution",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于LLM的优化智能体通过连续自然语言请求维护运筹优化模型",
+      "first_seen_at": "2026-09-17 21:43:03 UTC",
+      "updated_at": "2026-09-17 21:43:03 UTC"
+    },
+    {
+      "paper_id": "2609.12863v1",
+      "route": "202609/17/2609.12863v1-genor-twin-a-semantic-middleware-for-integrating-operational-discourse-with-mathematical-optimization",
+      "title": "GenOR-Twin: A Semantic Middleware for Integrating Operational Discourse with Mathematical Optimization",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "LLM将运营日志转译为数学约束",
+      "first_seen_at": "2026-09-17 21:43:03 UTC",
+      "updated_at": "2026-09-17 21:43:03 UTC"
+    },
+    {
+      "paper_id": "2609.13945v1",
+      "route": "202609/17/2609.13945v1-sailor-solver-assisted-interactive-llm-based-optimization-recovery",
+      "title": "SAILOR: Solver-Assisted Interactive LLM-based Optimization Recovery",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "用LLM将自然语言优化问题转为求解器模型并恢复缺失数值",
+      "first_seen_at": "2026-09-17 21:43:03 UTC",
+      "updated_at": "2026-09-17 21:43:03 UTC"
+    },
+    {
+      "paper_id": "2609.16680v2",
+      "route": "202609/17/2609.16680v2-little-m-an-ai-agent-for-industrial-process-optimization",
+      "title": "little m: An AI Agent for Industrial Process Optimization",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "AI智能体从自然语言规格辅助构建数学优化模型",
+      "first_seen_at": "2026-09-17 21:43:03 UTC",
+      "updated_at": "2026-09-17 21:43:03 UTC"
+    }
+  ]
+}

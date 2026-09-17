@@ -1,0 +1,199 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-17T21:38:30.658037+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2609.10629v2",
+      "source": "arxiv",
+      "title": "QuantumQUBO Agent: Automating Quadratic Unconstrained Binary Optimization (QUBO) Formulation Generation from Natural Language",
+      "abstract": "Quadratic Unconstrained Binary Optimization (QUBO) is a central formulation for combinatorial optimization and has gained increasing attention due to its compatibility with quantum, hybrid quantum-classical, and quantum-inspired solvers. However, translating natural-language problem descriptions into correct QUBO formulations remains difficult, requiring the identification of binary variables, constraints, objective functions, penalty terms, and suitable penalty weights. This process is time-consuming and often demands substantial domain expertise. To address this challenge, we propose an end-to-end multi-agent framework that automatically generates QUBO formulations from natural-language problem descriptions, supported by structured or unstructured test cases. To evaluate its performance, We also introduce QUBOBench, a benchmark containing 100 combinatorial optimization problems across 12 application domains, curated from peer-reviewed literature, competitions, and canonical NP-hard problems. Experimental results show that our framework achieves 68% accuracy on QUBOBench, outperforming a direct single-call baseline by 22%. Further analysis identifies iterative self-repair as the most important component contributing to improved performance. The data and code are open-sourced at https://quitttcat.github.io/QuantumQUBOAgent.",
+      "authors": [
+        "Niloy Kumar Mondal",
+        "Md Rizwan Parvez"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-09T05:44:59+00:00",
+      "link": "https://arxiv.org/pdf/2609.10629v2",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-agent framework generating QUBO combinatorial optimization formulations from natural language",
+      "llm_evidence_cn": "从自然语言自动生成QUBO组合优化建模的多智能体框架",
+      "llm_evidence": "从自然语言自动生成QUBO组合优化建模的多智能体框架",
+      "canonical_evidence": "从自然语言自动生成QUBO组合优化建模的多智能体框架",
+      "llm_tldr_en": "QuantumQUBO Agent is an end-to-end multi-agent framework that automatically generates QUBO combinatorial-optimization formulations from natural-language problem descriptions, identifying variables, constraints, objectives and penalty weights.",
+      "llm_tldr_cn": "QUBO是组合优化的核心建模形式，与量子及量子启发求解器高度兼容，但从自然语言问题描述生成正确QUBO公式十分困难，需识别二值变量、约束、目标函数、惩罚项及合适权重，耗时且依赖专家经验。作者提出端到端多智能体框架QuantumQUBO Agent，自动从自然语言描述生成QUBO建模。该工作降低了组合优化建模门槛，为量子及量子启发求解器提供了自动化建模入口。",
+      "llm_tldr": "QUBO是组合优化的核心建模形式，与量子及量子启发求解器高度兼容，但从自然语言问题描述生成正确QUBO公式十分困难，需识别二值变量、约束、目标函数、惩罚项及合适权重，耗时且依赖专家经验。作者提出端到端多智能体框架QuantumQUBO Agent，自动从自然语言描述生成QUBO建模。该工作降低了组合优化建模门槛，为量子及量子启发求解器提供了自动化建模入口。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "What papers discuss LLM driven agents for mathematical programming formulation from problem descriptions?",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.11636v1",
+      "source": "arxiv",
+      "title": "MAPLE: Memory-Augmented Planning with Language and Evolution",
+      "abstract": "Domain practitioners understand their business constraints but may lack operations-research expertise or dedicated support. LLM-based optimization agents translate natural-language requirements into models or solver programs that established optimization tools can execute. This progress makes optimization more accessible, but real-world operations are dynamic: changing demand, resources, and priorities require updates to data, constraints, and objectives. Methods centered on isolated requests offer limited support for rapid adaptation that preserves earlier decisions and reuses useful search results. We introduce MAPLE (Memory-Augmented Planning with Language and Evolution), an agent for maintaining optimization problems through successive natural-language requests. MAPLE combines language-based problem construction with mathematical programming and evolutionary search. It retains the optimization program, accepted plans, earlier updates, and candidate solutions for subsequent requests. We introduce NLDO, a benchmark of 15 trajectories and 180 updates spanning selection, scheduling, rostering, routing, and cloud-resource placement. In the main evaluation, MAPLE completes all trajectories and achieves online scalar quality of 0.951 and a Pareto hypervolume ratio of 0.875. Controlled comparisons further show that maintaining executable state improves update validity and can preserve useful search information across substantial revisions.",
+      "authors": [
+        "Kesheng Chen",
+        "Yamin Hu",
+        "Wenjian Luo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-10T14:44:50+00:00",
+      "link": "https://arxiv.org/pdf/2609.11636v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based optimization agents maintaining OR models across successive natural-language requests",
+      "llm_evidence_cn": "基于LLM的优化智能体通过连续自然语言请求维护运筹优化模型",
+      "llm_evidence": "基于LLM的优化智能体通过连续自然语言请求维护运筹优化模型",
+      "canonical_evidence": "基于LLM的优化智能体通过连续自然语言请求维护运筹优化模型",
+      "llm_tldr_en": "MAPLE is a memory-augmented LLM optimization agent that maintains operations-research models across successive natural-language requests, preserving earlier decisions and reusing prior search results as business conditions change.",
+      "llm_tldr_cn": "领域从业者了解自身业务约束，却往往缺乏运筹优化专业知识；基于LLM的优化智能体虽能把自然语言需求转成求解器可执行的模型或程序，但多针对孤立请求，难以应对需求、资源与优先级不断变化的动态业务。作者提出MAPLE，一种融合语言与进化的记忆增强智能体，通过连续的自然语言请求维护优化问题，保留既有决策并复用此前的搜索结果。该工作让动态场景下的优化建模更易用、更可持续，推动了LLM智能体在运筹优化中的实际落地。",
+      "llm_tldr": "领域从业者了解自身业务约束，却往往缺乏运筹优化专业知识；基于LLM的优化智能体虽能把自然语言需求转成求解器可执行的模型或程序，但多针对孤立请求，难以应对需求、资源与优先级不断变化的动态业务。作者提出MAPLE，一种融合语言与进化的记忆增强智能体，通过连续的自然语言请求维护优化问题，保留既有决策并复用此前的搜索结果。该工作让动态场景下的优化建模更易用、更可持续，推动了LLM智能体在运筹优化中的实际落地。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "How are large language models and agents used to automate operations research optimization modeling?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.12863v1",
+      "source": "arxiv",
+      "title": "GenOR-Twin: A Semantic Middleware for Integrating Operational Discourse with Mathematical Optimization",
+      "abstract": "We introduce GenOR-Twin, a neuro-symbolic framework that bridges the translation gap between unstructured operational logs and rigorous mathematical optimization. Our architecture uniquely positions Large Language Models as semantic translators rather than direct solvers, ensuring that the system retains the feasibility guarantees of exact combinatorial methods. { \\color{red}We design a dynamic constraint injection mechanism (the runtime translation of qualitative disruption events into formal mathematical constraints) that allows the system to structurally modify the optimization problem's feasibility region in real-time based on qualitative human inputs. The resulting bidirectional coupling---where operational observations update the virtual model state and optimized decisions are reflected back into the Knowledge Graph---satisfies the synchronization requirement of a proper Digital Twin. The framework features an adaptive decision policy} that automatically selects between low-complexity schedule repair and full re-optimization by analyzing the available system slack. Finally, we demonstrate the generalization of this approach across six distinct optimization domains, {\\color{red}turning static models into resilient systems that adapt to the operational uncertainty and variability of real-world environments.}",
+      "authors": [
+        "Rahimeh Neamatian Monemi",
+        "Shahin Gelareh",
+        "Lubin Cui",
+        "Nelson Maculan"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-11T13:49:03+00:00",
+      "link": "https://arxiv.org/pdf/2609.12863v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM translates operational logs into mathematical constraints",
+      "llm_evidence_cn": "LLM将运营日志转译为数学约束",
+      "llm_evidence": "LLM将运营日志转译为数学约束",
+      "canonical_evidence": "LLM将运营日志转译为数学约束",
+      "llm_tldr_en": "GenOR-Twin is a neuro-symbolic middleware that uses LLMs as semantic translators to convert unstructured operational logs into formal optimization constraints, preserving exact combinatorial feasibility.",
+      "llm_tldr_cn": "针对非结构化运营日志难以转化为严格数学优化模型的鸿沟，论文提出GenOR-Twin神经符号框架，将大语言模型定位为语义翻译器而非直接求解器，并设计动态约束注入机制，把定性扰动事件在运行时翻译为形式化数学约束。实验表明系统能实时修改优化问题可行域并保持精确组合方法的可行性保证，为LLM辅助运筹优化建模提供了新范式。",
+      "llm_tldr": "针对非结构化运营日志难以转化为严格数学优化模型的鸿沟，论文提出GenOR-Twin神经符号框架，将大语言模型定位为语义翻译器而非直接求解器，并设计动态约束注入机制，把定性扰动事件在运行时翻译为形式化数学约束。实验表明系统能实时修改优化问题可行域并保持精确组合方法的可行性保证，为LLM辅助运筹优化建模提供了新范式。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "optimization model formulation with large language models and agents",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.13945v1",
+      "source": "arxiv",
+      "title": "SAILOR: Solver-Assisted Interactive LLM-based Optimization Recovery",
+      "abstract": "Natural-language descriptions of optimization problems may be incomplete or vague about numerical information that a solver requires, including costs, capacities, demands, bounds, and penalties. A language model can translate the description into code, but when a required value is absent it must either stop or guess. We present SAILOR, a proof-of-concept system that detects such unsupported numerical choices, asks the user targeted follow-up questions, and updates the optimization model before returning a solution. Questions are prioritized using uncertainty and solver-derived estimates of how strongly each missing value affects the current model. We evaluate the pipeline on 1,723 instances from seven masked benchmarks using an idealized simulator that returns ground-truth values. Exact objective-value agreement ranges from 27.0% to 87.6% across datasets, with 1.4--5.7 questions per instance on average. These results establish feasibility under controlled branch-and-reveal feedback; they do not measure performance with human users or general structural model repair. Code is available at: https://github.com/sshaghayeghs/SAILOR.",
+      "authors": [
+        "Shaghayegh Sadeghi",
+        "Stephen L. Smith",
+        "David C. Del Rey Fern'andez"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-12T13:40:52+00:00",
+      "link": "https://arxiv.org/pdf/2609.13945v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM translates natural-language optimization problems into solver code and recovers missing numerical values",
+      "llm_evidence_cn": "用LLM将自然语言优化问题转为求解器模型并恢复缺失数值",
+      "llm_evidence": "用LLM将自然语言优化问题转为求解器模型并恢复缺失数值",
+      "canonical_evidence": "用LLM将自然语言优化问题转为求解器模型并恢复缺失数值",
+      "llm_tldr_en": "Natural-language optimization descriptions often omit values a solver needs. SAILOR detects such unsupported numerical choices, asks targeted follow-up questions prioritized by uncertainty and solver-derived sensitivity, and updates the model before solving.",
+      "llm_tldr_cn": "自然语言描述的优化问题常缺少求解器所需的数值信息，如成本、容量、需求与边界，语言模型在缺失数值时只能停止或猜测。本文提出SAILOR系统，检测这些无依据的数值选择，向用户提出有针对性的追问，并在返回解之前更新优化模型；问题优先级由不确定性与求解器估计的影响程度共同决定。作者在七个掩码基准的1723个实例上进行评测，验证了该交互式恢复流程的有效性。该工作为LLM自动建模中信息不完整问题提供了可行的交互式补救方案。",
+      "llm_tldr": "自然语言描述的优化问题常缺少求解器所需的数值信息，如成本、容量、需求与边界，语言模型在缺失数值时只能停止或猜测。本文提出SAILOR系统，检测这些无依据的数值选择，向用户提出有针对性的追问，并在返回解之前更新优化模型；问题优先级由不确定性与求解器估计的影响程度共同决定。作者在七个掩码基准的1723个实例上进行评测，验证了该交互式恢复流程的有效性。该工作为LLM自动建模中信息不完整问题提供了可行的交互式补救方案。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "optimization model formulation with large language models and agents",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.16680v2",
+      "source": "arxiv",
+      "title": "little m: An AI Agent for Industrial Process Optimization",
+      "abstract": "Manufacturing consumes one third of global energy and still has significant room for improvement in terms of energy efficiency. Optimal process control is essential for this purpose. However, synthesizing mathematical optimization models from messy, real-world industrial specifications requires bridging unstructured natural language and spatial diagrams with rigorous mathematical syntax. This poses a profound challenge for general-purpose Large Language Models (LLMs), which may introduce invalid constraints when tasked with modeling continuous multi-physics dynamics. To address this, we introduce little m, an AI agent designed to assist the formulation of industrial process control models. Combining a domain-specific knowledge repository with LLM-driven interaction, the proposed framework formulates real-world optimization problems as mathematical models. For systematic evaluation, we introduce the Industrial Process Control Benchmark (IPC-Bench), a novel multimodal dataset of 50 canonical scenarios requiring joint reasoning over text and process diagrams. Through comprehensive automated structural assessments and double-blind human evaluation, little m substantially outperforms state-of-the-art LLMs, generating semantically correct models. These evaluations assess formulation quality rather than solver feasibility, formal physical validity, or closed-loop industrial performance. The implementation of little m and the IPC-Bench dataset are available at https://github.com/yeyongchao/process-modeling-benchmark.",
+      "authors": [
+        "Yongchao Ye",
+        "Xinyu He",
+        "Dutliff Boshoff",
+        "Way Kuo",
+        "Lishuai Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-15T06:01:18+00:00",
+      "link": "https://arxiv.org/pdf/2609.16680v2",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "AI agent assists formulation of mathematical optimization models from messy natural language specs",
+      "llm_evidence_cn": "AI智能体从自然语言规格辅助构建数学优化模型",
+      "llm_evidence": "AI智能体从自然语言规格辅助构建数学优化模型",
+      "canonical_evidence": "AI智能体从自然语言规格辅助构建数学优化模型",
+      "llm_tldr_en": "General LLMs often produce invalid constraints when modeling industrial processes. little m is an AI agent combining a domain knowledge repository with LLM-driven interaction to help formulate optimization models from messy specifications, advancing automated OR modeling.",
+      "llm_tldr_cn": "通用大语言模型在将混乱的工业规格转化为严谨数学优化模型时，常会引入无效约束，难以胜任连续多物理动态建模。本文提出little m，一个结合领域知识库与LLM驱动交互的AI智能体，专门辅助工业过程控制优化模型的构建。该工作面向从非结构化自然语言与空间图到数学语法的桥接难题，推动运筹优化建模的自动化，对LLM驱动优化建模方向具有直接示范意义。",
+      "llm_tldr": "通用大语言模型在将混乱的工业规格转化为严谨数学优化模型时，常会引入无效约束，难以胜任连续多物理动态建模。本文提出little m，一个结合领域知识库与LLM驱动交互的AI智能体，专门辅助工业过程控制优化模型的构建。该工作面向从非结构化自然语言与空间图到数学语法的桥接难题，推动运筹优化建模的自动化，对LLM驱动优化建模方向具有直接示范意义。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "optimization model formulation with large language models and agents",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
