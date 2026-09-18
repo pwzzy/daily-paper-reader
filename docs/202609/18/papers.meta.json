@@ -1,0 +1,54 @@
+{
+  "label": "2026-09-18",
+  "date": "2026-09-18",
+  "generated_at": "2026-09-18T21:44:22",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202609/18/2609.18669v1-m3p-r1-reinforcement-learning-for-large-language-model-guided-multi-modal-motion-planning-via-mip-code-generation",
+      "section": "deep",
+      "title_en": "M$^3$P-R1: Reinforcement Learning for Large Language Model Guided Multi-Modal Motion Planning via MIP Code Generation",
+      "authors": "Xingpeng Sun, Zherong Pan, Kai Cheng, Xindi Tang, Syed Talha Bukhari, Aniket Bera",
+      "date": "2026-09-16",
+      "pdf": "https://arxiv.org/pdf/2609.18669v1",
+      "score": "8.0",
+      "evidence": "大语言模型生成 MIP 代码，自动完成混合整数规划建模",
+      "tldr": "多模态运动规划需联合推理连续运动与离散模式切换，传统离散或连续规划器均难处理，而混合整数规划（MIP）建模又依赖人工且难用于非凸任务。M3P-R1 用强化学习微调大语言模型，将任务分解为 MIP 变量、约束与目标，并生成可执行 Python 代码而非直接答案。模型通过求解器结果驱动奖励训练，学习组合模态级离散化原语与跨模态耦合约束。最终可自动合成可执行 MIP 程序，为复杂多模态规划提供可验证、求解器支撑的方案。",
+      "tags": "query:llm-agent-or",
+      "abstract_en": "Multi-Modal Motion Planning (M$^3$P) requires joint reasoning over continuous motions and discrete mode transitions, making it difficult to solve efficiently. For instance, a bipedal robot may walk to a target location and then use its arms to grasp an object. This scenario captures both mode transitions and continuous dynamics, yielding feasible paths that neither purely discrete nor continuous planners can handle. While Mixed-Integer Programming (MIP) offers a principled framework, constructing tractable formulations for non-convex problems is typically manual and domain-specific, especially in the approximate, discretization-based MIP regime needed for non-convex robotic tasks. We propose M$^3$P-R1, a reinforcement learning method that fine-tunes large language models (LLMs) to decompose M$^3$P tasks into MIP variables, constraints, and objectives. Instead of directly outputting answers, which are often prone to hallucination, the model generates executable Python code using MIP optimization libraries and constraint interfaces. This enables solver-backed execution for robust and verifiable solutions. Trained with an outcome-driven reward against the solver, M$^3$P-R1 learns to compose modality-level discretization primitives and synthesize cross-modal coupling constraints, producing executable MIP programs for complex M$^3$P tasks.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/18/2609.12265v1-gta-graph-theory-agent-and-benchmark-for-algorithmic-graph-reasoning-with-llms",
+      "section": "quick",
+      "title_en": "GTA: Graph Theory Agent and Benchmark for Algorithmic Graph Reasoning with LLMs",
+      "authors": "Zixiang Xu, Yanbo Wang, Chenxi Wang, Lang Gao, Zirui Song, Yue Huang, Zhaorun Chen, Xiangliang Zhang, Xiuying Chen",
+      "date": "2026-09-10",
+      "pdf": "https://arxiv.org/pdf/2609.12265v1",
+      "score": "6.0",
+      "evidence": "面向多步图算法推理的 LLM 智能体基准，覆盖经典组合图问题",
+      "tldr": "LLM在图结构上做多步算法推理的可靠性仍不清楚，已有评测多局限于小图简单任务、偏重代码生成或固定输入格式。为此提出GT Bench，覆盖24类图问题、44种任务结构设置、逾10万样本和四种图表示；并构建GTA，用偏好训练表示选择器与计划分解框架驱动冻结执行器。实验显示准确率强烈依赖输入表示，最佳表示随图密度、规模、拓扑和模型变化；GTA将Phi-4在easy/hard split从53.5%/33.0%提升至69.1%/41.5%，超越八个基线并无重训迁移到GraCoRe和NLGraph。",
+      "tags": "query:llm-agent-or",
+      "abstract_en": "Large Language Models (LLMs) are increasingly asked to reason over structured data such as graphs, yet how reliably they can carry out multi-step graph algorithms in language remains unclear. Existing evaluations tend to use simple tasks on small graphs, to score code generation rather than reasoning over the graph itself, or to fix a single input format. We introduce Graph Theory Bench (GT Bench), a benchmark covering 24 classical graph problems in 44 task-structure settings, with over 100,000 examples across four representations: natural language, structured language, adjacency list, and adjacency matrix. Evaluating eight LLMs on GT Bench shows that accuracy is strongly tied to the input representation, that the best representation shifts with graph density, size, and topology as well as with the model, and that this sensitivity persists, attenuated, in the strongest reasoning models. Building on these observations, we propose the Graph Theory Agent (GTA), which pairs a preference-trained representation selector with plan-and-decompose scaffolding around a frozen executor LLM. GTA lifts Phi-4 from 53.5% to 69.1% on the benchmark's easy split and from 33.0% to 41.5% on its hard split, outperforming eight prompting and agent baselines, and transfers without retraining to GraCoRe and NLGraph. Code for benchmark generation and evaluation: https://github.com/xzx34/GTA. The project homepage is available at https://xzx34.github.io/gta/.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/18/2609.15820v1-algoevo-self-evolving-agentic-search-for-automated-algorithm-discovery",
+      "section": "quick",
+      "title_en": "AlgoEvo: Self-Evolving Agentic Search for Automated Algorithm Discovery",
+      "authors": "Junhao Qiu, Qinglong Hu, Xialiang Tong, Mingxuan Yuan, Liyong Lin, Qingfu Zhang",
+      "date": "2026-09-14",
+      "pdf": "https://arxiv.org/pdf/2609.15820v1",
+      "score": "6.0",
+      "evidence": "面向自动算法发现与优化设计的智能体搜索框架",
+      "tldr": "现有LLM自动化算法发现框架依赖刚性搜索流程，限制自适应推理与跨范式迁移，且浪费执行反馈。AlgoEvo将算法发现转为交互式、知识积累的智能体过程：智能体依据运行时反馈动态检查、诊断并修改代码，设计技能中心解耦范式知识，分层经验机制构建任务级搜索树并提炼可复用技能。在六个基准任务上，以更少评估与token匹配或超越专用方法，展现任务内积累与跨任务迁移能力。",
+      "tags": "query:llm-agent-or",
+      "abstract_en": "Large language models have advanced automated algorithm discovery by synthesizing executable code, but existing frameworks trap them in rigid search pipelines with pre-defined control flows. This limitation restricts adaptive reasoning, blocks cross-paradigm transfer, and discards valuable execution feedback. We propose AlgoEvo, a unified agentic framework that transforms automated algorithm discovery into an interactive, knowledge-accumulating process. An autonomous agent dynamically inspects, diagnoses, and edits code based on runtime feedback. A design skill hub decouples paradigm-specific knowledge from the core discovery engine, allowing a single workflow to seamlessly handle single-objective, multi-objective, and multi-component design. Meanwhile, a hierarchical experience mechanism organizes search trajectories into a task-level tree to guide exploration and consolidates cross-task patterns into reusable skills. Across six representative benchmark tasks, AlgoEvo matches or surpasses specialized methods with substantially fewer evaluations and reduced token consumption, demonstrating strong intra-task accumulation, cross-task transfer, and the ability to reproduce or exceed existing state-of-the-art performance through flexible skill activation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

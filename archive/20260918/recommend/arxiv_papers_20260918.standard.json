@@ -1,0 +1,140 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-18T21:40:37.678063+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2609.18669v1",
+      "source": "arxiv",
+      "title": "M$^3$P-R1: Reinforcement Learning for Large Language Model Guided Multi-Modal Motion Planning via MIP Code Generation",
+      "abstract": "Multi-Modal Motion Planning (M$^3$P) requires joint reasoning over continuous motions and discrete mode transitions, making it difficult to solve efficiently. For instance, a bipedal robot may walk to a target location and then use its arms to grasp an object. This scenario captures both mode transitions and continuous dynamics, yielding feasible paths that neither purely discrete nor continuous planners can handle. While Mixed-Integer Programming (MIP) offers a principled framework, constructing tractable formulations for non-convex problems is typically manual and domain-specific, especially in the approximate, discretization-based MIP regime needed for non-convex robotic tasks. We propose M$^3$P-R1, a reinforcement learning method that fine-tunes large language models (LLMs) to decompose M$^3$P tasks into MIP variables, constraints, and objectives. Instead of directly outputting answers, which are often prone to hallucination, the model generates executable Python code using MIP optimization libraries and constraint interfaces. This enables solver-backed execution for robust and verifiable solutions. Trained with an outcome-driven reward against the solver, M$^3$P-R1 learns to compose modality-level discretization primitives and synthesize cross-modal coupling constraints, producing executable MIP programs for complex M$^3$P tasks.",
+      "authors": [
+        "Xingpeng Sun",
+        "Zherong Pan",
+        "Kai Cheng",
+        "Xindi Tang",
+        "Syed Talha Bukhari",
+        "Aniket Bera"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-09-16T13:47:13+00:00",
+      "link": "https://arxiv.org/pdf/2609.18669v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM generates MIP code, automating mixed-integer programming formulation for planning",
+      "llm_evidence_cn": "大语言模型生成 MIP 代码，自动完成混合整数规划建模",
+      "llm_evidence": "大语言模型生成 MIP 代码，自动完成混合整数规划建模",
+      "canonical_evidence": "大语言模型生成 MIP 代码，自动完成混合整数规划建模",
+      "llm_tldr_en": "Multi-modal motion planning mixes continuous motion with discrete mode switches, but building tractable MIP formulations is manual and domain-specific. M3P-R1 uses reinforcement learning to train an LLM to generate MIP code, automating formulation for non-convex planning tasks.",
+      "llm_tldr_cn": "多模态运动规划需同时处理连续运动与离散模式切换，但面向非凸任务的混合整数规划公式构建往往依赖人工且领域特定，难以自动生成可解模型。作者提出 M3P-R1，用强化学习训练大语言模型自动生成 MIP 代码，把规划问题转化为可求解的数学规划形式。实验表明该方法能自动产出可用的规划建模代码，减轻人工建模负担并提升可解性。该工作展示了大语言模型智能体自动生成数学规划公式的潜力，为运筹优化建模自动化提供新范式。",
+      "llm_tldr": "多模态运动规划需同时处理连续运动与离散模式切换，但面向非凸任务的混合整数规划公式构建往往依赖人工且领域特定，难以自动生成可解模型。作者提出 M3P-R1，用强化学习训练大语言模型自动生成 MIP 代码，把规划问题转化为可求解的数学规划形式。实验表明该方法能自动产出可用的规划建模代码，减轻人工建模负担并提升可解性。该工作展示了大语言模型智能体自动生成数学规划公式的潜力，为运筹优化建模自动化提供新范式。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "mixed integer programming formulation using LLM based intelligent agents",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.12265v1",
+      "source": "arxiv",
+      "title": "GTA: Graph Theory Agent and Benchmark for Algorithmic Graph Reasoning with LLMs",
+      "abstract": "Large Language Models (LLMs) are increasingly asked to reason over structured data such as graphs, yet how reliably they can carry out multi-step graph algorithms in language remains unclear. Existing evaluations tend to use simple tasks on small graphs, to score code generation rather than reasoning over the graph itself, or to fix a single input format. We introduce Graph Theory Bench (GT Bench), a benchmark covering 24 classical graph problems in 44 task-structure settings, with over 100,000 examples across four representations: natural language, structured language, adjacency list, and adjacency matrix. Evaluating eight LLMs on GT Bench shows that accuracy is strongly tied to the input representation, that the best representation shifts with graph density, size, and topology as well as with the model, and that this sensitivity persists, attenuated, in the strongest reasoning models. Building on these observations, we propose the Graph Theory Agent (GTA), which pairs a preference-trained representation selector with plan-and-decompose scaffolding around a frozen executor LLM. GTA lifts Phi-4 from 53.5% to 69.1% on the benchmark's easy split and from 33.0% to 41.5% on its hard split, outperforming eight prompting and agent baselines, and transfers without retraining to GraCoRe and NLGraph. Code for benchmark generation and evaluation: https://github.com/xzx34/GTA. The project homepage is available at https://xzx34.github.io/gta/.",
+      "authors": [
+        "Zixiang Xu",
+        "Yanbo Wang",
+        "Chenxi Wang",
+        "Lang Gao",
+        "Zirui Song",
+        "Yue Huang",
+        "Zhaorun Chen",
+        "Xiangliang Zhang",
+        "Xiuying Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-10T22:50:10+00:00",
+      "link": "https://arxiv.org/pdf/2609.12265v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "LLM agent benchmark for multi-step algorithmic graph reasoning over classical combinatorial graph problems",
+      "llm_evidence_cn": "面向多步图算法推理的 LLM 智能体基准，覆盖经典组合图问题",
+      "llm_evidence": "面向多步图算法推理的 LLM 智能体基准，覆盖经典组合图问题",
+      "canonical_evidence": "面向多步图算法推理的 LLM 智能体基准，覆盖经典组合图问题",
+      "llm_tldr_en": "GTA introduces Graph Theory Bench, a benchmark of 24 classical graph problems for LLM agents, showing that algorithmic graph reasoning accuracy depends strongly on input representation.",
+      "llm_tldr_cn": "大语言模型越来越多被要求对图等结构化数据进行推理，但其执行多步图算法的可靠性尚不明确，现有评测任务简单、偏重代码生成且输入格式单一。作者提出 GTA 与 Graph Theory Bench 基准，覆盖 24 类经典图问题、44 种任务结构与四种输入表示，并评测八个大语言模型。结果显示准确率高度依赖输入表示形式，且最优表示随任务与模型变化。该基准为智能体求解组合优化类图问题提供了系统评估手段。",
+      "llm_tldr": "大语言模型越来越多被要求对图等结构化数据进行推理，但其执行多步图算法的可靠性尚不明确，现有评测任务简单、偏重代码生成且输入格式单一。作者提出 GTA 与 Graph Theory Bench 基准，覆盖 24 类经典图问题、44 种任务结构与四种输入表示，并评测八个大语言模型。结果显示准确率高度依赖输入表示形式，且最优表示随任务与模型变化。该基准为智能体求解组合优化类图问题提供了系统评估手段。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.15820v1",
+      "source": "arxiv",
+      "title": "AlgoEvo: Self-Evolving Agentic Search for Automated Algorithm Discovery",
+      "abstract": "Large language models have advanced automated algorithm discovery by synthesizing executable code, but existing frameworks trap them in rigid search pipelines with pre-defined control flows. This limitation restricts adaptive reasoning, blocks cross-paradigm transfer, and discards valuable execution feedback. We propose AlgoEvo, a unified agentic framework that transforms automated algorithm discovery into an interactive, knowledge-accumulating process. An autonomous agent dynamically inspects, diagnoses, and edits code based on runtime feedback. A design skill hub decouples paradigm-specific knowledge from the core discovery engine, allowing a single workflow to seamlessly handle single-objective, multi-objective, and multi-component design. Meanwhile, a hierarchical experience mechanism organizes search trajectories into a task-level tree to guide exploration and consolidates cross-task patterns into reusable skills. Across six representative benchmark tasks, AlgoEvo matches or surpasses specialized methods with substantially fewer evaluations and reduced token consumption, demonstrating strong intra-task accumulation, cross-task transfer, and the ability to reproduce or exceed existing state-of-the-art performance through flexible skill activation.",
+      "authors": [
+        "Junhao Qiu",
+        "Qinglong Hu",
+        "Xialiang Tong",
+        "Mingxuan Yuan",
+        "Liyong Lin",
+        "Qingfu Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-14T16:24:27+00:00",
+      "link": "https://arxiv.org/pdf/2609.15820v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "agentic search framework for automated algorithm discovery and optimization design",
+      "llm_evidence_cn": "面向自动算法发现与优化设计的智能体搜索框架",
+      "llm_evidence": "面向自动算法发现与优化设计的智能体搜索框架",
+      "canonical_evidence": "面向自动算法发现与优化设计的智能体搜索框架",
+      "llm_tldr_en": "Existing automated algorithm discovery frameworks trap LLMs in rigid search pipelines with predefined control flows. AlgoEvo is a unified agentic framework where an autonomous agent inspects, diagnoses and edits code from runtime feedback, enabling adaptive optimization algorithm design across paradigms.",
+      "llm_tldr_cn": "现有自动算法发现框架把大语言模型限制在固定控制流的刚性搜索管线中，阻碍了自适应推理与跨范式迁移。本文提出 AlgoEvo，一个统一的智能体框架，让自主智能体依据运行时反馈动态检查、诊断并编辑代码，并通过设计技能中心解耦范式知识。实验表明该框架能处理单目标、多目标与多组件设计，把算法发现转变为可积累知识的交互过程，对智能体辅助优化求解具有方法迁移价值。",
+      "llm_tldr": "现有自动算法发现框架把大语言模型限制在固定控制流的刚性搜索管线中，阻碍了自适应推理与跨范式迁移。本文提出 AlgoEvo，一个统一的智能体框架，让自主智能体依据运行时反馈动态检查、诊断并编辑代码，并通过设计技能中心解耦范式知识。实验表明该框架能处理单目标、多目标与多组件设计，把算法发现转变为可积累知识的交互过程，对智能体辅助优化求解具有方法迁移价值。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
