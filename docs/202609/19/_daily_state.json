@@ -1,0 +1,57 @@
+{
+  "date": "20260919",
+  "date_label": "",
+  "generated_at": "2026-09-19 21:17:36 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.19545v1",
+      "route": "202609/19/2609.19545v1-where-the-llm-ends-and-reliable-decisions-begin",
+      "title": "Where the LLM Ends and Reliable Decisions Begin",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "仅调用一次大模型把自然语言优化问题写成LaTeX模型，再由确定性编译器生成求解代码",
+      "first_seen_at": "2026-09-19 21:17:36 UTC",
+      "updated_at": "2026-09-19 21:17:36 UTC"
+    },
+    {
+      "paper_id": "2609.13561v1",
+      "route": "202609/19/2609.13561v1-a-hybrid-agentic-ai-framework-for-intelligent-supply-chain-analytics",
+      "title": "A Hybrid Agentic AI Framework for Intelligent Supply Chain Analytics",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向供应链分析的智能体系统，协调器智能体分派子任务，涉及运筹学等多领域专长",
+      "first_seen_at": "2026-09-19 21:17:36 UTC",
+      "updated_at": "2026-09-19 21:17:36 UTC"
+    },
+    {
+      "paper_id": "2609.19437v1",
+      "route": "202609/19/2609.19437v1-bayesian-optimization-with-rich-auxiliary-information-via-llms",
+      "title": "Bayesian Optimization with Rich Auxiliary Information via LLMs",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "用大语言模型利用丰富辅助信息引导贝叶斯优化",
+      "first_seen_at": "2026-09-19 21:17:36 UTC",
+      "updated_at": "2026-09-19 21:17:36 UTC"
+    }
+  ]
+}

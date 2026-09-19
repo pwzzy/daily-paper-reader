@@ -48,7 +48,7 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-09-18</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-19</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
     <strong class="dpr-home-dashboard-count">共 3 篇</strong>
@@ -58,7 +58,7 @@
     <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>1</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>2</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-18 21:44:21 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-19 21:17:36 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,8 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精读1篇、速读2篇，重点聚焦LLM驱动多模态运动规划与算法推理/发现。最值得看的是《M$^3$P-R1》（8.0/10）用强化学习生成MIP代码来引导多模态运动规划，另可顺带关注图算法推理与自进化算法搜索两个6.0分方向。普通读者可先读精读这篇，理解“代码生成+规划”思路，再按兴趣选读速读。</p>
+<p>今天共读3篇：精读《Where the LLM Ends and Reliable Decisions Begin》（9.0/10），速读智能供应链分析与LLM辅助贝叶斯优化各1篇（均6.0/10）。</p>
+<p>最值得看的是9.0分精读——它把焦点放在LLM的能力边界与</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -81,7 +82,7 @@
     <strong class="dpr-home-dashboard-count">1 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="M$^3$P-R1: Reinforcement Learning for Large Language Model Guided Multi-Modal Motion Planning via MIP Code Generation">M$^3$P-R1: Reinforcement Learning for Large Language Model Guided Multi-Modal Motion Planning via MIP Code Generation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Where the LLM Ends and Reliable Decisions Begin">Where the LLM Ends and Reliable Decisions Begin</span></li></ul>
   </div>
   <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">llm-agent-or <strong>1</strong></span></div>
 </section>
@@ -94,7 +95,7 @@
     <strong class="dpr-home-dashboard-count">2 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="GTA: Graph Theory Agent and Benchmark for Algorithmic Graph Reasoning with LLMs">GTA: Graph Theory Agent and Benchmark for Algorithmic Graph Reasoning with LLMs</span></li><li><span class="dpr-home-dashboard-paper-title" title="AlgoEvo: Self-Evolving Agentic Search for Automated Algorithm Discovery">AlgoEvo: Self-Evolving Agentic Search for Automated Algorithm Discovery</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="A Hybrid Agentic AI Framework for Intelligent Supply Chain Analytics">A Hybrid Agentic AI Framework for Intelligent Supply Chain Analytics</span></li><li><span class="dpr-home-dashboard-paper-title" title="Bayesian Optimization with Rich Auxiliary Information via LLMs">Bayesian Optimization with Rich Auxiliary Information via LLMs</span></li></ul>
   </div>
   <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">llm-agent-or <strong>2</strong></span></div>
 </section>

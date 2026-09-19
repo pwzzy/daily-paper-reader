@@ -1,0 +1,134 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-19T21:14:31.522257+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2609.19545v1",
+      "source": "arxiv",
+      "title": "Where the LLM Ends and Reliable Decisions Begin",
+      "abstract": "Systems that turn natural-language descriptions of optimization problems into solver-ready code generally use a language model at every stage, including the final translation from a mathematical formulation into executable model-building code. We propose the ANVIL compiler architecture, where we separate these concerns. A language model is called only once, assisted by constraint guidance based on problem type, to produce a LaTeX formulation. A deterministic compiler then translates that LaTeX into code with no language model involvement. We describe the deterministic compiler (a normalizer, a recursive-descent parser producing a typed intermediate representation, analysis passes that bind symbols to a dataset schema, and a code emitter) and evaluate it on the 354 easy and hard problems of the NLP4LP benchmark. The compiler produced code for 329 of 354 formulations (92.9%), taking the deterministic path in every one of those cases and never falling back to model-generated code. Median compile time was below the 10ms resolution of our timer. Overall, our formulations achieved an accuracy of 98.9% over easy problems and 91.1% for hard problems. The gap between these compilation and accuracy figures is a key point of analysis, and we analyze it: formulations that failed to compile, problems that returned as infeasible, problems raising errors at runtime, and problems returning a wrong objective. Almost all of these errors trace back to the formulation rather than to the translation. ANVIL performs exceptionally well on leading benchmarks by using language models purely where they are effective, rather than as a catch-all tool.",
+      "authors": [
+        "Priyadarshan Patil",
+        "Abhishek Basu",
+        "Vikas Reddy",
+        "Abhinav Gupta"
+      ],
+      "primary_category": "math.OC",
+      "categories": [
+        "math.OC",
+        "cs.PL"
+      ],
+      "published": "2026-09-17T01:13:09+00:00",
+      "link": "https://arxiv.org/pdf/2609.19545v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM called once to turn natural-language optimization problems into LaTeX formulations, then a deterministic compiler emits solver-ready code",
+      "llm_evidence_cn": "仅调用一次大模型把自然语言优化问题写成LaTeX模型，再由确定性编译器生成求解代码",
+      "llm_evidence": "仅调用一次大模型把自然语言优化问题写成LaTeX模型，再由确定性编译器生成求解代码",
+      "canonical_evidence": "仅调用一次大模型把自然语言优化问题写成LaTeX模型，再由确定性编译器生成求解代码",
+      "llm_tldr_en": "Systems converting natural-language optimization problems into solver code usually call an LLM at every stage. ANVIL calls the LLM once, with constraint guidance, to produce a LaTeX formulation, then a deterministic compiler parses and emits executable code.",
+      "llm_tldr_cn": "将自然语言优化问题描述自动转换为可求解代码的系统通常在每个环节都调用语言模型，包括从数学公式到建模代码的最终翻译，容易引入不可靠输出。本文提出ANVIL编译器架构，仅调用一次语言模型并辅以按问题类型的约束引导生成LaTeX公式，随后由包含归一化、递归下降解析、符号绑定与代码生成等模块的确定性编译器完成翻译。在354个问题上评估显示该分离式设计提升了可靠性。其贡献在于明确了语言模型与确定性编译在优化建模流水线中的职责边界。",
+      "llm_tldr": "将自然语言优化问题描述自动转换为可求解代码的系统通常在每个环节都调用语言模型，包括从数学公式到建模代码的最终翻译，容易引入不可靠输出。本文提出ANVIL编译器架构，仅调用一次语言模型并辅以按问题类型的约束引导生成LaTeX公式，随后由包含归一化、递归下降解析、符号绑定与代码生成等模块的确定性编译器完成翻译。在354个问题上评估显示该分离式设计提升了可靠性。其贡献在于明确了语言模型与确定性编译在优化建模流水线中的职责边界。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "What papers discuss LLM driven agents for mathematical programming formulation from problem descriptions?",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.13561v1",
+      "source": "arxiv",
+      "title": "A Hybrid Agentic AI Framework for Intelligent Supply Chain Analytics",
+      "abstract": "Efficient utilization of supply chain analytics for decision making remains a significant challenge for planners, as critical tasks such as database querying, key performance indicator (KPI) analysis, demand forecasting, and performance diagnosis require heterogeneous expertise spanning data engineering, operations research, and domain knowledge. In this work, we propose an agentic system for supply chain analytics that bridges the gap between business decision-making and technical expertise, where a coordinator agent interprets user intent and delegates sub-tasks to specialized agents. The system supports both exploratory analysis and deterministic workflows, enabling planners to transition between ad hoc questions and structured processes. Domain logic is encapsulated within specialist agents and prompts, yielding a scalable, modular, and auditable design and lowering the cost of functional extension through prompt-centric development. We evaluate the proposed architecture on a test environment that replicates multi-echelon inventory management operations. Results show that our multi-agent design achieves a 90\\% accuracy, which is competitive with a single agent baseline while reducing input token usage by roughly fourfold, substantially improving scalability and cost-efficiency. Furthermore, we provide case studies to demonstrate interpretable suboptimality detection and automated forecast optimization, illustrating how agentic architectures can effectively combine open-ended exploratory analysis and deterministic supply chain analytics workflows, and provide a practical pathway toward more accessible and extensible decision-support systems.",
+      "authors": [
+        "Xian Yeow Lee",
+        "Teppei Inoue",
+        "Haiyan Wang",
+        "Chetan Gupta"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-09-11T21:59:30+00:00",
+      "link": "https://arxiv.org/pdf/2609.13561v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Agentic system for supply chain analytics spanning operations research, forecasting and diagnosis, with a coordinator delegating to specialized agents",
+      "llm_evidence_cn": "面向供应链分析的智能体系统，协调器智能体分派子任务，涉及运筹学等多领域专长",
+      "llm_evidence": "面向供应链分析的智能体系统，协调器智能体分派子任务，涉及运筹学等多领域专长",
+      "canonical_evidence": "面向供应链分析的智能体系统，协调器智能体分派子任务，涉及运筹学等多领域专长",
+      "llm_tldr_en": "Supply chain analytics requires expertise spanning data engineering, operations research and domain knowledge. This work proposes an agentic system where a coordinator agent interprets user intent and delegates subtasks to specialized agents, supporting both exploratory and deterministic workflows.",
+      "llm_tldr_cn": "供应链分析中的数据库查询、KPI分析、需求预测与绩效诊断需要横跨数据工程、运筹学与领域知识的多重专长，给规划者带来显著挑战。本文提出一个面向供应链分析的智能体系统，由协调器智能体理解用户意图并将子任务分派给专用智能体，同时支持探索式分析与确定性工作流。系统在业务决策与技术专长之间架起桥梁，使规划者可在即席提问与结构化流程之间灵活切换。该工作展示了智能体架构在运筹分析类企业决策场景中的应用价值。",
+      "llm_tldr": "供应链分析中的数据库查询、KPI分析、需求预测与绩效诊断需要横跨数据工程、运筹学与领域知识的多重专长，给规划者带来显著挑战。本文提出一个面向供应链分析的智能体系统，由协调器智能体理解用户意图并将子任务分派给专用智能体，同时支持探索式分析与确定性工作流。系统在业务决策与技术专长之间架起桥梁，使规划者可在即席提问与结构化流程之间灵活切换。该工作展示了智能体架构在运筹分析类企业决策场景中的应用价值。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "operations research approach using LLM driven agents",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.19437v1",
+      "source": "arxiv",
+      "title": "Bayesian Optimization with Rich Auxiliary Information via LLMs",
+      "abstract": "Bayesian Optimization (BO) is widely used for optimizing expensive black-box functions, yet many real-world optimization problems contain substantially richer information than function evaluations alone. Examples include training curves in hyperparameter optimization, expert notes and images in scientific experimentation, and prior knowledge about where optima may lie. We show that large language models (LLMs) can effectively leverage such rich auxiliary information to guide optimization. Motivated by these findings, we develop three methods for incorporating auxiliary information into BO using LLMs. Across hyperparameter optimization benchmarks and a real-world nuclear fusion optimization task, our methods consistently outperform both standard BO and existing LLM-based optimization approaches. Our results demonstrate the effectiveness of LLMs for leveraging rich auxiliary information in BO.",
+      "authors": [
+        "Tejus Gupta",
+        "Efe Mert Karagözlü",
+        "Rohit Sonker",
+        "Barnabás Póczos",
+        "Jeff Schnieder"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-16T21:15:43+00:00",
+      "link": "https://arxiv.org/pdf/2609.19437v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "LLMs leverage rich auxiliary information to guide Bayesian optimization of expensive black-box functions",
+      "llm_evidence_cn": "用大语言模型利用丰富辅助信息引导贝叶斯优化",
+      "llm_evidence": "用大语言模型利用丰富辅助信息引导贝叶斯优化",
+      "canonical_evidence": "用大语言模型利用丰富辅助信息引导贝叶斯优化",
+      "llm_tldr_en": "LLMs can leverage rich auxiliary information such as training curves and expert notes to guide Bayesian optimization; three proposed methods consistently outperform standard BO and prior approaches on hyperparameter and nuclear fusion tasks.",
+      "llm_tldr_cn": "针对贝叶斯优化仅利用函数取值、而真实优化问题常包含训练曲线与专家先验等丰富辅助信息的问题，本文探索用大语言模型挖掘这类信息来引导优化过程。作者提出三种将辅助信息融入贝叶斯优化的方法，在超参数优化基准和真实核聚变优化任务上一致超越标准贝叶斯优化与现有方法。该工作表明LLM可作为优化过程的先验引导器，为LLM辅助优化与运筹优化提供可迁移思路。",
+      "llm_tldr": "针对贝叶斯优化仅利用函数取值、而真实优化问题常包含训练曲线与专家先验等丰富辅助信息的问题，本文探索用大语言模型挖掘这类信息来引导优化过程。作者提出三种将辅助信息融入贝叶斯优化的方法，在超参数优化基准和真实核聚变优化任务上一致超越标准贝叶斯优化与现有方法。该工作表明LLM可作为优化过程的先验引导器，为LLM辅助优化与运筹优化提供可迁移思路。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
