@@ -1,0 +1,56 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-22T21:40:14.477157+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2609.22987v1",
+      "source": "arxiv",
+      "title": "OptiSkill: A Hierarchical and Evolving SkillBank for LLM-Based Optimization Modeling",
+      "abstract": "Automated operations research (OR) modeling requires LLMs to translate natural-language decision problems into correct mathematical programs. Existing methods can improve individual formulations, but they often solve problems in isolation, retaining little reusable experience and repeating similar formulation errors. Prior memory-based approaches store examples, thoughts, or insights as references, while OR modeling requires reusable formulation skills that transfer across problem narratives and guide concrete modeling decisions. We propose OptiSkill, a skill-augmented framework that builds a hierarchical and evolving SkillBank for LLM-based OR modeling. SkillBank stores solver-verified experience as reusable skills, with Global Strategies for problem-level formulation skeletons and Step Experiences for local error-prevention rules. It is further refined through stable batch-level test-time evolution, where candidate skills are incorporated only after validation. Experiments on eight OR modeling benchmarks show that OptiSkill improves formulation accuracy across LLM backbones, outperforms strong agentic baselines, and gains further by expanding SkillBank coverage and reliability. Code and data are available at https://github.com/rachhhhing/OptiSkill",
+      "authors": [
+        "Ruiqing Zhao",
+        "Rui Liu",
+        "Yuan Zuo",
+        "Huarong Zhang",
+        "Xiao Han",
+        "Junjie Wu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-19T12:43:46+00:00",
+      "link": "https://arxiv.org/pdf/2609.22987v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "LLM-based operations research optimization modeling",
+      "llm_evidence_cn": "基于LLM的运筹优化建模",
+      "llm_evidence": "基于LLM的运筹优化建模",
+      "canonical_evidence": "基于LLM的运筹优化建模",
+      "llm_tldr_en": "OptiSkill builds a hierarchical, evolving SkillBank of solver-verified formulation skills to help LLMs translate natural-language decision problems into correct mathematical programs, reducing repeated formulation errors.",
+      "llm_tldr_cn": "针对自动化运筹建模中大语言模型孤立求解、经验难以复用且反复犯同类建模错误的问题，论文提出OptiSkill技能增强框架，构建分层且不断演化的SkillBank，把求解器验证过的经验沉淀为可跨问题叙事迁移的建模技能，用于指导具体建模决策。实验显示这种可复用技能能减少重复错误并提升数学规划的生成正确率，为LLM驱动的运筹优化建模提供了可积累、可迁移的技能库范式。",
+      "llm_tldr": "针对自动化运筹建模中大语言模型孤立求解、经验难以复用且反复犯同类建模错误的问题，论文提出OptiSkill技能增强框架，构建分层且不断演化的SkillBank，把求解器验证过的经验沉淀为可跨问题叙事迁移的建模技能，用于指导具体建模决策。实验显示这种可复用技能能减少重复错误并提升数学规划的生成正确率，为LLM驱动的运筹优化建模提供了可积累、可迁移的技能库范式。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

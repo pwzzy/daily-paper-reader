@@ -1,0 +1,24 @@
+{
+  "label": "2026-09-22",
+  "date": "2026-09-22",
+  "generated_at": "2026-09-22T21:42:04",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202609/22/2609.22987v1-optiskill-a-hierarchical-and-evolving-skillbank-for-llm-based-optimization-modeling",
+      "section": "deep",
+      "title_en": "OptiSkill: A Hierarchical and Evolving SkillBank for LLM-Based Optimization Modeling",
+      "authors": "Ruiqing Zhao, Rui Liu, Yuan Zuo, Huarong Zhang, Xiao Han, Junjie Wu",
+      "date": "2026-09-19",
+      "pdf": "https://arxiv.org/pdf/2609.22987v1",
+      "score": "10.0",
+      "evidence": "基于LLM的运筹优化建模",
+      "tldr": "针对自动化运筹建模中大语言模型孤立求解、经验难以复用且反复犯同类建模错误的问题，论文提出OptiSkill技能增强框架，构建分层且不断演化的SkillBank，把求解器验证过的经验沉淀为可跨问题叙事迁移的建模技能，用于指导具体建模决策。实验显示这种可复用技能能减少重复错误并提升数学规划的生成正确率，为LLM驱动的运筹优化建模提供了可积累、可迁移的技能库范式。",
+      "tags": "query:llm-agent-or",
+      "abstract_en": "Automated operations research (OR) modeling requires LLMs to translate natural-language decision problems into correct mathematical programs. Existing methods can improve individual formulations, but they often solve problems in isolation, retaining little reusable experience and repeating similar formulation errors. Prior memory-based approaches store examples, thoughts, or insights as references, while OR modeling requires reusable formulation skills that transfer across problem narratives and guide concrete modeling decisions. We propose OptiSkill, a skill-augmented framework that builds a hierarchical and evolving SkillBank for LLM-based OR modeling. SkillBank stores solver-verified experience as reusable skills, with Global Strategies for problem-level formulation skeletons and Step Experiences for local error-prevention rules. It is further refined through stable batch-level test-time evolution, where candidate skills are incorporated only after validation. Experiments on eight OR modeling benchmarks show that OptiSkill improves formulation accuracy across LLM backbones, outperforms strong agentic baselines, and gains further by expanding SkillBank coverage and reliability. Code and data are available at https://github.com/rachhhhing/OptiSkill",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
