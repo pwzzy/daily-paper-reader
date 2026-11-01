@@ -1,0 +1,137 @@
+{
+  "date": "20261003-20261101",
+  "date_label": "2026-10-03 ~ 2026-11-01",
+  "generated_at": "2026-11-01 15:12:04 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2610.10184v1",
+      "route": "20261003-20261101/2610.10184v1-agentic-ai-assisted-modeling-for-production-scheduling-assessment-in-constraint-programming",
+      "title": "Agentic AI-Assisted Modeling for Production Scheduling: Assessment in Constraint Programming",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "通用LLM智能体从自然语言描述构建约束规划模型",
+      "first_seen_at": "2026-11-01 15:12:04 UTC",
+      "updated_at": "2026-11-01 15:12:04 UTC"
+    },
+    {
+      "paper_id": "2610.30917v1",
+      "route": "20261003-20261101/2610.30917v1-harnessing-language-models-as-optimization-modeling-agents",
+      "title": "Harnessing Language Models as Optimization Modeling Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "将大模型作为优化建模智能体生成求解器程序",
+      "first_seen_at": "2026-11-01 15:12:04 UTC",
+      "updated_at": "2026-11-01 15:12:04 UTC"
+    },
+    {
+      "paper_id": "2610.05169v1",
+      "route": "20261003-20261101/2610.05169v1-ambiguity-aware-multi-agent-framework-for-automated-operations-research-under-logical-inconsistency",
+      "title": "Ambiguity-Aware Multi-Agent Framework for Automated Operations Research under Logical Inconsistency",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "多智能体框架自动完成运筹学问题的建模与求解",
+      "first_seen_at": "2026-11-01 15:12:04 UTC",
+      "updated_at": "2026-11-01 15:12:04 UTC"
+    },
+    {
+      "paper_id": "2610.12529v1",
+      "route": "20261003-20261101/2610.12529v1-fix-whats-wrong-keep-whats-right-hallucination-repair-for-llm-based-optimization-modeling",
+      "title": "Fix What's Wrong, Keep What's Right: Hallucination Repair for LLM-Based Optimization Modeling",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "大语言模型优化建模与幻觉修复",
+      "first_seen_at": "2026-11-01 15:12:04 UTC",
+      "updated_at": "2026-11-01 15:12:04 UTC"
+    },
+    {
+      "paper_id": "2610.14736v1",
+      "route": "20261003-20261101/2610.14736v1-think-in-strategies-act-with-tools-traceable-agentic-optimization-for-combinatorial-problems",
+      "title": "Think in Strategies, Act with Tools: Traceable Agentic Optimization for Combinatorial Problems",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向组合优化求解的工具增强大模型智能体",
+      "first_seen_at": "2026-11-01 15:12:04 UTC",
+      "updated_at": "2026-11-01 15:12:04 UTC"
+    },
+    {
+      "paper_id": "2610.05221v1",
+      "route": "20261003-20261101/2610.05221v1-harnessing-llms-with-direction-scope-control-for-combinatorial-solver-refinement",
+      "title": "Harnessing LLMs with Direction-Scope Control for Combinatorial Solver Refinement",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "LLM智能体以方向范围控制改进组合优化求解器",
+      "first_seen_at": "2026-11-01 15:12:04 UTC",
+      "updated_at": "2026-11-01 15:12:04 UTC"
+    },
+    {
+      "paper_id": "2610.31048v1",
+      "route": "20261003-20261101/2610.31048v1-directing-to-diversify-multi-directional-search-for-automatic-heuristic-design",
+      "title": "Directing to Diversify: Multi-Directional Search for Automatic Heuristic Design",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于LLM的多方向搜索自动设计组合优化启发式",
+      "first_seen_at": "2026-11-01 15:12:04 UTC",
+      "updated_at": "2026-11-01 15:12:04 UTC"
+    },
+    {
+      "paper_id": "2610.40023v1",
+      "route": "20261003-20261101/2610.40023v1-hemo-harness-self-evolution-for-multi-objective-combinatorial-optimization",
+      "title": "HEMO: Harness Self-Evolution for Multi-Objective Combinatorial Optimization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "llm-agent-or"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "大语言模型驱动组合优化自演化框架",
+      "first_seen_at": "2026-11-01 15:12:04 UTC",
+      "updated_at": "2026-11-01 15:12:04 UTC"
+    }
+  ]
+}

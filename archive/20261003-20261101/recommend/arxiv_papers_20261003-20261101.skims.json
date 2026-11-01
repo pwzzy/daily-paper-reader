@@ -1,0 +1,335 @@
+{
+  "mode": "skims",
+  "generated_at": "2026-11-01T15:02:44.517291+00:00",
+  "stats": {
+    "mode": "skims",
+    "forced_all_quick": true,
+    "min_score": 8.0,
+    "deep_divecandidates": 8,
+    "deep_cap": null,
+    "deep_selected": 0,
+    "quick_candidates": 8,
+    "quick_skim_target": null,
+    "quick_selected": 8
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2610.10184v1",
+      "source": "arxiv",
+      "title": "Agentic AI-Assisted Modeling for Production Scheduling: Assessment in Constraint Programming",
+      "abstract": "Developing optimization models for production scheduling requires substantial expert effort. Research on large language models (LLMs) has followed two directions: specialized approaches for automated modeling, mostly for mixed-integer linear programming, which often rely on dedicated training or problem-specific architectures that limit industrial deployment; and agentic artificial intelligence for operational decision support, which generally assumes that the optimization model already exists. This study bridges both directions by assessing whether general-purpose LLMs, orchestrated as agents without task-specific training, can formulate and implement constraint programming models from natural-language problem descriptions. Singleagent and multi-agent architectures are integrated with a Model Context Protocol server that provides context-aware retrieval of solver documentation to mitigate hallucinations during implementation. Both are compared with a direct LLM baseline on six industry-oriented problems covering flow-shop, job-shop, flexible job-shop and resource-constrained warehouse scheduling, using three LLMs and assessing modeling accuracy, execution success, latency and token consumption. Formulation proves largely within reach of current LLMs, whereas implementation is the main barrier. The multi-agent workflow raises the share of scripts that run correctly as generated from 14.8% with a direct LLM call to 59.3%, reaching 80.6% on the four less complex problems, while tightly coupled intralogistics models remain an open challenge.",
+      "authors": [
+        "Ángel Sánchez-Fernández",
+        "Javier Pernas-Álvarez",
+        "Diego Crespo-Pereira"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-10-07T14:51:37+00:00",
+      "link": "https://arxiv.org/pdf/2610.10184v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "general-purpose LLM agents formulate constraint programming models from natural language descriptions",
+      "llm_evidence_cn": "通用LLM智能体从自然语言描述构建约束规划模型",
+      "llm_evidence": "通用LLM智能体从自然语言描述构建约束规划模型",
+      "canonical_evidence": "通用LLM智能体从自然语言描述构建约束规划模型",
+      "llm_tldr_en": "Building production scheduling models needs expert effort, and existing LLM modeling work is mostly MILP-specific and training-heavy. This study tests whether general-purpose LLMs orchestrated as agents, without task-specific training, can formulate and implement constraint programming models from natural-language descriptions.",
+      "llm_tldr_cn": "生产调度优化建模需要大量专家投入，而现有基于大模型的自动建模多针对混合整数线性规划，且依赖专门训练或问题特定架构，难以工业部署；面向运营决策的智能体研究又通常假定优化模型已存在。本研究打通两条路线，评估通用大模型在无任务特定训练、以智能体方式编排时，能否从自然语言问题描述出发构建并实现约束规划模型。实验比较了单智能体与多智能体等配置，考察其建模正确性与代码可执行性。结果表明通用LLM智能体可承担自动建模任务，为工业调度建模自动化提供了可行路径。",
+      "llm_tldr": "生产调度优化建模需要大量专家投入，而现有基于大模型的自动建模多针对混合整数线性规划，且依赖专门训练或问题特定架构，难以工业部署；面向运营决策的智能体研究又通常假定优化模型已存在。本研究打通两条路线，评估通用大模型在无任务特定训练、以智能体方式编排时，能否从自然语言问题描述出发构建并实现约束规划模型。实验比较了单智能体与多智能体等配置，考察其建模正确性与代码可执行性。结果表明通用LLM智能体可承担自动建模任务，为工业调度建模自动化提供了可行路径。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "optimization model formulation with large language models and agents",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.30917v1",
+      "source": "arxiv",
+      "title": "Harnessing Language Models as Optimization Modeling Agents",
+      "abstract": "Large language models (LLMs) can translate natural-language optimization problems into solver programs, but reliably producing correct formulations and implementations remains challenging. Existing approaches improve optimization modeling through agentic workflows or task-specific post-training. This raises a practical question: can a lightweight harness using a single model role achieve competitive performance without additional training? We introduce OPTICYCLE and OPTISTATE, two lightweight inference harnesses for optimization modeling, and evaluate them on nine benchmarks comprising 2,634 problems using 11 Qwen variants spanning 0.6B-27B parameters. Our results show that execution-guided revision consistently improves macro accuracy over direct generation for all evaluated models, with gains of up to 49.46 percentage points. Despite their simplicity, both harnesses outperform six adapted agentic workflows in same-model comparisons and four evaluated post-trained optimization models at comparable model sizes, without additional training. Explicit formulation state provides further but model-dependent improvements, suggesting that additional structure is not universally beneficial.",
+      "authors": [
+        "Yunxiang Luo",
+        "Xin Xu",
+        "Tianhao Chen",
+        "Zhixi Xiong",
+        "Peiqi Jiang",
+        "Fan Zhang",
+        "Wei Shao",
+        "Xuejian Gao",
+        "Yuwei Fan",
+        "Can Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-22T08:36:27+00:00",
+      "link": "https://arxiv.org/pdf/2610.30917v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "LLMs as optimization modeling agents translating problems into solver programs",
+      "llm_evidence_cn": "将大模型作为优化建模智能体生成求解器程序",
+      "llm_evidence": "将大模型作为优化建模智能体生成求解器程序",
+      "canonical_evidence": "将大模型作为优化建模智能体生成求解器程序",
+      "llm_tldr_en": "LLMs can translate natural-language optimization problems into solver programs, but correct formulations remain hard. The authors introduce two lightweight inference harnesses, OPTICYCLE and OPTISTATE, and show across nine benchmarks and 11 Qwen variants that execution-guided revision beats direct generation without extra training.",
+      "llm_tldr_cn": "大模型可将自然语言优化问题翻译为求解器程序，但可靠生成正确建模与实现仍具挑战，现有方法多依赖复杂智能体流程或任务微调。作者提出OPTICYCLE与OPTISTATE两种轻量推理框架，仅用单一模型角色，在九个基准共2634个问题上评测11个Qwen变体。结果显示执行引导的迭代修正能稳定提升建模准确率，表明无需额外训练也能获得有竞争力的优化建模能力。",
+      "llm_tldr": "大模型可将自然语言优化问题翻译为求解器程序，但可靠生成正确建模与实现仍具挑战，现有方法多依赖复杂智能体流程或任务微调。作者提出OPTICYCLE与OPTISTATE两种轻量推理框架，仅用单一模型角色，在九个基准共2634个问题上评测11个Qwen变体。结果显示执行引导的迭代修正能稳定提升建模准确率，表明无需额外训练也能获得有竞争力的优化建模能力。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "optimization model formulation with large language models and agents",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.05169v1",
+      "source": "arxiv",
+      "title": "Ambiguity-Aware Multi-Agent Framework for Automated Operations Research under Logical Inconsistency",
+      "abstract": "Operations research (OR) problems are often described by stakeholders with incomplete knowledge and vague expressions in real-world settings. Such ambiguous descriptions can not be used to formulation directly. Thus, automating OR problems solving requires processing this logical inconsistency in advance. To address this challenge, we propose an \\textbf{A}mbiguity-Aware \\textbf{M}ulti-Agent Framework for \\textbf{A}utomated \\textbf{O}R Problem Solving, \\textbf{AMAO}, which first addresses logical inconsistency through two-stage alignment before downstream formulation and coding. Specifically, a logical alignment agent with OR-guided experts structure first produces an aligned candidate using supervised routing over variables, parameters, objectives, and constraints. Then, a source-sufficiency verifier determines whether the original description supports the required repairs. When evidence is insufficient, an interactive repair agent requests additional information and revises the description before modeling and coding. In addition, an ambiguity-aware benchmark and its matched dialogue extension are proposed to support evaluation of both stages. The 32B model achieved 86.8\\% error-recovery success and 60.4\\% solution accuracy, reaching 1.98 and 1.86 times the respective base-model scores. The 8B model achieved 47.9\\% solution accuracy, exceeding the best evaluated variant such as DeepSeek-V4-Flash and Claude-sonnet-4.5. Interactive repair further achieved 90.71\\% complete-description accuracy when cases requiring clarification. These results support combining context-based repair with evidence assessment and targeted user clarification for automated OR modeling.",
+      "authors": [
+        "Chengxi She",
+        "Xingyu Lu",
+        "Yue Zhao",
+        "Qitao Shi",
+        "Caihua Chen"
+      ],
+      "primary_category": "math.OC",
+      "categories": [
+        "math.OC"
+      ],
+      "published": "2026-10-04T12:28:06+00:00",
+      "link": "https://arxiv.org/pdf/2610.05169v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Multi-agent framework automating OR formulation and solving from ambiguous problem descriptions",
+      "llm_evidence_cn": "多智能体框架自动完成运筹学问题的建模与求解",
+      "llm_evidence": "多智能体框架自动完成运筹学问题的建模与求解",
+      "canonical_evidence": "多智能体框架自动完成运筹学问题的建模与求解",
+      "llm_tldr_en": "Real-world OR problem statements are vague and logically inconsistent, blocking direct formulation. AMAO uses a logical alignment agent with OR-guided experts to align descriptions in two stages before downstream formulation and coding, enabling automated OR solving.",
+      "llm_tldr_cn": "现实中的运筹学问题描述常含糊且存在逻辑不一致，无法直接用于建模，阻碍了自动化求解。作者提出歧义感知多智能体框架AMAO，先用带运筹学专家结构的逻辑对齐智能体做两阶段对齐，再进入下游建模与代码生成。该设计把描述澄清与模型构建解耦衔接，使智能体能在不完整信息下稳定产出可求解模型。工作为面向运筹优化的LLM智能体自动化建模提供了可复用范式。",
+      "llm_tldr": "现实中的运筹学问题描述常含糊且存在逻辑不一致，无法直接用于建模，阻碍了自动化求解。作者提出歧义感知多智能体框架AMAO，先用带运筹学专家结构的逻辑对齐智能体做两阶段对齐，再进入下游建模与代码生成。该设计把描述澄清与模型构建解耦衔接，使智能体能在不完整信息下稳定产出可求解模型。工作为面向运筹优化的LLM智能体自动化建模提供了可复用范式。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "intelligent agent for automated optimization modeling and problem solving",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.12529v1",
+      "source": "arxiv",
+      "title": "Fix What's Wrong, Keep What's Right: Hallucination Repair for LLM-Based Optimization Modeling",
+      "abstract": "Large language models (LLMs) are increasingly being explored to automate operations research modeling, reduce modeling time and lower the expertise barrier to optimization based decision support. However, this process often introduces inconsistencies between generated artifacts and the original problem, which we refer to as optimization modeling hallucinations. Despite progress in general-purpose hallucination mitigation, optimization modeling poses a distinct repair challenge: restoring fidelity to the original problem through coordinated model-code updates. We introduce OPT-Kraken, a training-free hallucination repair framework. To the best of our knowledge, it is the first post-hoc framework for repairing hallucinations in LLM-based optimization modeling artifacts. It extracts problem requirements and instance data, localizes errors by checking problem-model fidelity, model-code consistency, and data grounding, and selects repair granularity by the affected scope. For local repair, category rules and instance evidence are compiled into contracts specifying permitted edits, expected effects, and protected content. Experiments on established optimization modeling benchmarks show positive gains across automatic modeling frameworks and fine-tuned models. On zero-shot artifacts from multiple base models, OPT-Kraken effectively repairs optimization modeling hallucinations while preserving initially correct artifacts. These results demonstrate effective and controlled repair for LLM-based optimization modeling artifacts.",
+      "authors": [
+        "Jiageng Wu",
+        "Chao Shen",
+        "Zihan Guo",
+        "Junyan Shao",
+        "Zongyan Zhang",
+        "Jie Song",
+        "Zhong Li",
+        "Mingyang Sun"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "math.OC"
+      ],
+      "published": "2026-10-08T09:42:05+00:00",
+      "link": "https://arxiv.org/pdf/2610.12529v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based optimization modeling with hallucination repair",
+      "llm_evidence_cn": "大语言模型优化建模与幻觉修复",
+      "llm_evidence": "大语言模型优化建模与幻觉修复",
+      "canonical_evidence": "大语言模型优化建模与幻觉修复",
+      "llm_tldr_en": "LLMs automate operations research modeling but yield artifacts inconsistent with the original problem. OPT-Kraken, a training-free post-hoc framework, repairs such optimization modeling hallucinations through coordinated model-code updates, restoring fidelity.",
+      "llm_tldr_cn": "大语言模型正被用于自动完成运筹优化建模，但生成的模型与代码常与原问题不一致，形成优化建模幻觉，通用去幻觉方法难以直接修复。作者提出免训练的事后修复框架OPT-Kraken，通过协调模型与代码的更新来恢复生成产物对原问题的保真度。作为首个面向优化建模幻觉的事后修复方案，它为LLM自动建模提供了可靠性保障，有助于降低建模门槛并提升决策支持的可信度。",
+      "llm_tldr": "大语言模型正被用于自动完成运筹优化建模，但生成的模型与代码常与原问题不一致，形成优化建模幻觉，通用去幻觉方法难以直接修复。作者提出免训练的事后修复框架OPT-Kraken，通过协调模型与代码的更新来恢复生成产物对原问题的保真度。作为首个面向优化建模幻觉的事后修复方案，它为LLM自动建模提供了可靠性保障，有助于降低建模门槛并提升决策支持的可信度。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "large language model applications in operations research and optimization",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.14736v1",
+      "source": "arxiv",
+      "title": "Think in Strategies, Act with Tools: Traceable Agentic Optimization for Combinatorial Problems",
+      "abstract": "Optimization by PROmpting (OPRO) directly leverages Large Language Models (LLMs) to generate candidate solutions through natural-language prompting. However, OPRO's optimization process is difficult to track, which prevents LLMs from capturing useful information accumulated over previous iterations, thereby limiting solution quality. To address this limitation, we propose a Tool-Augmented Strategic Agent (TASA) which summarizes and exploits trajectory to improve solution quality. Specifically, TASA plans the strategy for each step based on the optimization trajectory, which decomposes the optimization process into traceable strategy selections. Moreover, we leverage LLM to construct problem-specific tools and introduce a strategy-guided adaptive tool planner, which efficiently utilizes the information of trajectory to update solutions. We establish local convergence under persistent exploration and evaluate the complete framework under a shared candidate-evaluation budget. The results support its solution quality and the traceability of strategy-guided search.",
+      "authors": [
+        "Zhongnian Li",
+        "Shi Xu",
+        "Peng Ying",
+        "Weikang Gong",
+        "Zhixiao Wang",
+        "Xinzheng Xu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-10T08:57:19+00:00",
+      "link": "https://arxiv.org/pdf/2610.14736v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "tool-augmented LLM agent for combinatorial optimization solving",
+      "llm_evidence_cn": "面向组合优化求解的工具增强大模型智能体",
+      "llm_evidence": "面向组合优化求解的工具增强大模型智能体",
+      "canonical_evidence": "面向组合优化求解的工具增强大模型智能体",
+      "llm_tldr_en": "Prompt-based optimization by prompting (OPRO) with LLMs is hard to trace, so accumulated trajectory information is wasted. TASA decomposes optimization into traceable strategy selections planned from the trajectory and builds problem-specific tools with the LLM, improving solution quality on combinatorial problems.",
+      "llm_tldr_cn": "基于大模型的提示优化（OPRO）虽能生成候选解，但优化过程难以追踪，历史积累的信息无法被有效利用，限制了解的质量。作者提出工具增强策略智能体TASA，依据优化轨迹为每一步规划策略，把优化过程分解为可追踪的策略选择，并利用大模型构造问题专用工具。实验显示该方法提升了组合优化问题的求解质量，为可解释的智能体式优化提供了新思路。",
+      "llm_tldr": "基于大模型的提示优化（OPRO）虽能生成候选解，但优化过程难以追踪，历史积累的信息无法被有效利用，限制了解的质量。作者提出工具增强策略智能体TASA，依据优化轨迹为每一步规划策略，把优化过程分解为可追踪的策略选择，并利用大模型构造问题专用工具。实验显示该方法提升了组合优化问题的求解质量，为可解释的智能体式优化提供了新思路。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.05221v1",
+      "source": "arxiv",
+      "title": "Harnessing LLMs with Direction-Scope Control for Combinatorial Solver Refinement",
+      "abstract": "Harnesses are increasingly unlocking the potential of large language model (LLM) agents by making their actions more controllable. In automatic heuristic design (AHD) for combinatorial optimization (CO), LLMs iteratively revise solvers using execution and verification feedback. However, these revisions often break previously validated solver behavior, making refinement unstable and costly. We characterize this pattern as feasibility oscillation and document it across CO benchmarks, AHD methods, and backbone LLMs. Tracing this oscillation, our analysis reveals that feasibility degradation often follows large solver revisions, while substantial feedback redundancy makes it harder to identify which failures deserve attention. Motivated by these findings, we introduce DiSH, a harness that jointly controls revision direction and scope. It selects representative failure evidence to guide each update and progressively narrows the revision scope as feasible behavior accumulates. Across nine CO benchmarks, DiSH consistently improves QYI scores and reduces feasibility oscillation, while roughly halving feedback token consumption relative to prior methods that use full feedback. These results establish DiSH as a strong baseline for solver refinement under harness control.",
+      "authors": [
+        "Yili Cao",
+        "Anqi Li",
+        "Haoran Li",
+        "Yongtang Shi",
+        "Zicheng Zhang"
+      ],
+      "primary_category": "math.OC",
+      "categories": [
+        "math.OC"
+      ],
+      "published": "2026-10-04T13:41:58+00:00",
+      "link": "https://arxiv.org/pdf/2610.05221v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM agents iteratively refine combinatorial optimization solvers with direction-scope control",
+      "llm_evidence_cn": "LLM智能体以方向范围控制改进组合优化求解器",
+      "llm_evidence": "LLM智能体以方向范围控制改进组合优化求解器",
+      "canonical_evidence": "LLM智能体以方向范围控制改进组合优化求解器",
+      "llm_tldr_en": "The paper identifies feasibility oscillation in LLM-driven automatic heuristic design for combinatorial optimization and proposes direction-scope control to stabilize solver refinement.",
+      "llm_tldr_cn": "论文针对自动启发式设计中大模型智能体反复修改求解器、常破坏已验证行为并造成可行性振荡的问题，系统刻画了这一现象并分析其成因，指出大幅修改后易出现可行性退化且反馈冗余掩盖关键失败。作者据此提出带方向与范围控制的智能体改进框架，约束求解器修改的幅度与方向。实验在多个组合优化基准、自动启发式方法与主干模型上验证振荡普遍存在，控制后改进更稳定，提升了LLM驱动求解器改进的可靠性。",
+      "llm_tldr": "论文针对自动启发式设计中大模型智能体反复修改求解器、常破坏已验证行为并造成可行性振荡的问题，系统刻画了这一现象并分析其成因，指出大幅修改后易出现可行性退化且反馈冗余掩盖关键失败。作者据此提出带方向与范围控制的智能体改进框架，约束求解器修改的幅度与方向。实验在多个组合优化基准、自动启发式方法与主干模型上验证振荡普遍存在，控制后改进更稳定，提升了LLM驱动求解器改进的可靠性。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.31048v1",
+      "source": "arxiv",
+      "title": "Directing to Diversify: Multi-Directional Search for Automatic Heuristic Design",
+      "abstract": "Large language models (LLMs) have demonstrated strong potential to automate heuristic design for NP-hard combinatorial optimization (CO) tasks without human intervention. Recent methods predominantly rely on evolutionary computation (EC) frameworks, where heuristic diversification is mainly induced through EC-like operators or downstream selection, while the direction of heuristic transformation remains largely unharnessed. In this paper, we propose a multi-directional Perturbation-Rewrite Search (PRS) framework for automatic heuristic design that factorizes heuristic transformation through directional search primitives at the generation level. Specifically, PRS operates on heuristic ideas through three complementary directions: expansion toward richer and more expressive designs, compression toward simpler and less specialized designs, and steering for fine-grained refinement, together enabling broader and more sustained exploration of diverse regions in the heuristic design space. PRS further organizes candidate exploration within a breadth-first search-based process with adaptive operator control, which ensures thorough candidate utilization and sustained exploration, and maintains strong search dynamics while preventing premature convergence. Extensive empirical results across diverse CO tasks show that PRS consistently discovers high-quality heuristics, demonstrating the effectiveness and generality of explicitly directional exploration design.",
+      "authors": [
+        "Jianghan Zhu",
+        "Jianan Zhou",
+        "Fei Liu",
+        "Ni Zhang",
+        "Yaoxin Wu",
+        "Zhuoyi Lin",
+        "Zhiguang Cao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-22T10:24:56+00:00",
+      "link": "https://arxiv.org/pdf/2610.31048v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-based multi-directional search automates heuristic design for combinatorial optimization",
+      "llm_evidence_cn": "基于LLM的多方向搜索自动设计组合优化启发式",
+      "llm_evidence": "基于LLM的多方向搜索自动设计组合优化启发式",
+      "canonical_evidence": "基于LLM的多方向搜索自动设计组合优化启发式",
+      "llm_tldr_en": "PRS factorizes LLM-driven heuristic transformation into directional search primitives, diversifying automatic heuristic design for NP-hard combinatorial optimization.",
+      "llm_tldr_cn": "论文针对现有基于进化计算框架的LLM自动启发式设计主要靠算子或下游选择带来多样化、启发式变换方向未被充分利用的问题，提出多方向扰动-重写搜索框架PRS。该方法在生成层面用方向搜索原语分解启发式变换，沿扩展等互补方向对启发式思想进行操作，从而显式引导多样化。实验表明该方向化搜索能提升NP难组合优化任务上自动设计的启发式质量，说明引导变换方向是增强LLM自动启发式设计的有效途径。",
+      "llm_tldr": "论文针对现有基于进化计算框架的LLM自动启发式设计主要靠算子或下游选择带来多样化、启发式变换方向未被充分利用的问题，提出多方向扰动-重写搜索框架PRS。该方法在生成层面用方向搜索原语分解启发式变换，沿扩展等互补方向对启发式思想进行操作，从而显式引导多样化。实验表明该方向化搜索能提升NP难组合优化任务上自动设计的启发式质量，说明引导变换方向是增强LLM自动启发式设计的有效途径。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.40023v1",
+      "source": "arxiv",
+      "title": "HEMO: Harness Self-Evolution for Multi-Objective Combinatorial Optimization",
+      "abstract": "Automatic operator design (AOD) has increasingly adopted large language models (LLMs) to generate problem-specific search and variation operators for multi-objective combinatorial optimization (MOCO). Yet most methods evolve the operators while leaving the process that discovers them fixed. This limits adaptation as new Pareto trade-offs and operator interactions change where and how the search should proceed. We introduce HEMO, which makes the AOD harness itself a self-evolving optimization target. HEMO maintains a persistent harness state and updates one module at a time, revising the logic that determines which experience to retrieve, which operators to improve, which parents to select, and how to formulate the orchestration of search steps. Downstream solution quality and runtime guide these updates, while a discounted UCB scheduler directs adaptation toward promising modules as their utility changes. A persistent memory filesystem preserves candidate outcomes and diagnostic feedback across harness states, enabling successive states to build on accumulated optimization experience. Experiments across eight MOCO tasks and two structurally distinct evolutionary backbones demonstrate strong performance against conventional evolutionary, neural, and LLM-based AOD baselines, together with effective transfer to related tasks. HEMO extends automatic operator design beyond evolving individual operators to improving the search process that discovers them.",
+      "authors": [
+        "Jianghan Zhu",
+        "Cong Zhang",
+        "Ni Zhang",
+        "Yifan Yang",
+        "Yew Soon Ong",
+        "Zhiguang Cao"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE",
+        "cs.AI"
+      ],
+      "published": "2026-10-29T13:32:00+00:00",
+      "link": "https://arxiv.org/pdf/2610.40023v1",
+      "tags": [
+        "keyword:llm-agent-or",
+        "query:llm-agent-or"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-driven self-evolving harness for combinatorial optimization",
+      "llm_evidence_cn": "大语言模型驱动组合优化自演化框架",
+      "llm_evidence": "大语言模型驱动组合优化自演化框架",
+      "canonical_evidence": "大语言模型驱动组合优化自演化框架",
+      "llm_tldr_en": "LLM-based operator design evolves operators but keeps the discovery harness fixed. HEMO makes the harness itself a self-evolving target, updating one module at a time for retrieval, operator improvement, parent selection and orchestration.",
+      "llm_tldr_cn": "基于大语言模型的自动算子设计已用于多目标组合优化，但多数方法只演化算子，发现算子的框架本身固定，难以适应变化的帕累托权衡与算子交互。作者提出HEMO，把自动设计框架本身作为自演化优化目标，维护持久框架状态并逐模块更新经验检索、算子改进、父代选择与搜索编排逻辑。该机制使搜索策略能随过程动态调整，为组合优化的LLM自动算法设计提供了可自我演化的新范式。",
+      "llm_tldr": "基于大语言模型的自动算子设计已用于多目标组合优化，但多数方法只演化算子，发现算子的框架本身固定，难以适应变化的帕累托权衡与算子交互。作者提出HEMO，把自动设计框架本身作为自演化优化目标，维护持久框架状态并逐模块更新经验检索、算子改进、父代选择与搜索编排逻辑。该机制使搜索策略能随过程动态调整，为组合优化的LLM自动算法设计提供了可自我演化的新范式。",
+      "llm_tags": [
+        "query:llm-agent-or"
+      ],
+      "matched_query_tag": "query:llm-agent-or",
+      "matched_query_text": "combinatorial optimization solving with agent and large language model assistance",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ]
+}

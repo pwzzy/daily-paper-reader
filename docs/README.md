@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-10-08</span>
+      <span class="dpr-home-dashboard-kicker">2026-10-03 ~ 2026-11-01</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 0 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 8 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
-    <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>2 次</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>0</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>0</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>8</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-10-09 00:12:16 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-11-01 15:12:04 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日无新推荐，系统未产出可展示论文。</p>
+<p>本期速读8篇AI与运筹优化论文，重点聚焦智能体建模与生产调度，暂无精读。</p>
+<p>最值得看的是两篇10分论文：它们都探索让语言模型或智能体直接承担优化建模任务，其中一篇还在约束规划生产调度中做了评估；另有9分多智能体框架关注逻辑不一致下的自动运筹研究。</p>
+<p>普通读者可先浏览这两篇10分论文，重点留意建模准确性与人工校验环节，再决定是否精读。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -91,12 +93,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">0 篇</strong>
+    <strong class="dpr-home-dashboard-count">8 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p class="dpr-home-dashboard-empty">今日暂无推荐。</p>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Agentic AI-Assisted Modeling for Production Scheduling: Assessment in Constraint Programming">Agentic AI-Assisted Modeling for Production Scheduling: Assessment in Constraint Programming</span></li><li><span class="dpr-home-dashboard-paper-title" title="Harnessing Language Models as Optimization Modeling Agents">Harnessing Language Models as Optimization Modeling Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="Ambiguity-Aware Multi-Agent Framework for Automated Operations Research under Logical Inconsistency">Ambiguity-Aware Multi-Agent Framework for Automated Operations Research under Logical Inconsistency</span></li></ul>
   </div>
-
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">llm-agent-or <strong>8</strong></span></div>
 </section>
 </div>
 
