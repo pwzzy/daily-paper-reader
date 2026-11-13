@@ -1,10 +1,15 @@
 {
-  "generated_at": "2026-11-01T15:02:44.518884+00:00",
-  "updated_date": "20261003-20261101",
+  "generated_at": "2026-11-13T02:36:53.569708+00:00",
+  "updated_date": "20261015-20261113",
   "carryover_days": 9,
   "tag_states": {
     "llm-agent-or": {
       "updated_date": "20261003-20261101",
+      "carryover_days": 9,
+      "items": []
+    },
+    "gpu-accel": {
+      "updated_date": "20261015-20261113",
       "carryover_days": 9,
       "items": []
     }
